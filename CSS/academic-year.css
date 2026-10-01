@@ -1,0 +1,113 @@
+.home-page .home-year-select {
+    min-width: 184px;
+
+    padding:
+        1px
+        24px
+        1px
+        0;
+
+    border: 0;
+    outline: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    color:
+        var(--jmu-white);
+
+    background-color:
+        transparent;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        right 2px center;
+
+    background-size:
+        12px 8px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+
+.home-page .home-year-select option {
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+}
+
+
+.epp-page .year-select,
+.placement-year-select {
+    width: 100%;
+
+    padding:
+        2px
+        24px
+        2px
+        0;
+
+    border: 0;
+    outline: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    color:
+        var(--jmu-purple);
+
+    background-color:
+        transparent;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23450084' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        right 2px center;
+
+    background-size:
+        12px 8px;
+
+    font-family:
+        "Arvo",
+        Georgia,
+        serif;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.epp-page .year-select option,
+.placement-year-select option {
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}

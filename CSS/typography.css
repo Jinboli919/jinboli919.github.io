@@ -1,0 +1,1906 @@
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap");
+
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+
+    src:
+        local("Arial"),
+        local("Helvetica");
+}
+
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+
+    src:
+        local("Arial Bold"),
+        local("Helvetica Bold"),
+        local("Arial"),
+        local("Helvetica");
+}
+
+
+/* 
+   JMU OFFICIAL FRONT AND COLOR CODES
+ */
+
+:root {
+    --jmu-purple: #450084;
+    --jmu-purple-deep: #3c0074;
+    --jmu-purple-muted: #684b86;
+
+    --jmu-gold: #dfd2aa;
+    --jmu-parchment: #f4efe1;
+
+    --jmu-white: #ffffff;
+    --jmu-charcoal: #333333;
+    --jmu-gray: #595959;
+
+    --jmu-border:
+        rgba(
+            69,
+            0,
+            132,
+            0.16
+        );
+
+    --jmu-shadow:
+        0 10px 28px
+        rgba(
+            69,
+            0,
+            132,
+            0.08
+        );
+
+    --jmu-shadow-hover:
+        0 18px 42px
+        rgba(
+            69,
+            0,
+            132,
+            0.16
+        );
+
+
+    /* Existing variables */
+
+    --purple: var(--jmu-purple);
+    --purple-dark: var(--jmu-purple-deep);
+    --purple-deep: var(--jmu-purple-deep);
+    --purple-mid: var(--jmu-purple-muted);
+    --purple-light: var(--jmu-gold);
+    --purple-soft: var(--jmu-parchment);
+
+    --gold: var(--jmu-gold);
+    --gold-dark: var(--jmu-purple);
+    --gold-deep: var(--jmu-purple);
+    --gold-soft: var(--jmu-parchment);
+
+    --background: var(--jmu-parchment);
+    --page: var(--jmu-parchment);
+    --white: var(--jmu-white);
+
+    --text: var(--jmu-charcoal);
+    --text-soft: var(--jmu-gray);
+    --muted: var(--jmu-gray);
+
+    --border: var(--jmu-border);
+    --shadow: var(--jmu-shadow);
+    --shadow-hover: var(--jmu-shadow-hover);
+
+
+    --site-purple: var(--jmu-purple);
+    --site-purple-deep: var(--jmu-purple-deep);
+    --site-purple-mid: var(--jmu-purple-muted);
+    --site-purple-light: var(--jmu-gold);
+    --site-purple-soft: var(--jmu-parchment);
+
+    --site-gold: var(--jmu-gold);
+    --site-gold-deep: var(--jmu-purple);
+    --site-gold-soft: var(--jmu-parchment);
+
+    --site-page: var(--jmu-parchment);
+    --site-white: var(--jmu-white);
+
+    --site-text: var(--jmu-charcoal);
+    --site-text-soft: var(--jmu-gray);
+    --site-muted: var(--jmu-gray);
+
+    --site-border: var(--jmu-border);
+    --site-shadow: var(--jmu-shadow);
+}
+
+
+/* 
+ FONT AND PAGE COLOR
+ */
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+body {
+    font-size: 14px;
+    line-height: 1.5;
+
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-parchment);
+
+    -webkit-font-smoothing:
+        antialiased;
+
+    text-rendering:
+        optimizeLegibility;
+}
+
+
+.home-page,
+.epp-page {
+    color:
+        var(--jmu-charcoal);
+}
+
+
+a {
+    color:
+        var(--jmu-purple);
+}
+
+
+button,
+input,
+select,
+textarea {
+    color:
+        var(--jmu-charcoal);
+}
+
+
+input::placeholder,
+textarea::placeholder {
+    color:
+        var(--jmu-gray);
+
+    opacity: 0.8;
+}
+
+
+button,
+select {
+    cursor: pointer;
+}
+
+
+:focus-visible {
+    outline:
+        3px solid
+        var(--jmu-purple);
+
+    outline-offset: 3px;
+}
+
+
+/* 
+   LEAFLET FONT
+*/
+
+.leaflet-container,
+.leaflet-control,
+.leaflet-tooltip,
+.leaflet-popup-content,
+.leaflet-popup-content-wrapper {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+/* 
+   ARVO HEADINGS
+ */
+
+h1,
+h2,
+h3,
+.home-page .hero h1,
+.home-page .directory-header h2,
+.home-page .card-copy h3,
+.epp-page .page-heading h1,
+.epp-page .section-heading h2,
+.epp-page .metric-card h3,
+.epp-page .visualization-card h3,
+.placement-page-heading h1,
+#student-placement-dashboard .filter-panel-header h2,
+#student-placement-dashboard .panel-heading h2,
+#student-placement-dashboard .detail-panel-header h2,
+#student-placement-dashboard .detail-empty-state h3,
+#student-placement-dashboard .detail-panel h3,
+#student-placement-dashboard .detail-panel h4 {
+    font-family:
+        "Arvo",
+        Georgia,
+        serif;
+}
+
+
+.home-page .donut-center strong,
+.home-page .mini-kpi strong,
+.epp-page .year-card strong,
+.epp-page .metric-total strong,
+.epp-page .distribution-row strong,
+.epp-page .gpa-ring-inner strong,
+.epp-page .summary-card strong,
+.epp-page .bubble-number,
+.epp-page .bubble-detail-value,
+.placement-year-card strong,
+#student-placement-dashboard .kpi-value,
+#student-placement-dashboard .detail-stat-value {
+    font-family:
+        "Arvo",
+        Georgia,
+        serif;
+}
+
+
+/* 
+   SHARED NAVIGATION TYPOGRAPHY
+ */
+
+.brand-copy strong,
+.placement-brand-copy strong {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+
+.brand-copy span,
+.placement-brand-copy span {
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+
+.page-navigation a,
+.placement-page-navigation a {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+
+/* 
+   SHARED NAVIGATION COLORS
+ */
+
+.top-navigation,
+.placement-top-navigation {
+    border-bottom-color:
+        var(--jmu-gold);
+
+    background:
+        var(--jmu-purple);
+
+    box-shadow:
+        0 4px 16px
+        rgba(
+            69,
+            0,
+            132,
+            0.16
+        );
+}
+
+
+.top-navigation .brand,
+.placement-top-navigation .placement-brand,
+.top-navigation .brand-copy strong,
+.top-navigation .brand-copy span,
+.placement-top-navigation .placement-brand-copy strong,
+.placement-top-navigation .placement-brand-copy span {
+    color:
+        var(--jmu-white);
+}
+
+
+/* 
+   JMU LOGO PNG
+ */
+
+.top-navigation .brand-mark,
+.placement-top-navigation .placement-brand-mark {
+    position: relative;
+
+    width: 88px;
+    height: 30px;
+
+    display: block;
+    flex-shrink: 0;
+
+    padding: 0;
+    margin: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    color: #ffffff;
+    background: transparent;
+
+    box-shadow: none;
+
+    overflow: hidden;
+}
+
+
+.top-navigation .jmu-brand-logo,
+.placement-top-navigation .jmu-brand-logo {
+    position: absolute;
+
+    width: 362px;
+    height: auto;
+
+    max-width: none;
+    max-height: none;
+
+    left: -89px;
+    top: -44px;
+
+    display: block;
+
+    padding: 0;
+    margin: 0;
+
+    object-fit: initial;
+    object-position: initial;
+
+    pointer-events: none;
+}
+
+
+.top-navigation .page-navigation a,
+.placement-top-navigation .placement-page-navigation a {
+    color:
+        var(--jmu-white);
+}
+
+
+.top-navigation .page-navigation a:hover,
+.placement-top-navigation .placement-page-navigation a:hover {
+    color:
+        var(--jmu-purple);
+
+    background:
+        var(--jmu-parchment);
+}
+
+
+.top-navigation .page-navigation a.active,
+.placement-top-navigation .placement-page-navigation a.active {
+    color:
+        var(--jmu-purple);
+
+    background:
+        var(--jmu-gold);
+}
+
+
+/* 
+   HOME PAGE TYPOGRAPHY
+ */
+
+.home-page .hero-kicker {
+    margin: 0 0 14px;
+
+    color: #ffffff;
+
+    font-family: "Arvo", Georgia, serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.05;
+
+    letter-spacing: 0;
+    text-transform: none;
+
+    text-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.38),
+        0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+
+.home-page .hero h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+
+.home-page .hero h1 span {
+    color: #eee4c5;
+}
+
+
+.home-page .hero-description {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+
+.home-page .academic-year {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+.home-page .section-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+
+.home-page .directory-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+
+.home-page .directory-header > p {
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+.home-page .card-category {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+
+.home-page .card-copy h3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+
+
+.home-page .card-copy p {
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+.home-page .donut-center strong {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+
+.home-page .donut-center span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+
+.home-page .donut-legend span,
+.home-page .donut-legend strong {
+    font-size: 11px;
+}
+
+
+.home-page .mini-kpi span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+
+.home-page .mini-kpi strong {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.home-page .card-footer {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.home-page .map-label {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+.home-page .page-footer {
+    font-size: 12px;
+}
+
+
+/* 
+   HOME PAGE COLORS
+ */
+
+.home-page .hero {
+    color:
+        var(--jmu-white);
+
+    background:
+        radial-gradient(
+            circle at 86% 18%,
+            rgba(
+                223,
+                210,
+                170,
+                0.20
+            ),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 100% 100%,
+            rgba(
+                104,
+                75,
+                134,
+                0.55
+            ),
+            transparent 40%
+        ),
+
+        linear-gradient(
+            130deg,
+            var(--jmu-purple-deep),
+            var(--jmu-purple) 58%,
+            var(--jmu-purple-muted)
+        );
+}
+
+
+.home-page .hero h1 {
+    color:
+        var(--jmu-gold);
+}
+
+
+.home-page .hero h1 span,
+.home-page .hero-kicker {
+    color:
+        var(--jmu-shadow);
+}
+
+
+.home-page .hero-description,
+.home-page .academic-year {
+    color:
+        var(--jmu-white);
+}
+
+
+.home-page .academic-year {
+    border-color:
+        rgba(
+            223,
+            210,
+            170,
+            0.75
+        );
+
+    background:
+        rgba(
+            60,
+            0,
+            116,
+            0.42
+        );
+}
+
+
+.home-page .academic-year span {
+    background:
+        var(--jmu-gold);
+}
+
+
+.home-page .section-kicker,
+.home-page .card-category,
+.home-page .card-footer,
+.home-page .map-label {
+    color:
+        var(--jmu-purple);
+}
+
+
+.home-page .directory-header h2,
+.home-page .card-copy h3 {
+    color:
+        var(--jmu-purple);
+}
+
+
+.home-page .directory-header > p,
+.home-page .card-copy p,
+.home-page .donut-center span,
+.home-page .mini-kpi span,
+.home-page .page-footer {
+    color:
+        var(--jmu-gray);
+}
+
+
+.home-page .dashboard-card {
+    border-color:
+        var(--jmu-border);
+
+    background:
+        var(--jmu-white);
+
+    box-shadow:
+        var(--jmu-shadow);
+}
+
+
+.home-page .dashboard-card:hover {
+    border-color:
+        var(--jmu-purple-muted);
+
+    box-shadow:
+        var(--jmu-shadow-hover);
+}
+
+
+.home-page .candidate-preview,
+.home-page .virginia-preview,
+.home-page .mini-kpi {
+    border-color:
+        var(--jmu-border);
+
+    background:
+        var(--jmu-parchment);
+}
+
+
+.home-page .purple-icon,
+.home-page .gold-icon {
+    color:
+        var(--jmu-purple);
+
+    background:
+        var(--jmu-parchment);
+}
+
+
+.home-page .female-dot,
+.home-page .marker,
+.home-page .marker-glow {
+    background:
+        var(--jmu-gold);
+}
+
+
+.home-page .male-dot {
+    background:
+        var(--jmu-purple);
+}
+
+
+/* 
+   EPP PAGE TYPOGRAPHY
+ */
+
+.epp-page .page-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+
+.epp-page .page-heading h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+
+.epp-page .page-description {
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+.epp-page .year-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+
+.epp-page .year-card strong {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+.epp-page .section-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+}
+
+
+.epp-page .section-heading h2 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+}
+
+
+.epp-page .section-description {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+.epp-page .metric-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+
+.epp-page .metric-card h3,
+.epp-page .visualization-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
+}
+
+
+.epp-page .metric-total strong {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.epp-page .metric-total span {
+    font-size: 11px;
+}
+
+
+.epp-page .distribution-row span {
+    font-size: 13px;
+}
+
+
+.epp-page .distribution-row strong {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.epp-page .distribution-row .percentage {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.epp-page .metric-note {
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+.epp-page .gpa-ring-inner strong {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+.epp-page .gpa-ring-inner span {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+.epp-page .control-field > span,
+.epp-page .toggle-field > div > span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+
+.epp-page .search-wrapper input,
+.epp-page .control-field select {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+.epp-page .summary-card span {
+    font-size: 12px;
+}
+
+
+.epp-page .summary-card strong {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+
+.epp-page .results-label {
+    font-size: 12px;
+}
+
+
+.epp-page .visualization-description {
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+.epp-page .bubble-number {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+.epp-page .endorsement-bubble.bubble-large .bubble-number {
+    font-size: 18px;
+}
+
+
+.epp-page .bubble-name {
+    font-size: 10px;
+}
+
+
+.epp-page .endorsement-bubble.bubble-large .bubble-name {
+    font-size: 11px;
+}
+
+
+.epp-page .bubble-detail-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+
+.epp-page .bubble-detail-copy strong {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.epp-page .bubble-detail-copy p {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+
+.epp-page .bubble-detail-value {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+
+.body-bubble-tooltip {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+.body-bubble-tooltip .tooltip-title {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.body-bubble-tooltip .tooltip-row {
+    font-size: 12px;
+}
+
+
+.body-bubble-tooltip .tooltip-row strong {
+    font-size: 14px;
+}
+
+
+.epp-page .footer {
+    font-size: 12px;
+}
+
+
+/* 
+   EPP PAGE COLORS
+ */
+
+.epp-page .page-heading h1,
+.epp-page .section-heading h2,
+.epp-page .metric-card h3,
+.epp-page .visualization-card h3 {
+    color:
+        var(--jmu-purple);
+}
+
+
+.epp-page .page-kicker,
+.epp-page .section-kicker,
+.epp-page .metric-eyebrow,
+.epp-page .results-label,
+.epp-page .bubble-detail-label {
+    color:
+        var(--jmu-purple);
+}
+
+
+.epp-page .page-description,
+.epp-page .section-description,
+.epp-page .metric-note,
+.epp-page .visualization-description,
+.epp-page .year-label,
+.epp-page .metric-total span,
+.epp-page .summary-card span,
+.epp-page .bubble-name,
+.epp-page .footer {
+    color:
+        var(--jmu-gray);
+}
+
+
+.epp-page .year-card,
+.epp-page .metric-card,
+.epp-page .controls-card,
+.epp-page .summary-card,
+.epp-page .visualization-card,
+.epp-page .bubble-detail,
+.epp-page .information-note {
+    border-color:
+        var(--jmu-border);
+
+    background:
+        var(--jmu-white);
+
+    box-shadow:
+        var(--jmu-shadow);
+}
+
+
+.epp-page .search-wrapper input,
+.epp-page .control-field select {
+    border-color:
+        var(--jmu-gold);
+
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+}
+
+
+.epp-page .search-wrapper input:focus,
+.epp-page .control-field select:focus {
+    border-color:
+        var(--jmu-purple);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            69,
+            0,
+            132,
+            0.12
+        );
+}
+
+
+.epp-page .distribution-track,
+.epp-page .gpa-ring,
+.epp-page .toggle {
+    background:
+        var(--jmu-parchment);
+}
+
+
+.epp-page .purple-fill {
+    background:
+        var(--jmu-purple);
+}
+
+
+.epp-page .gold-fill {
+    background:
+        var(--jmu-gold);
+}
+
+
+/* 
+   STUDENT PLACEMENT PAGE TYPOGRAPHY
+ */
+
+.placement-page-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+
+.placement-page-heading h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+
+.placement-page-description {
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+.placement-year-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+
+.placement-year-card strong {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .filter-panel-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+}
+
+
+#student-placement-dashboard .filter-panel-header p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+#student-placement-dashboard .filter-field label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+
+#student-placement-dashboard .filter-field select,
+#student-placement-dashboard .filter-field input {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+#student-placement-dashboard .reset-button {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .kpi-label {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+
+#student-placement-dashboard .kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+
+#student-placement-dashboard .kpi-description {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+
+#student-placement-dashboard .panel-heading h2 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
+}
+
+
+#student-placement-dashboard .panel-heading p {
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+#student-placement-dashboard .map-status {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .detail-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+
+#student-placement-dashboard .detail-panel-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
+}
+
+
+#student-placement-dashboard .detail-mode-button,
+#student-placement-dashboard .detail-reset-button {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .detail-empty-state h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .detail-empty-state p {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+#student-placement-dashboard .detail-panel {
+    font-size: 13px;
+}
+
+
+#student-placement-dashboard .detail-panel h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .detail-panel h4 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+#student-placement-dashboard .leaflet-popup-content {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+#student-placement-dashboard .leaflet-tooltip {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+
+.placement-footer {
+    font-size: 12px;
+}
+
+
+/* 
+   STUDENT PLACEMENT PAGE COLORS
+ */
+
+.placement-page-heading h1,
+#student-placement-dashboard .filter-panel-header h2,
+#student-placement-dashboard .panel-heading h2,
+#student-placement-dashboard .detail-panel-header h2,
+#student-placement-dashboard .detail-empty-state h3,
+#student-placement-dashboard .detail-panel h3,
+#student-placement-dashboard .detail-panel h4 {
+    color:
+        var(--jmu-purple);
+}
+
+
+.placement-page-kicker,
+.placement-year-label,
+#student-placement-dashboard .detail-eyebrow,
+#student-placement-dashboard .kpi-label,
+#student-placement-dashboard .map-status {
+    color:
+        var(--jmu-purple);
+}
+
+
+.placement-page-description,
+#student-placement-dashboard .filter-panel-header p,
+#student-placement-dashboard .kpi-description,
+#student-placement-dashboard .panel-heading p,
+#student-placement-dashboard .detail-empty-state p,
+#student-placement-dashboard .detail-section-subtitle,
+#student-placement-dashboard .detail-stat-label,
+#student-placement-dashboard .detail-location-label,
+#student-placement-dashboard .detail-location-meta,
+#student-placement-dashboard .detail-filter-empty,
+.placement-footer {
+    color:
+        var(--jmu-gray);
+}
+
+
+#student-placement-dashboard {
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        transparent;
+}
+
+
+.placement-year-card,
+#student-placement-dashboard .filter-panel,
+#student-placement-dashboard .kpi-card,
+#student-placement-dashboard .map-panel,
+#student-placement-dashboard .detail-panel,
+#student-placement-dashboard .detail-location-row,
+#student-placement-dashboard .detail-stat,
+#student-placement-dashboard .detail-filter-toolbar {
+    border-color:
+        var(--jmu-border);
+
+    background:
+        var(--jmu-white);
+
+    box-shadow:
+        var(--jmu-shadow);
+}
+
+
+#student-placement-dashboard .filter-field label,
+#student-placement-dashboard .detail-section-title,
+#student-placement-dashboard .detail-location-value,
+#student-placement-dashboard .detail-stat-value {
+    color:
+        var(--jmu-charcoal);
+}
+
+
+#student-placement-dashboard .filter-field select,
+#student-placement-dashboard .filter-field input,
+#student-placement-dashboard .search-input-wrapper,
+#student-placement-dashboard .detail-mode-switch {
+    border-color:
+        var(--jmu-gold);
+
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+}
+
+
+#student-placement-dashboard .filter-field select:focus,
+#student-placement-dashboard .filter-field input:focus {
+    border-color:
+        var(--jmu-purple);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            69,
+            0,
+            132,
+            0.12
+        );
+}
+
+
+#student-placement-dashboard .reset-button,
+#student-placement-dashboard .detail-reset-button,
+#student-placement-dashboard .detail-mode-button.is-active,
+#student-placement-dashboard .detail-filter-chip {
+    border-color:
+        var(--jmu-purple);
+
+    color:
+        var(--jmu-white);
+
+    background:
+        var(--jmu-purple);
+}
+
+
+#student-placement-dashboard .reset-button:hover,
+#student-placement-dashboard .detail-reset-button:hover,
+#student-placement-dashboard .detail-filter-chip:hover {
+    background:
+        var(--jmu-purple-deep);
+}
+
+
+#student-placement-dashboard .detail-mode-button:not(.is-active) {
+    color:
+        var(--jmu-purple);
+
+    background:
+        transparent;
+}
+
+
+#student-placement-dashboard .detail-empty-icon {
+    color:
+        var(--jmu-purple);
+
+    background:
+        var(--jmu-parchment);
+}
+
+
+#student-placement-dashboard .status-dot {
+    background:
+        var(--jmu-gold);
+}
+
+
+#student-placement-dashboard .leaflet-control-zoom a {
+    color:
+        var(--jmu-purple);
+}
+
+
+.placement-footer {
+    border-top-color:
+        var(--jmu-gold);
+
+    background:
+        var(--jmu-parchment);
+}
+
+
+.home-page .home-year-select {
+    min-width: 184px;
+
+    padding:
+        1px
+        24px
+        1px
+        0;
+
+    border: 0;
+    outline: none;
+
+    color:
+        var(--jmu-white);
+
+    background-color:
+        transparent;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+
+.home-page .home-year-select option {
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+}
+
+
+.epp-page .year-select,
+.placement-year-select {
+    width: 100%;
+
+    padding:
+        2px
+        24px
+        2px
+        0;
+
+    border: 0;
+    outline: none;
+
+    color:
+        var(--jmu-purple);
+
+    background-color:
+        transparent;
+
+    font-family:
+        "Arvo",
+        Georgia,
+        serif;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.epp-page .year-select option,
+.placement-year-select option {
+    color:
+        var(--jmu-charcoal);
+
+    background:
+        var(--jmu-white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+/* 
+   RESPONSIVE TYPOGRAPHY
+ */
+
+@media (max-width: 720px) {
+
+    .home-page .hero-kicker {
+        font-size: 32px;
+    }
+
+
+    .home-page .hero h1 {
+        font-size: 24px;
+    }
+
+
+    .home-page .directory-header h2 {
+        font-size: 22px;
+    }
+
+}
+
+
+.home-page,
+.epp-page {
+    --purple: var(--jmu-purple);
+    --purple-dark: var(--jmu-purple);
+    --purple-deep: var(--jmu-purple);
+    --purple-mid: var(--jmu-purple);
+    --purple-light: var(--jmu-purple);
+
+    --gold: var(--jmu-gold);
+    --gold-dark: var(--jmu-gold);
+    --gold-deep: var(--jmu-gold);
+}
+
+
+.home-page .hero {
+    background:
+        radial-gradient(
+            circle at 86% 18%,
+            rgba(
+                223,
+                210,
+                170,
+                0.20
+            ),
+            transparent 25%
+        ),
+        var(--jmu-purple);
+}
+
+
+.home-page .hero h1,
+.home-page .hero h1 span {
+    color:
+        var(--jmu-gold);
+}
+
+
+.home-page .hero-kicker {
+    color:
+        var(--jmu-white);
+}
+
+
+.home-page .dashboard-card:hover {
+    border-color:
+        var(--jmu-purple);
+}
+
+
+.home-page .purple-icon {
+    color:
+        var(--jmu-purple);
+}
+
+
+.home-page .gold-icon {
+    color:
+        var(--jmu-gold);
+}
+
+
+.home-page .female-dot {
+    background:
+        var(--jmu-purple);
+}
+
+
+.home-page .male-dot {
+    background:
+        var(--jmu-gold);
+}
+
+
+.home-page .art-node {
+    background:
+        var(--jmu-gold);
+
+    box-shadow:
+        0 0 0 10px
+        rgba(
+            223,
+            210,
+            170,
+            0.07
+        );
+}
+
+
+.home-page .marker {
+    fill:
+        var(--jmu-purple);
+
+    background:
+        var(--jmu-purple);
+}
+
+
+.home-page .marker-glow {
+    fill:
+        rgba(
+            69,
+            0,
+            132,
+            0.13
+        );
+
+    background:
+        rgba(
+            69,
+            0,
+            132,
+            0.13
+        );
+}
+
+
+.epp-page
+.metric-mode-button[data-mode="admitted"]
+.metric-mode-dot {
+    background:
+        var(--jmu-purple)
+        !important;
+}
+
+
+.epp-page
+.metric-mode-button[data-mode="completers"]
+.metric-mode-dot {
+    background:
+        var(--jmu-gold)
+        !important;
+
+    border-color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+.epp-page
+.metric-mode-double-dot::before {
+    background:
+        var(--jmu-purple)
+        !important;
+}
+
+
+.epp-page
+.metric-mode-double-dot::after {
+    background:
+        var(--jmu-gold)
+        !important;
+
+    border-color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+.epp-page
+.metric-mode-button[data-mode="admitted"].is-active {
+    color:
+        var(--jmu-purple);
+}
+
+
+.epp-page
+.metric-mode-button[data-mode="completers"].is-active {
+    color:
+        var(--jmu-gold);
+}
+
+
+.epp-page
+.endorsement-mode-legend
+.legend-admitted {
+    background:
+        var(--jmu-purple)
+        !important;
+}
+
+
+.epp-page
+.endorsement-mode-legend
+.legend-completers {
+    background:
+        var(--jmu-gold)
+        !important;
+
+    border-color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+.epp-page
+.endorsement-bubble.mode-admitted {
+    background:
+        var(--jmu-purple)
+        !important;
+}
+
+
+.epp-page
+.endorsement-bubble.mode-completers {
+    background:
+        var(--jmu-gold)
+        !important;
+
+    color:
+        var(--jmu-charcoal);
+}
+
+
+.epp-page
+.endorsement-bubble.mode-completers
+.bubble-name {
+    color:
+        var(--jmu-charcoal);
+}
+
+
+.epp-page
+.endorsement-bubble.mode-compare {
+    background:
+        linear-gradient(
+            90deg,
+            var(--jmu-purple) 0%,
+            var(--jmu-purple) 50%,
+            var(--jmu-gold) 50%,
+            var(--jmu-gold) 100%
+        )
+        !important;
+}
+
+
+.epp-page
+.compare-admitted-half {
+    color:
+        var(--jmu-white);
+}
+
+
+.epp-page
+.compare-completers-half {
+    color:
+        var(--jmu-charcoal);
+}
+
+
+body.epp-mode-completers
+.epp-page
+.summary-card span {
+    color:
+        var(--jmu-gray)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.summary-card strong {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.visualization-card
+.metric-eyebrow {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.visualization-card h3 {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.results-label {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.bubble-detail-label,
+body.epp-mode-completers
+.epp-page
+.bubble-detail-copy strong,
+body.epp-mode-completers
+.epp-page
+.bubble-detail-copy p,
+body.epp-mode-completers
+.epp-page
+.bubble-detail-value {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.epp-page
+.information-icon {
+    background:
+        var(--jmu-gold)
+        !important;
+
+    color:
+        var(--jmu-purple)
+        !important;
+}
+
+
+body.epp-mode-compare
+.epp-page
+#endorsementCount,
+body.epp-mode-compare
+.epp-page
+#largestEndorsementCount {
+    color:
+        var(--jmu-purple)
+        !important;
+}
+
+
+body.epp-mode-compare
+.epp-page
+#endorsementTotal {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+.epp-page
+.compare-value-admitted {
+    color:
+        var(--jmu-purple)
+        !important;
+}
+
+
+.epp-page
+.compare-value-completers {
+    color:
+        var(--jmu-gold)
+        !important;
+}
+
+
+body.epp-mode-completers
+.body-bubble-tooltip
+.tooltip-row-completers,
+body.epp-mode-completers
+.body-bubble-tooltip
+.tooltip-row-completers strong {
+    color:
+        var(--jmu-white)
+        !important;
+}
+
+
+body.epp-mode-compare
+.body-bubble-tooltip
+.tooltip-row-completers,
+body.epp-mode-compare
+.body-bubble-tooltip
+.tooltip-row-completers strong {
+    color:
+        var(--jmu-gold)
+        !important;
+}

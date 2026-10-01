@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="robots"
+        content="noindex, nofollow, noarchive"
+    >
+
+    <script src="/preview-gate.js"></script>
+
+    <title>
+        Student Teaching Placements | College of Education Data Dashboard
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="/CSS/style.css"
+    >
+
+
+
+    <style>
+
+        :root {
+            --site-purple: #450084;
+            --site-purple-deep: #30005b;
+            --site-purple-mid: #7040a1;
+            --site-purple-light: #9a77bb;
+            --site-purple-soft: #f3eef8;
+
+            --site-gold: #cbb677;
+            --site-gold-deep: #9b7e30;
+            --site-gold-soft: #f6f1e3;
+
+            --site-page: #f6f7f9;
+            --site-white: #ffffff;
+
+            --site-text: #20212b;
+            --site-text-soft: #686d79;
+            --site-muted: #9296a1;
+
+            --site-border: #e6e7eb;
+
+            --site-shadow:
+                0 10px 28px
+                rgba(
+                    37,
+                    26,
+                    49,
+                    0.055
+                );
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at 90% 0%,
+                    rgba(
+                        69,
+                        0,
+                        132,
+                        0.035
+                    ),
+                    transparent 28%
+                ),
+                var(--site-page);
+
+            color:
+                var(--site-text);
+
+            -webkit-font-smoothing:
+                antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* 
+           NAVIGATION
+         */
+
+        .placement-top-navigation {
+            position: sticky;
+            top: 0;
+            z-index: 5000;
+            width: 100%;
+
+            border-bottom:
+                1px solid
+                var(--site-border);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.92
+                );
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+        }
+
+        .placement-navigation-inner {
+            width:
+                min(
+                    calc(100% - 52px),
+                    1360px
+                );
+
+            height: 76px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .placement-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color:
+                var(--site-text);
+
+            text-decoration: none;
+        }
+
+        .placement-brand-mark {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+
+            border-radius: 12px;
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--site-purple),
+                    var(--site-purple-mid)
+                );
+
+            letter-spacing: 0.07em;
+        }
+
+        .placement-brand-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .placement-brand-copy strong {
+            color:
+                var(--site-text);
+        }
+
+        .placement-brand-copy span {
+            color:
+                var(--site-muted);
+        }
+
+        .placement-page-navigation {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .placement-page-navigation a {
+            padding:
+                10px
+                13px;
+
+            border-radius: 9px;
+
+            color:
+                var(--site-text-soft);
+
+            text-decoration: none;
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .placement-page-navigation a:hover {
+            color:
+                var(--site-purple);
+
+            background:
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.045
+                );
+        }
+
+        .placement-page-navigation a.active {
+            color:
+                var(--site-purple);
+
+            background:
+                var(--site-purple-soft);
+        }
+
+        /* 
+           WRAPPER
+         */
+
+        #student-placement-dashboard {
+            width: 100%;
+
+            background:
+                transparent;
+        }
+
+        /* 
+           PAGE HEADING
+         */
+
+        .placement-page-heading {
+            width:
+                min(
+                    calc(100% - 52px),
+                    1320px
+                );
+
+            margin:
+                0 auto;
+
+            padding:
+                62px
+                0
+                42px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .placement-heading-copy {
+            max-width: 760px;
+        }
+
+        .placement-page-kicker {
+            margin:
+                0
+                0
+                9px;
+
+            color:
+                var(--site-purple);
+        }
+
+        .placement-page-heading h1 {
+            margin: 0;
+
+            color:
+                var(--site-text);
+        }
+
+        .placement-page-description {
+            max-width: 720px;
+
+            margin:
+                18px
+                0
+                0;
+
+            color:
+                var(--site-text-soft);
+        }
+
+        .placement-year-card {
+            min-width: 180px;
+
+            padding:
+                17px
+                19px;
+
+            flex-shrink: 0;
+
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #fbf9fc
+                );
+
+            box-shadow:
+                var(--site-shadow);
+        }
+
+        .placement-year-label {
+            display: block;
+            margin-bottom: 6px;
+
+            color:
+                var(--site-muted);
+
+            text-transform:
+                uppercase;
+        }
+
+        .placement-year-card strong {
+            color:
+                var(--site-purple);
+        }
+
+        /* Hide old placement header */
+
+        #student-placement-dashboard
+        > .dashboard-header {
+            display: none;
+        }
+
+        /* 
+           MAIN
+         */
+
+        #student-placement-dashboard
+        .dashboard-main {
+            width:
+                min(
+                    calc(100% - 52px),
+                    1320px
+                );
+
+            max-width: none;
+
+            margin:
+                0 auto
+                68px;
+
+            padding: 0;
+        }
+
+        /* 
+           FILTER PANEL
+         */
+
+        #student-placement-dashboard
+        .filter-panel {
+            margin-bottom: 18px;
+            padding: 24px;
+
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 18px;
+
+            background:
+                #ffffff;
+
+            box-shadow:
+                var(--site-shadow);
+        }
+
+        #student-placement-dashboard
+        .filter-panel-header {
+            margin-bottom: 20px;
+        }
+
+        #student-placement-dashboard
+        .filter-panel-header h2 {
+            margin:
+                0
+                0
+                5px;
+
+            color:
+                var(--site-text);
+        }
+
+        #student-placement-dashboard
+        .filter-panel-header p {
+            margin: 0;
+
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .filter-field label {
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .filter-field select,
+        #student-placement-dashboard
+        .filter-field input {
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 10px;
+
+            background:
+                #fafafb;
+
+            color:
+                var(--site-text);
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        #student-placement-dashboard
+        .filter-field select:hover,
+        #student-placement-dashboard
+        .filter-field input:hover {
+            border-color:
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.18
+                );
+        }
+
+        #student-placement-dashboard
+        .filter-field select:focus,
+        #student-placement-dashboard
+        .filter-field input:focus {
+            border-color:
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.40
+                );
+
+            background:
+                #ffffff;
+
+            box-shadow:
+                0
+                0
+                0
+                3px
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.055
+                );
+        }
+
+        #student-placement-dashboard
+        .search-input-wrapper {
+            border-radius: 10px;
+        }
+
+        #student-placement-dashboard
+        .search-icon {
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .reset-button {
+            border:
+                1px solid
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.12
+                );
+
+            border-radius: 10px;
+
+            background:
+                var(--site-purple-soft);
+
+            color:
+                var(--site-purple);
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        #student-placement-dashboard
+        .reset-button:hover {
+            background:
+                var(--site-purple);
+
+            color:
+                #ffffff;
+
+            transform:
+                translateY(-1px);
+        }
+
+        /* 
+           KPI 
+         */
+
+        #student-placement-dashboard
+        .kpi-grid {
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        #student-placement-dashboard
+        .kpi-card {
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #fbfafc
+                );
+
+            box-shadow:
+                0
+                7px
+                22px
+                rgba(
+                    37,
+                    26,
+                    49,
+                    0.04
+                );
+        }
+
+        #student-placement-dashboard
+        .kpi-card::after {
+            content: "";
+
+            position: absolute;
+            right: -42px;
+            bottom: -55px;
+
+            width: 115px;
+            height: 115px;
+
+            border-radius: 50%;
+
+            border:
+                18px solid
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.018
+                );
+
+            pointer-events: none;
+        }
+
+        #student-placement-dashboard
+        .kpi-label {
+            position: relative;
+            z-index: 2;
+
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .kpi-value {
+            position: relative;
+            z-index: 2;
+            margin-top: 7px;
+
+            color:
+                var(--site-purple);
+        }
+
+        #student-placement-dashboard
+        .kpi-description {
+            position: relative;
+            z-index: 2;
+            margin-top: 7px;
+
+            color:
+                var(--site-muted);
+        }
+
+        /* 
+           MAP AND DETAILS
+         */
+
+        #student-placement-dashboard
+        .dashboard-content {
+            gap: 18px;
+        }
+
+        #student-placement-dashboard
+        .map-panel,
+        #student-placement-dashboard
+        .detail-panel {
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 18px;
+
+            background:
+                #ffffff;
+
+            box-shadow:
+                var(--site-shadow);
+        }
+
+        /* 
+           MAP PANEL HEADER
+         */
+
+        #student-placement-dashboard
+        .panel-heading {
+            padding:
+                21px
+                22px;
+
+            border-bottom:
+                1px solid
+                var(--site-border);
+
+            background:
+                #ffffff;
+        }
+
+        #student-placement-dashboard
+        .panel-heading h2 {
+            margin:
+                0
+                0
+                4px;
+
+            color:
+                var(--site-text);
+        }
+
+        #student-placement-dashboard
+        .panel-heading p {
+            margin: 0;
+
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .map-status {
+            padding:
+                7px
+                10px;
+
+            border:
+                1px solid
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.07
+                );
+
+            border-radius: 999px;
+
+            background:
+                var(--site-purple-soft);
+
+            color:
+                var(--site-purple);
+        }
+
+        #student-placement-dashboard
+        .status-dot {
+            background:
+                var(--site-purple);
+
+            box-shadow:
+                0
+                0
+                0
+                4px
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.08
+                );
+        }
+
+        /* 
+           MAP
+         */
+
+        #student-placement-dashboard
+        #map {
+            overflow: hidden;
+
+            border-radius:
+                0
+                0
+                17px
+                17px;
+
+            background:
+                #f4f4f5;
+        }
+
+        #student-placement-dashboard
+        .leaflet-bar {
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(
+                    42,
+                    35,
+                    50,
+                    0.08
+                );
+
+            border-radius: 10px;
+
+            box-shadow:
+                0
+                5px
+                15px
+                rgba(
+                    30,
+                    24,
+                    38,
+                    0.08
+                );
+        }
+
+        #student-placement-dashboard
+        .leaflet-bar a {
+            color:
+                var(--site-purple);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.94
+                );
+        }
+
+        #student-placement-dashboard
+        .leaflet-bar a:hover {
+            background:
+                var(--site-purple-soft);
+        }
+
+        /* 
+           DETAILS PANEL HEADER
+         */
+
+        #student-placement-dashboard
+        .detail-panel-header {
+            padding:
+                21px
+                22px;
+
+            border-bottom:
+                1px solid
+                var(--site-border);
+
+            background:
+                #ffffff;
+        }
+
+        #student-placement-dashboard
+        .detail-eyebrow {
+            margin-bottom: 6px;
+
+            color:
+                var(--site-purple);
+
+            text-transform:
+                uppercase;
+        }
+
+        #student-placement-dashboard
+        .detail-panel-header h2 {
+            margin: 0;
+
+            color:
+                var(--site-text);
+        }
+
+        /* 
+           DETAIL MODE SWITCH
+         */
+
+        #student-placement-dashboard
+        .detail-mode-switch {
+            padding: 3px;
+
+            border:
+                1px solid
+                var(--site-border);
+
+            border-radius: 9px;
+
+            background:
+                #f5f5f7;
+        }
+
+        #student-placement-dashboard
+        .detail-mode-button {
+            border: none;
+            border-radius: 7px;
+
+            background:
+                transparent;
+
+            color:
+                var(--site-muted);
+        }
+
+        #student-placement-dashboard
+        .detail-mode-button.is-active {
+            background:
+                #ffffff;
+
+            color:
+                var(--site-purple);
+
+            box-shadow:
+                0
+                2px
+                7px
+                rgba(
+                    37,
+                    27,
+                    48,
+                    0.08
+                );
+        }
+
+        #student-placement-dashboard
+        .detail-reset-button {
+            border:
+                1px solid
+                rgba(
+                    69,
+                    0,
+                    132,
+                    0.10
+                );
+
+            border-radius: 8px;
+
+            background:
+                var(--site-purple-soft);
+
+            color:
+                var(--site-purple);
+        }
+
+        /* 
+           DETAIL EMPTY STATE
+         */
+
+        #student-placement-dashboard
+        .detail-empty-state {
+            color:
+                var(--site-text-soft);
+        }
+
+        #student-placement-dashboard
+        .detail-empty-icon {
+            color:
+                var(--site-purple);
+        }
+
+        #student-placement-dashboard
+        .detail-empty-state h3 {
+            color:
+                var(--site-text);
+        }
+
+        #student-placement-dashboard
+        .detail-empty-state p {
+            color:
+                var(--site-muted);
+        }
+
+        /* 
+           FOOTER
+         */
+
+        .placement-footer {
+            width:
+                min(
+                    calc(100% - 52px),
+                    1320px
+                );
+
+            margin:
+                0 auto
+                28px;
+
+            padding-top: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            border-top:
+                1px solid
+                var(--site-border);
+
+            color:
+                var(--site-muted);
+        }
+
+        /* 
+           RESPONSIVE
+         */
+
+        @media (max-width: 900px) {
+
+            .placement-page-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .placement-year-card {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 720px) {
+
+            .placement-navigation-inner {
+                width:
+                    calc(
+                        100% - 28px
+                    );
+            }
+
+            .placement-brand-copy {
+                display: none;
+            }
+
+            .placement-page-heading {
+                width:
+                    calc(
+                        100% - 28px
+                    );
+
+                padding:
+                    40px
+                    0
+                    32px;
+            }
+
+            #student-placement-dashboard
+            .dashboard-main {
+                width:
+                    calc(
+                        100% - 28px
+                    );
+            }
+
+            #student-placement-dashboard
+            .filter-panel {
+                padding: 18px;
+            }
+
+            .placement-footer {
+                width:
+                    calc(
+                        100% - 28px
+                    );
+
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+        }
+
+    </style>
+
+
+    <link
+        rel="stylesheet"
+        href="/CSS/typography.css"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="/CSS/academic-year.css"
+    >
+
+</head>
+
+<body>
+
+<!-- 
+     SHARED NAVIGATION
+ -->
+
+<header class="placement-top-navigation">
+
+    <div class="placement-navigation-inner">
+
+        <a
+            class="placement-brand"
+            href="/"
+            aria-label="College of Education Data Dashboard home"
+        >
+
+            <div class="placement-brand-mark">
+
+                <img
+                    class="jmu-brand-logo"
+                    src="/Images/jmu-block-white.png"
+                    alt="James Madison University"
+                >
+
+            </div>
+
+            <div class="placement-brand-copy">
+
+                <strong>
+                    College of Education
+                </strong>
+
+                <span>
+                    Data Dashboard
+                </span>
+
+            </div>
+
+        </a>
+
+        <nav class="placement-page-navigation">
+
+            <a href="/epp/epp.html">
+                EPP Candidate Profile
+            </a>
+
+            <a
+                class="active"
+                href="/placements.html"
+            >
+                Student Teaching Placements
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<div id="student-placement-dashboard">
+
+    <!-- 
+         PAGE HEADER
+     -->
+
+    <section class="placement-page-heading">
+
+        <div class="placement-heading-copy">
+
+            <p class="placement-page-kicker">
+                FIELD EXPERIENCE
+            </p>
+
+            <h1>
+                Student Teaching Placements
+            </h1>
+
+            <p class="placement-page-description">
+                Explore the geographic distribution of student
+                teaching placements across programs, grade levels, placement
+                types, school divisions, schools, and administrative areas.
+            </p>
+
+        </div>
+
+        <div class="placement-year-card">
+
+            <label
+                class="placement-year-label"
+                for="placementYearSelect"
+            >
+                Academic Year
+            </label>
+
+            <select
+                id="placementYearSelect"
+                class="placement-year-select"
+                data-academic-year-select
+            ></select>
+
+        </div>
+
+    </section>
+
+    
+
+    <header class="dashboard-header">
+
+        <div class="header-content">
+
+            <h1>
+                Student Teaching Placement Dashboard
+            </h1>
+
+            <p>
+                Explore student placements by location,
+                program, grade level, placement type,
+                school division, and school.
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- 
+         MAIN
+     -->
+
+    <main class="dashboard-main">
+
+        <!-- 
+             FILTER PANEL
+         -->
+
+        <section class="filter-panel">
+
+            <div class="filter-panel-header">
+
+                <h2>
+                    Explore Placements
+                </h2>
+
+                <p>
+                    Refine the map and summary using the filters below.
+                </p>
+
+            </div>
+
+            <div class="filter-grid">
+
+                <div class="filter-field">
+
+                    <label for="programFilter">
+                        Program
+                    </label>
+
+                    <select id="programFilter">
+
+                        <option value="">
+                            All Programs
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="filter-field">
+
+                    <label for="gradeFilter">
+                        Grade Level
+                    </label>
+
+                    <select id="gradeFilter">
+
+                        <option value="">
+                            All Grade Levels
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="filter-field">
+
+                    <label for="placementTypeFilter">
+                        Placement Type
+                    </label>
+
+                    <select id="placementTypeFilter">
+
+                        <option value="">
+                            All Placement Types
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="filter-field">
+
+                    <label for="divisionFilter">
+                        School Division
+                    </label>
+
+                    <select id="divisionFilter">
+
+                        <option value="">
+                            All School Divisions
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="filter-field">
+
+                    <label for="schoolFilter">
+                        School Name
+                    </label>
+
+                    <select id="schoolFilter">
+
+                        <option value="">
+                            All Schools
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="filter-field search-field">
+
+                    <label for="dashboardSearch">
+                        Search
+                    </label>
+
+                    <div class="search-input-wrapper">
+
+                        <span
+                            class="search-icon"
+                            aria-hidden="true"
+                        >
+                            ⌕
+                        </span>
+
+                        <input
+                            type="search"
+                            id="dashboardSearch"
+                            placeholder="Program, grade, placement type, ZIP code, school city, division, school name..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="filter-field reset-field">
+
+                    <label class="invisible-label">
+                        Reset
+                    </label>
+
+                    <button
+                        type="button"
+                        id="resetFilters"
+                        class="reset-button"
+                    >
+                        Reset Filters
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 
+             KPI CARDS
+        -->
+
+        <section class="kpi-grid">
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Unique Students
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="kpiStudents"
+                >
+                    —
+                </div>
+
+                <div class="kpi-description">
+                    Students in current view
+                </div>
+
+            </article>
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Locations Shown
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="kpiLocations"
+                >
+                    —
+                </div>
+
+                <div class="kpi-description">
+                    ZIP locations on the map
+                </div>
+
+            </article>
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    School Divisions
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="kpiDivisions"
+                >
+                    —
+                </div>
+
+                <div class="kpi-description">
+                    Represented divisions
+                </div>
+
+            </article>
+
+            <article class="kpi-card">
+
+                <div class="kpi-label">
+                    Programs
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="kpiPrograms"
+                >
+                    —
+                </div>
+
+                <div class="kpi-description">
+                    Represented programs
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- 
+             MAP AND DETAILS
+         -->
+
+        <section class="dashboard-content">
+
+            <!-- Map -->
+
+            <section class="map-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h2>
+                            Placement Map
+                        </h2>
+
+                        <p id="mapSummary">
+                            Student placements grouped by ZIP code
+                        </p>
+
+                    </div>
+
+                    <div class="map-status">
+
+                        <span class="status-dot"></span>
+
+                        Interactive Map
+
+                    </div>
+
+                </div>
+
+                <div id="map"></div>
+
+            </section>
+
+            <!-- 
+                 LOCATION DETAILS
+             -->
+
+            <aside
+                class="detail-panel"
+                id="detailPanel"
+            >
+
+                <div class="detail-panel-header">
+
+                    <div class="detail-header-text">
+
+                        <div class="detail-eyebrow">
+                            Location Details
+                        </div>
+
+                        <h2 id="detailTitle">
+                            Select a Location
+                        </h2>
+
+                    </div>
+
+                    <div class="detail-header-actions">
+
+                        <div
+                            class="detail-mode-switch"
+                            role="group"
+                            aria-label="Location detail grouping"
+                        >
+
+                            <button
+                                type="button"
+                                id="detailModeZIP"
+                                class="detail-mode-button is-active"
+                                disabled
+                            >
+                                By ZIP Code
+                            </button>
+
+                            <button
+                                type="button"
+                                id="detailModeCounty"
+                                class="detail-mode-button"
+                                disabled
+                            >
+                                By County
+                            </button>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            id="resetDetails"
+                            class="detail-reset-button"
+                            hidden
+                        >
+                            Reset
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="detail-empty-state"
+                    id="detailBody"
+                    aria-live="polite"
+                >
+
+                    <div class="detail-empty-icon">
+
+                        <span>
+                            ◎
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Explore a placement location
+                    </h3>
+
+                    <p>
+                        Select a bubble to view ZIP-level details,
+                        or click inside a highlighted county to
+                        explore county-level placement information.
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- 
+     FOOTER
+ -->
+
+<footer class="placement-footer">
+
+    <span>
+        James Madison University
+    </span>
+
+    <span>
+        College of Education
+    </span>
+
+</footer>
+
+<!-- 
+     LIBRARIES
+ -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+<script
+    src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"
+></script>
+
+<script
+    src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"
+></script>
+
+
+<script
+    src="/JS/academic-year.js"
+></script>
+
+<script
+    src="/JS/map.js"
+></script>
+
+</body>
+
+</html>

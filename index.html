@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    
+    <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+    >
+
+    <script src="/preview-gate.js"></script>
+
+    <title>
+        College of Education Data Dashboard
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="/CSS/dashboard.css"
+    >
+
+
+
+    <link
+        rel="stylesheet"
+        href="/CSS/typography.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/CSS/academic-year.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="home-page">
+
+
+        <!-- 
+             HERO SECTION
+         -->
+
+        <header class="hero">
+
+            <div class="hero-copy">
+
+                <p class="hero-kicker">
+                    JAMES MADISON UNIVERSITY
+                </p>
+
+                <h1>
+                    College of Education
+                    <span>
+                        Data Dashboard
+                    </span>
+                </h1>
+
+                <p class="hero-description">
+                    Explore Education Preparation Program (EPP) and Student Teaching Field Experience placement
+                 data through interactive visualizations.
+                </p>
+
+                <div class="academic-year">
+
+                    <span></span>
+
+                    <select
+                        id="homeYearSelect"
+                        class="home-year-select"
+                        data-academic-year-select
+                        data-year-format="full"
+                        aria-label="Academic Year"
+                    ></select>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="hero-art"
+                aria-hidden="true"
+            >
+
+                <div class="art-ring ring-1"></div>
+                <div class="art-ring ring-2"></div>
+                <div class="art-ring ring-3"></div>
+
+                <i class="art-node node-1"></i>
+                <i class="art-node node-2"></i>
+                <i class="art-node node-3"></i>
+                <i class="art-node node-4"></i>
+
+            </div>
+
+        </header>
+
+
+        <!-- 
+             DASHBOARD DIRECTORY
+         -->
+
+        <main class="dashboard-directory">
+
+            <div class="directory-header">
+
+                <div>
+
+                    <p class="section-kicker">
+                        EXPLORE THE DATA
+                    </p>
+
+                    <h2>
+                        Interactive dashboards
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Select a dashboard below to explore the
+                    available data in more detail.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+
+                <!-- 
+                     CANDIDATE
+                 -->
+
+                <a
+                    class="dashboard-card"
+                    href="/epp/epp.html"
+                >
+
+                    <div class="card-heading">
+
+                        <div class="card-icon purple-icon">
+
+                            <svg viewBox="0 0 24 24">
+
+                                <circle
+                                    cx="12"
+                                    cy="7"
+                                    r="4"
+                                ></circle>
+
+                                <path
+                                    d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"
+                                ></path>
+
+                            </svg>
+
+                        </div>
+
+                        <span class="card-category">
+                            EPP DATA
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-copy">
+
+                        <h3>
+                            EPP Candidate Profile
+                        </h3>
+
+                        <p>
+                            Explore EPP candidate demographics and endorsement areas.
+                        </p>
+
+                    </div>
+
+
+                    <!-- 
+                         MINI CANDIDATE DASHBOARD
+                     -->
+
+                    <div class="candidate-preview">
+
+                        <div class="preview-left">
+
+                            <div class="candidate-donut">
+
+                                <div class="donut-center">
+
+                                    <strong id="homeCandidateTotal">
+                                        —
+                                    </strong>
+
+                                    <span>
+                                        candidates
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="donut-legend">
+
+                                <span>
+
+                                    <i class="female-dot"></i>
+
+                                    Female
+
+                                    <strong id="homeFemalePercent">
+                                        —
+                                    </strong>
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="male-dot"></i>
+
+                                    Male
+
+                                    <strong id="homeMalePercent">
+                                        —
+                                    </strong>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="candidate-kpis">
+
+                            <div class="mini-kpi">
+
+                                <span>
+                                    IN-STATE
+                                </span>
+
+                                <strong id="homeInStatePercent">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mini-kpi">
+
+                                <span>
+                                    MEDIAN GPA
+                                </span>
+
+                                <strong id="homeMedianGPA">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mini-kpi wide-kpi">
+
+                                <span>
+                                    ENDORSEMENT AREAS
+                                </span>
+
+                                <strong id="homeEndorsementCount">
+                                    —
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Explore EPP candidate data
+                        </span>
+
+                        <i>
+                            →
+                        </i>
+
+                    </div>
+
+                </a>
+
+
+                <!-- 
+                     PLACEMENTS
+                 -->
+
+                <a
+                    class="dashboard-card"
+                    href="/placements.html"
+                >
+
+                    <div class="card-heading">
+
+                        <div class="card-icon gold-icon">
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path
+                                    d="
+                                        M12 21
+                                        s7-5.5 7-11.5
+                                        A7 7 0 0 0 5 9.5
+                                        C5 15.5 12 21 12 21
+                                    "
+                                ></path>
+
+                                <circle
+                                    cx="12"
+                                    cy="9"
+                                    r="2.5"
+                                ></circle>
+
+                            </svg>
+
+                        </div>
+
+                        <span class="card-category">
+                            FIELD EXPERIENCE
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-copy">
+
+                        <h3>
+                            Student Teaching Placements
+                        </h3>
+
+                        <p>
+                            Explore the geographic distribution of
+                            placements across schools, divisions,
+                            programs, grade levels, and placement types.
+                        </p>
+
+                    </div>
+
+
+                    <!-- 
+                         VIRGINIA PREVIEW
+                     -->
+
+                    <div class="virginia-preview">
+
+                        <div class="map-grid"></div>
+
+
+                        <svg
+                            class="virginia-svg"
+                            viewBox="0 0 820 320"
+                            aria-label="Virginia placement preview"
+                        >
+
+                            <path
+                                class="va-boundary"
+                                d="
+                                    M508.6 30
+                                    L554.9 59.7
+                                    L564.6 42.7
+                                    L578.2 44.1
+                                    L588 51.4
+                                    L588 64.6
+                                    L606.5 69
+                                    L618.1 77.2
+                                    L625 89.9
+                                    L617.2 104
+                                    L606.5 107.9
+                                    L599.6 120.6
+                                    L603.5 129.8
+                                    L627.4 126.9
+                                    L631.8 141
+                                    L662.9 146.9
+                                    L671.7 158.1
+                                    L696.5 170.2
+                                    L685.3 195.1
+                                    L695.6 214.5
+                                    L683.4 223.8
+                                    L681.9 235
+                                    L693.1 241.8
+                                    L681 252.5
+                                    L662.5 238.4
+                                    L658.1 243.3
+                                    L674.1 253.5
+                                    L718 255.9
+                                    L729.2 289
+                                    L405.4 290
+                                    L335.7 289.5
+                                    L274.9 288.1
+                                    L212.6 285.6
+                                    L35.3 284.6
+                                    L83.1 272
+                                    L88.9 262.2
+                                    L105.9 258.8
+                                    L106.9 251
+                                    L120.1 245.2
+                                    L120.1 238.4
+                                    L152.7 225.2
+                                    L186.8 201.4
+                                    L185.3 208.7
+                                    L197.5 223.8
+                                    L212.6 231.1
+                                    L223.8 230.6
+                                    L240.8 218.9
+                                    L253 228.2
+                                    L275.9 223.3
+                                    L316.3 206.3
+                                    L319.7 211.6
+                                    L335.3 203.8
+                                    L335.7 187.8
+                                    L345.5 173.6
+                                    L362 160.5
+                                    L368.9 144.4
+                                    L386.4 127.9
+                                    L393.2 107.4
+                                    L408.3 119.6
+                                    L422.9 123.5
+                                    L432.2 116.2
+                                    L451.1 84.5
+                                    L462.3 92.3
+                                    L503.7 56.3
+                                    Z
+                                "
+                            ></path>
+
+
+                            <path
+                                class="va-boundary shore"
+                                d="
+                                    M771 159
+                                    L784.7 157.6
+                                    L773 172.7
+                                    L760.8 178
+                                    L753.5 198.5
+                                    L735 231.6
+                                    L719.9 238.4
+                                    L715 226.2
+                                    L722.8 199
+                                    L746.7 164.4
+                                    Z
+                                "
+                            ></path>
+
+
+                            <g class="map-marker large">
+
+                                <circle
+                                    cx="462.4"
+                                    cy="120.3"
+                                    r="22"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="462.4"
+                                    cy="120.3"
+                                    r="10"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+
+                            <g class="map-marker">
+
+                                <circle
+                                    cx="589.8"
+                                    cy="201.1"
+                                    r="15"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="589.8"
+                                    cy="201.1"
+                                    r="7"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+
+                            <g class="map-marker">
+
+                                <circle
+                                    cx="497.3"
+                                    cy="157.6"
+                                    r="13"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="497.3"
+                                    cy="157.6"
+                                    r="6"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+
+                            <g class="map-marker">
+
+                                <circle
+                                    cx="606.4"
+                                    cy="83.8"
+                                    r="16"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="606.4"
+                                    cy="83.8"
+                                    r="7"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+
+                            <g class="map-marker">
+
+                                <circle
+                                    cx="367.2"
+                                    cy="225.1"
+                                    r="12"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="367.2"
+                                    cy="225.1"
+                                    r="5.5"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+
+                            <g class="map-marker">
+
+                                <circle
+                                    cx="692.1"
+                                    cy="262.4"
+                                    r="10"
+                                    class="marker-glow"
+                                ></circle>
+
+                                <circle
+                                    cx="692.1"
+                                    cy="262.4"
+                                    r="5"
+                                    class="marker"
+                                ></circle>
+
+                            </g>
+
+                        </svg>
+
+
+                        <div class="map-label">
+
+                            <span></span>
+
+                            Virginia
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Explore placements data
+                        </span>
+
+                        <i>
+                            →
+                        </i>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </main>
+
+
+        <footer class="page-footer">
+
+            <span>
+                James Madison University
+            </span>
+
+            <span>
+                College of Education
+            </span>
+
+        </footer>
+
+    </div>
+
+    <script
+        src="/JS/academic-year.js"
+    ></script>
+
+    <script
+        src="/JS/endorsement-data.js"
+    ></script>
+
+    <script
+        src="/JS/home-preview.js"
+    ></script>
+
+</body>
+
+</html>

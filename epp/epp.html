@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="robots"
+        content="noindex, nofollow, noarchive"
+    >
+
+    <script src="/preview-gate.js"></script>
+
+    <title>
+        EPP Candidate Profile
+    </title>
+
+    <!-- ECharts -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"
+    ></script>
+
+    <!-- EPP visual styles -->
+    <link
+        rel="stylesheet"
+        href="/epp/epp.css"
+    >
+
+    <!-- Shared typography must load AFTER epp.css -->
+    <link
+        rel="stylesheet"
+        href="/CSS/typography.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/CSS/academic-year.css"
+    >
+</head>
+
+<body>
+
+    <div class="epp-page">
+
+        <!-- 
+             NAVIGATION
+         -->
+
+        <header class="top-navigation">
+
+            <div class="navigation-inner">
+
+                <a
+                    class="brand"
+                    href="/"
+                    aria-label="College of Education Data Dashboard home"
+                >
+
+                    <div class="brand-mark">
+
+                        <img
+                            class="jmu-brand-logo"
+                            src="/Images/jmu-block-white.png"
+                            alt="James Madison University"
+                        >
+
+                    </div>
+
+                    <div class="brand-copy">
+
+                        <strong>
+                            College of Education
+                        </strong>
+
+                        <span>
+                            Data Dashboard
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <nav class="page-navigation">
+
+                    <a
+                        class="active"
+                        href="/epp/epp.html"
+                    >
+                        EPP Candidate Profile
+                    </a>
+
+                    <a href="/placements.html">
+                        Student Teaching Placements
+                    </a>
+
+                </nav>
+
+            </div>
+
+        </header>
+
+        <!-- 
+             MAIN
+         -->
+
+        <main class="page-content">
+
+            <!-- 
+                 PAGE HEADER
+             -->
+
+            <section class="page-heading">
+
+                <div class="page-heading-copy">
+
+                    <p class="page-kicker">
+                        EDUCATION PREPARATION PROGRAM
+                    </p>
+
+                    <h1>
+                        EPP Candidate Profile
+                    </h1>
+
+                    <p class="page-description">
+                        Explore candidate demographics, enrollment
+                        characteristics, academic performance, and
+                        endorsement areas.
+                    </p>
+
+                </div>
+
+                <div class="year-card">
+
+                    <label
+                        class="year-label"
+                        for="eppYearSelect"
+                    >
+                        Academic Year
+                    </label>
+
+                    <select
+                        id="eppYearSelect"
+                        class="year-select"
+                        data-academic-year-select
+                    ></select>
+
+                </div>
+
+            </section>
+
+            <!-- 
+                 OVERVIEW
+             -->
+
+            <section class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-kicker">
+                            CANDIDATE OVERVIEW
+                        </p>
+
+                        <h2>
+                            Candidate characteristics
+                        </h2>
+
+                    </div>
+
+                    <p class="section-description">
+                        Summary characteristics of EPP candidates
+                        during the selected academic year.
+                    </p>
+
+                </div>
+
+                <div class="overview-grid">
+
+                    <!-- Gender -->
+
+                    <article class="metric-card">
+
+                        <div class="metric-header">
+
+                            <div>
+
+                                <span class="metric-eyebrow">
+                                    DEMOGRAPHICS
+                                </span>
+
+                                <h3>
+                                    Gender
+                                </h3>
+
+                            </div>
+
+                            <div class="metric-total">
+
+                                <strong id="genderTotal">
+                                    —
+                                </strong>
+
+                                <span>
+                                    candidates
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="distribution-content">
+
+                            <div class="distribution-row">
+
+                                <div>
+                                    <span>Female</span>
+                                    <strong id="femaleValue">—</strong>
+                                </div>
+
+                                <span
+                                    id="femalePercent"
+                                    class="percentage"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="femaleBar"
+                                    class="distribution-fill purple-fill"
+                                ></div>
+
+                            </div>
+
+                            <div class="distribution-row second-row">
+
+                                <div>
+                                    <span>Male</span>
+                                    <strong id="maleValue">—</strong>
+                                </div>
+
+                                <span
+                                    id="malePercent"
+                                    class="percentage"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="maleBar"
+                                    class="distribution-fill gold-fill"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    <!-- Residency -->
+
+                    <article class="metric-card">
+
+                        <div class="metric-header">
+
+                            <div>
+
+                                <span class="metric-eyebrow">
+                                    RESIDENCY
+                                </span>
+
+                                <h3>
+                                    Residency
+                                </h3>
+
+                            </div>
+
+                            <div class="metric-total">
+
+                                <strong id="residencyTotal">
+                                    —
+                                </strong>
+
+                                <span>
+                                    candidates
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="distribution-content">
+
+                            <div class="distribution-row">
+
+                                <div>
+                                    <span>In-State</span>
+                                    <strong id="inStateValue">—</strong>
+                                </div>
+
+                                <span
+                                    id="inStatePercent"
+                                    class="percentage"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="inStateBar"
+                                    class="distribution-fill purple-fill"
+                                ></div>
+
+                            </div>
+
+                            <div class="distribution-row second-row">
+
+                                <div>
+                                    <span>Out-of-State</span>
+                                    <strong id="outStateValue">—</strong>
+                                </div>
+
+                                <span
+                                    id="outStatePercent"
+                                    class="percentage"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="outStateBar"
+                                    class="distribution-fill gold-fill"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    <!-- Enrollment -->
+
+                    <article class="metric-card">
+
+                        <div class="metric-header">
+
+                            <div>
+
+                                <span class="metric-eyebrow">
+                                    ENROLLMENT
+                                </span>
+
+                                <h3>
+                                    Enrollment Status
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="distribution-content">
+
+                            <div class="distribution-row">
+
+                                <div>
+                                    <span>Full Time</span>
+                                    <strong id="fullTimeValue">—</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="fullTimeBar"
+                                    class="distribution-fill purple-fill"
+                                ></div>
+
+                            </div>
+
+                            <div class="distribution-row second-row">
+
+                                <div>
+                                    <span>Part Time</span>
+                                    <strong id="partTimeValue">—</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="distribution-track">
+
+                                <div
+                                    id="partTimeBar"
+                                    class="distribution-fill gold-fill"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                        <p class="metric-note">
+                            Enrollment status counts may differ from totals shown in other categories.
+                        </p>
+
+                    </article>
+
+                    <!-- GPA -->
+
+                    <article class="metric-card gpa-card">
+
+                        <div>
+
+                            <span class="metric-eyebrow">
+                                ACADEMIC PERFORMANCE
+                            </span>
+
+                            <h3>
+                                Median GPA
+                            </h3>
+
+                        </div>
+
+                        <div class="gpa-visual">
+
+                            <div class="gpa-ring">
+
+                                <div class="gpa-ring-inner">
+
+                                    <strong id="medianGpa">
+                                        —
+                                    </strong>
+
+                                    <span>
+                                        GPA
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+            <!-- 
+                 ENDORSEMENTS
+             -->
+
+            <section class="dashboard-section endorsement-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-kicker">
+                            ENDORSEMENT EXPLORER
+                        </p>
+
+                        <h2>
+                            Admissions and completers by endorsement
+                        </h2>
+
+                    </div>
+
+                    <p class="section-description">
+                        Compare admitted and completer counts
+                        across endorsement areas for the selected academic year.
+                        Candidates may be associated with more than one endorsement.
+                    </p>
+
+                </div>
+
+                <!-- Controls -->
+
+                <div class="controls-card">
+
+                    <label class="control-field search-field">
+
+                        <span>
+                            Search endorsement
+                        </span>
+
+                        <div class="search-wrapper">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="7"
+                                ></circle>
+
+                                <path
+                                    d="M20 20L16.4 16.4"
+                                ></path>
+
+                            </svg>
+
+                            <input
+                                id="endorsementSearch"
+                                type="search"
+                                placeholder="Search endorsement..."
+                            >
+
+                        </div>
+
+                    </label>
+
+                    <label class="control-field">
+
+                        <span>
+                            Display
+                        </span>
+
+                        <select id="topNSelect">
+
+                            <option value="10">
+                                Top 10
+                            </option>
+
+                            <option value="15">
+                                Top 15
+                            </option>
+
+                            <option value="20">
+                                Top 20
+                            </option>
+
+                            <option value="all">
+                                All
+                            </option>
+
+                        </select>
+
+                    </label>
+
+                    <div class="metric-mode-field">
+
+                        <span class="metric-mode-label">
+                            Metric
+                        </span>
+
+                        <div
+                            id="endorsementModeControl"
+                            class="metric-mode-control"
+                            role="group"
+                            aria-label="Endorsement metric"
+                        >
+
+                            <button
+                                type="button"
+                                class="metric-mode-button is-active"
+                                data-mode="admitted"
+                                aria-pressed="true"
+                            >
+                                <span
+                                    class="metric-mode-dot admitted-dot"
+                                ></span>
+
+                                Admitted
+                            </button>
+
+                            <button
+                                type="button"
+                                class="metric-mode-button"
+                                data-mode="completers"
+                                aria-pressed="false"
+                            >
+                                <span
+                                    class="metric-mode-dot completers-dot"
+                                ></span>
+
+                                Completers
+                            </button>
+
+                            <button
+                                type="button"
+                                class="metric-mode-button"
+                                data-mode="compare"
+                                aria-pressed="false"
+                            >
+                                <span
+                                    class="metric-mode-double-dot"
+                                ></span>
+
+                                Compare
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <label class="toggle-field">
+
+                        <div>
+
+                            <span>
+                                Include zero values
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="includeZeros"
+                            type="checkbox"
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
+
+                </div>
+
+                <!-- Summary -->
+
+                <div class="summary-grid">
+
+                    <div class="summary-card">
+
+                        <span>
+                            Endorsement areas
+                        </span>
+
+                        <strong id="endorsementCount">
+                            —
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-card">
+
+                        <span id="summarySecondLabel">
+                            Highest admitted
+                        </span>
+
+                        <strong id="largestEndorsementCount">
+                            —
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-card">
+
+                        <span id="summaryThirdLabel">
+                            Total admitted
+                        </span>
+
+                        <strong id="endorsementTotal">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <!-- Visualizations -->
+
+                <div class="visualization-grid">
+
+                    <!-- Bar chart -->
+
+                    <article class="visualization-card">
+
+                        <div class="visualization-header">
+
+                            <div>
+
+                                <span class="metric-eyebrow">
+                                    RANKED VIEW
+                                </span>
+
+                                <h3>
+                                    Endorsement distribution
+                                </h3>
+
+                            </div>
+
+                            <div class="visualization-header-meta">
+
+                                <span
+                                    id="resultsLabel"
+                                    class="results-label"
+                                >
+                                    Showing top 10
+                                </span>
+
+                                <div
+                                    id="barModeLegend"
+                                    class="endorsement-mode-legend"
+                                    hidden
+                                >
+
+                                    <span>
+                                        <i class="legend-admitted"></i>
+                                        Admitted
+                                    </span>
+
+                                    <span>
+                                        <i class="legend-completers"></i>
+                                        Completers
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="endorsementBarChart"
+                            class="bar-chart"
+                        ></div>
+
+                    </article>
+
+                    <!-- Bubble explorer -->
+
+                    <article class="visualization-card bubble-card">
+
+                        <div class="visualization-header">
+
+                            <div>
+
+                                <span class="metric-eyebrow">
+                                    VISUAL EXPLORER
+                                </span>
+
+                                <h3>
+                                    Endorsement landscape
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                        <p
+                            id="bubbleVisualizationDescription"
+                            class="visualization-description"
+                        >
+                            Hover over a bubble to explore endorsement
+                            details. Bubble size represents admitted counts.
+                        </p>
+
+                        <div
+                            id="endorsementBubbleChart"
+                            class="bubble-chart"
+                        ></div>
+
+                        <div
+                            id="bubbleDetail"
+                            class="bubble-detail"
+                        >
+
+                            <div class="bubble-detail-marker">
+
+                                <span></span>
+
+                            </div>
+
+                            <div class="bubble-detail-copy">
+
+                                <span class="bubble-detail-label">
+                                    HOVER TO EXPLORE
+                                </span>
+
+                                <strong id="bubbleDetailName">
+                                    Select an endorsement bubble
+                                </strong>
+
+                                <p id="bubbleDetailDescription">
+                                    Hover over any bubble above to view
+                                    the full endorsement name and reported count.
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="bubbleDetailValue"
+                                class="bubble-detail-value"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="information-note endorsement-information-note">
+
+                    <div class="information-icon">
+                        i
+                    </div>
+
+                    <p>
+                        Admission and completer counts represent activity
+                        within the selected academic year. Admitted candidates
+                        and completers are not necessarily members of the same
+                        cohort, so the two counts should be interpreted as
+                        separate annual measures rather than as a direct
+                        progression from admission to completion.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+
+        <footer class="footer">
+
+            <span>
+                James Madison University
+            </span>
+
+            <span>
+                College of Education
+            </span>
+
+        </footer>
+
+    </div>
+
+    <script
+        src="/JS/academic-year.js"
+    ></script>
+
+    <script
+        src="/JS/endorsement-data.js"
+    ></script>
+
+    <script
+        src="/epp/epp.js"
+    ></script>
+
+</body>
+
+</html>
