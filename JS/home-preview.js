@@ -1,32 +1,103 @@
+
+"use strict";
+
+// =============================================
+// HOMEPAGE PREVIEW INITIALIZATION
+// =============================================
+
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
-        loadHomeStatisticsPreview();
-
-        loadHomeEndorsementPreview();
-
+        refreshHomePreviews();
     }
 );
 
 
+// =============================================
+// NEW: UPDATE WHEN ACADEMIC YEAR CHANGES
+// =============================================
 
-async function loadHomeStatisticsPreview() {
+document.addEventListener(
+    "academic-year-changed",
+    () => {
+        refreshHomePreviews();
+    }
+);
+
+
+// =============================================
+// REFRESH HOMEPAGE PREVIEWS
+// =============================================
+
+function refreshHomePreviews() {
+
+    // Clear old academic year statistics
+    // while the new data is being loaded.
+
+    [
+        "homeCandidateTotal",
+        "homeFemalePercent",
+        "homeMalePercent",
+        "homeInStatePercent",
+        "homeMedianGPA",
+        "homeEndorsementCount"
+    ].forEach(id => {
+        setText(id, "—");
+    });
+
+
+    // Reset candidate donut temporarily.
+
+    const donut =
+        document.querySelector(
+            ".candidate-donut"
+        );
+
+    if (donut) {
+        donut.style.background = "";
+    }
+
+
+    const year =
+        window.AcademicYear.getSelectedYear();
+
+
+    loadHomeStatisticsPreview(year);
+
+    loadHomeEndorsementPreview(year);
+}
+
+
+// =============================================
+// LOAD EPP STATISTICS
+// =============================================
+
+async function loadHomeStatisticsPreview(year) {
 
     try {
 
         const statisticsText =
             await fetchText(
                 window.AcademicYear.getDataPath(
-                    "epp_statistics.csv"
+                    "epp_statistics.csv",
+                    year
                 )
             );
 
 
         const statisticsData =
-            parseCSV(
-                statisticsText
-            );
+            parseCSV(statisticsText);
+
+
+        // Prevent older requests from overwriting
+        // data for the newly selected year.
+
+        if (
+            year !==
+            window.AcademicYear.getSelectedYear()
+        ) {
+            return;
+        }
 
 
         renderHomeStatisticsPreview(
@@ -34,9 +105,14 @@ async function loadHomeStatisticsPreview() {
         );
 
     }
-    catch (
-        error
-    ) {
+    catch (error) {
+
+        if (
+            year !==
+            window.AcademicYear.getSelectedYear()
+        ) {
+            return;
+        }
 
         console.error(
             "Unable to load dashboard statistics preview data:",
@@ -48,14 +124,15 @@ async function loadHomeStatisticsPreview() {
 }
 
 
+// =============================================
+// LOAD ENDORSEMENT PREVIEW
+// =============================================
 
-async function loadHomeEndorsementPreview() {
+async function loadHomeEndorsementPreview(year) {
 
     try {
 
-        if (
-            !window.EndorsementData
-        ) {
+        if (!window.EndorsementData) {
 
             throw new Error(
                 "endorsement-data.js is not loaded."
@@ -65,7 +142,15 @@ async function loadHomeEndorsementPreview() {
 
 
         const result =
-            await window.EndorsementData.load();
+            await window.EndorsementData.load(year);
+
+
+        if (
+            year !==
+            window.AcademicYear.getSelectedYear()
+        ) {
+            return;
+        }
 
 
         setText(
@@ -76,15 +161,19 @@ async function loadHomeEndorsementPreview() {
         );
 
     }
-    catch (
-        error
-    ) {
+    catch (error) {
+
+        if (
+            year !==
+            window.AcademicYear.getSelectedYear()
+        ) {
+            return;
+        }
 
         console.warn(
             "Unable to load endorsement preview data:",
             error
         );
-
 
         setText(
             "homeEndorsementCount",
@@ -96,20 +185,16 @@ async function loadHomeEndorsementPreview() {
 }
 
 
+// =============================================
+// FETCH TEXT
+// =============================================
 
-async function fetchText(
-    path
-) {
+async function fetchText(path) {
 
     const response =
-        await fetch(
-            path
-        );
+        await fetch(path);
 
-
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
 
         throw new Error(
             `Unable to load ${path}`
@@ -117,16 +202,16 @@ async function fetchText(
 
     }
 
-
     return await response.text();
 
 }
 
 
+// =============================================
+// PARSE CSV
+// =============================================
 
-function parseCSV(
-    text
-) {
+function parseCSV(text) {
 
     const rows = [];
 
@@ -134,8 +219,7 @@ function parseCSV(
 
     let value = "";
 
-    let insideQuotes =
-        false;
+    let insideQuotes = false;
 
 
     for (
@@ -144,33 +228,19 @@ function parseCSV(
         i++
     ) {
 
-        const character =
-            text[
-                i
-            ];
+        const character = text[i];
+
+        const nextCharacter = text[i + 1];
 
 
-        const nextCharacter =
-            text[
-                i +
-                1
-            ];
-
-
-        if (
-            character ===
-            '"'
-        ) {
+        if (character === '"') {
 
             if (
                 insideQuotes &&
-                nextCharacter ===
-                '"'
+                nextCharacter === '"'
             ) {
 
-                value +=
-                    '"';
-
+                value += '"';
 
                 i++;
 
@@ -185,9 +255,7 @@ function parseCSV(
         }
 
         else if (
-            character ===
-            ","
-            &&
+            character === "," &&
             !insideQuotes
         ) {
 
@@ -195,34 +263,23 @@ function parseCSV(
                 value.trim()
             );
 
-
-            value =
-                "";
+            value = "";
 
         }
 
         else if (
             (
-                character ===
-                "\n"
-                ||
-                character ===
-                "\r"
-            )
-            &&
+                character === "\n" ||
+                character === "\r"
+            ) &&
             !insideQuotes
         ) {
 
             if (
-                character ===
-                "\r"
-                &&
-                nextCharacter ===
-                "\n"
+                character === "\r" &&
+                nextCharacter === "\n"
             ) {
-
                 i++;
-
             }
 
 
@@ -230,35 +287,26 @@ function parseCSV(
                 value.trim()
             );
 
-
-            value =
-                "";
+            value = "";
 
 
             if (
                 row.some(
-                    cell =>
-                        cell !==
-                        ""
+                    cell => cell !== ""
                 )
             ) {
 
-                rows.push(
-                    row
-                );
+                rows.push(row);
 
             }
 
-
-            row =
-                [];
+            row = [];
 
         }
 
         else {
 
-            value +=
-                character;
+            value += character;
 
         }
 
@@ -266,90 +314,61 @@ function parseCSV(
 
 
     if (
-        value.length >
-        0
-        ||
-        row.length >
-        0
+        value.length > 0 ||
+        row.length > 0
     ) {
 
         row.push(
             value.trim()
         );
 
-
         if (
             row.some(
-                cell =>
-                    cell !==
-                    ""
+                cell => cell !== ""
             )
         ) {
-
-            rows.push(
-                row
-            );
-
+            rows.push(row);
         }
 
     }
 
 
-    if (
-        rows.length <
-        2
-    ) {
-
+    if (rows.length < 2) {
         return [];
-
     }
 
 
     const headers =
         rows[0].map(
-            header =>
-                header.trim()
+            header => header.trim()
         );
 
 
     return rows
-        .slice(
-            1
-        )
-        .map(
-            cells => {
+        .slice(1)
+        .map(cells => {
 
-                const record =
-                    {};
+            const record = {};
 
+            headers.forEach(
+                (header, index) => {
 
-                headers.forEach(
-                    (
-                        header,
-                        index
-                    ) => {
+                    record[header] =
+                        cells[index] ?? "";
 
-                        record[
-                            header
-                        ] =
-                            cells[
-                                index
-                            ]
-                            ??
-                            "";
+                }
+            );
 
-                    }
-                );
+            return record;
 
-
-                return record;
-
-            }
-        );
+        });
 
 }
 
 
+// =============================================
+// RENDER EPP STATISTICS
+// =============================================
 
 function renderHomeStatisticsPreview(
     statisticsData
@@ -362,16 +381,12 @@ function renderHomeStatisticsPreview(
                 statisticsData.find(
                     row =>
                         String(
-                            row[
-                                "Category Name"
-                            ] ||
-                            ""
+                            row["Category Name"] || ""
                         )
                             .trim()
                             .toLowerCase()
                         ===
-                        categoryName
-                            .toLowerCase()
+                        categoryName.toLowerCase()
                 );
 
 
@@ -389,171 +404,119 @@ function renderHomeStatisticsPreview(
 
 
     const female =
-        getStatistic(
-            "Female"
-        );
-
+        getStatistic("Female");
 
     const male =
-        getStatistic(
-            "Male"
-        );
-
+        getStatistic("Male");
 
     const candidateTotal =
-        female +
-        male;
+        female + male;
 
 
     const femalePercent =
         candidateTotal
-            ?
-            (
-                female /
-                candidateTotal
-            ) *
-            100
-            :
-            0;
-
+            ? (female / candidateTotal) * 100
+            : 0;
 
     const malePercent =
         candidateTotal
-            ?
-            (
-                male /
-                candidateTotal
-            ) *
-            100
-            :
-            0;
+            ? (male / candidateTotal) * 100
+            : 0;
 
 
     const inState =
-        getStatistic(
-            "In-State"
-        );
-
+        getStatistic("In-State");
 
     const outState =
-        getStatistic(
-            "Out-of-State"
-        );
-
+        getStatistic("Out-of-State");
 
     const residencyTotal =
-        inState +
-        outState;
+        inState + outState;
 
 
     const inStatePercent =
         residencyTotal
-            ?
-            (
-                inState /
-                residencyTotal
-            ) *
-            100
-            :
-            0;
+            ? (inState / residencyTotal) * 100
+            : 0;
 
 
     const medianGPA =
-        getStatistic(
-            "Median GPA"
-        );
+        getStatistic("Median GPA");
 
+
+    // Update candidate statistics.
 
     setText(
         "homeCandidateTotal",
-        formatNumber(
-            candidateTotal
-        )
+        formatNumber(candidateTotal)
     );
-
 
     setText(
         "homeFemalePercent",
         `${femalePercent.toFixed(0)}%`
     );
 
-
     setText(
         "homeMalePercent",
         `${malePercent.toFixed(0)}%`
     );
-
 
     setText(
         "homeInStatePercent",
         `${inStatePercent.toFixed(1)}%`
     );
 
-
     setText(
         "homeMedianGPA",
-        Number.isInteger(
-            medianGPA
-        )
-            ?
-            medianGPA.toFixed(
-                1
-            )
-            :
-            medianGPA.toString()
+        Number.isInteger(medianGPA)
+            ? medianGPA.toFixed(1)
+            : medianGPA.toString()
     );
 
+
+    // Update the donut chart.
 
     const donut =
         document.querySelector(
             ".candidate-donut"
         );
 
-
-    if (
-        donut
-    ) {
+    if (donut) {
 
         donut.style.background =
-            `conic-gradient(var(--purple) 0% ${femalePercent}%, var(--gold) ${femalePercent}% 100%)`;
+            `conic-gradient(
+                var(--purple) 0% ${femalePercent}%,
+                var(--gold) ${femalePercent}% 100%
+            )`;
 
     }
 
 }
 
 
+// =============================================
+// SET TEXT
+// =============================================
 
-function setText(
-    id,
-    value
-) {
+function setText(id, value) {
 
     const element =
-        document.getElementById(
-            id
-        );
+        document.getElementById(id);
 
-
-    if (
-        element
-    ) {
-
-        element.textContent =
-            value;
-
+    if (element) {
+        element.textContent = value;
     }
 
 }
 
 
+// =============================================
+// FORMAT NUMBERS
+// =============================================
 
-function formatNumber(
-    value
-) {
+function formatNumber(value) {
 
-    return Number(
-        value
-    ).toLocaleString(
+    return Number(value).toLocaleString(
         "en-US"
     );
 

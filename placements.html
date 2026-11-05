@@ -1,8 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,33 +10,21 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="robots"
-        content="noindex, nofollow, noarchive"
-    >
-
-    <script src="/preview-gate.js"></script>
-
     <title>
         Student Teaching Placements | College of Education Data Dashboard
     </title>
-
 
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
 
-
     <link
         rel="stylesheet"
         href="/CSS/style.css"
     >
 
-
-
     <style>
-
         :root {
             --site-purple: #450084;
             --site-purple-deep: #30005b;
@@ -58,13 +46,7 @@
             --site-border: #e6e7eb;
 
             --site-shadow:
-                0 10px 28px
-                rgba(
-                    37,
-                    26,
-                    49,
-                    0.055
-                );
+                0 10px 28px rgba(37, 26, 49, 0.055);
         }
 
         html {
@@ -77,30 +59,22 @@
             background:
                 radial-gradient(
                     circle at 90% 0%,
-                    rgba(
-                        69,
-                        0,
-                        132,
-                        0.035
-                    ),
+                    rgba(69, 0, 132, 0.035),
                     transparent 28%
                 ),
                 var(--site-page);
 
-            color:
-                var(--site-text);
-
-            -webkit-font-smoothing:
-                antialiased;
+            color: var(--site-text);
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
             color: inherit;
         }
 
-        /* 
+        /* =============================================
            NAVIGATION
-         */
+        ============================================= */
 
         .placement-top-navigation {
             position: sticky;
@@ -108,32 +82,15 @@
             z-index: 5000;
             width: 100%;
 
-            border-bottom:
-                1px solid
-                var(--site-border);
+            border-bottom: 1px solid var(--site-border);
+            background: rgba(255, 255, 255, 0.92);
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.92
-                );
-
-            backdrop-filter:
-                blur(18px);
-
-            -webkit-backdrop-filter:
-                blur(18px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
 
         .placement-navigation-inner {
-            width:
-                min(
-                    calc(100% - 52px),
-                    1360px
-                );
-
+            width: min(calc(100% - 52px), 1360px);
             height: 76px;
             margin: 0 auto;
 
@@ -148,9 +105,7 @@
             align-items: center;
             gap: 12px;
 
-            color:
-                var(--site-text);
-
+            color: var(--site-text);
             text-decoration: none;
         }
 
@@ -182,13 +137,11 @@
         }
 
         .placement-brand-copy strong {
-            color:
-                var(--site-text);
+            color: var(--site-text);
         }
 
         .placement-brand-copy span {
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         .placement-page-navigation {
@@ -198,15 +151,10 @@
         }
 
         .placement-page-navigation a {
-            padding:
-                10px
-                13px;
-
+            padding: 10px 13px;
             border-radius: 9px;
 
-            color:
-                var(--site-text-soft);
-
+            color: var(--site-text-soft);
             text-decoration: none;
 
             transition:
@@ -215,55 +163,32 @@
         }
 
         .placement-page-navigation a:hover {
-            color:
-                var(--site-purple);
-
-            background:
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.045
-                );
+            color: var(--site-purple);
+            background: rgba(69, 0, 132, 0.045);
         }
 
         .placement-page-navigation a.active {
-            color:
-                var(--site-purple);
-
-            background:
-                var(--site-purple-soft);
+            color: var(--site-purple);
+            background: var(--site-purple-soft);
         }
 
-        /* 
+        /* =============================================
            WRAPPER
-         */
+        ============================================= */
 
         #student-placement-dashboard {
             width: 100%;
-
-            background:
-                transparent;
+            background: transparent;
         }
 
-        /* 
+        /* =============================================
            PAGE HEADING
-         */
+        ============================================= */
 
         .placement-page-heading {
-            width:
-                min(
-                    calc(100% - 52px),
-                    1320px
-                );
-
-            margin:
-                0 auto;
-
-            padding:
-                62px
-                0
-                42px;
+            width: min(calc(100% - 52px), 1320px);
+            margin: 0 auto;
+            padding: 62px 0 42px;
 
             display: flex;
             align-items: flex-end;
@@ -276,47 +201,27 @@
         }
 
         .placement-page-kicker {
-            margin:
-                0
-                0
-                9px;
-
-            color:
-                var(--site-purple);
+            margin: 0 0 9px;
+            color: var(--site-purple);
         }
 
         .placement-page-heading h1 {
             margin: 0;
-
-            color:
-                var(--site-text);
+            color: var(--site-text);
         }
 
         .placement-page-description {
             max-width: 720px;
-
-            margin:
-                18px
-                0
-                0;
-
-            color:
-                var(--site-text-soft);
+            margin: 18px 0 0;
+            color: var(--site-text-soft);
         }
 
         .placement-year-card {
             min-width: 180px;
-
-            padding:
-                17px
-                19px;
-
+            padding: 17px 19px;
             flex-shrink: 0;
 
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 15px;
 
             background:
@@ -326,74 +231,53 @@
                     #fbf9fc
                 );
 
-            box-shadow:
-                var(--site-shadow);
+            box-shadow: var(--site-shadow);
         }
 
         .placement-year-label {
             display: block;
             margin-bottom: 6px;
 
-            color:
-                var(--site-muted);
-
-            text-transform:
-                uppercase;
+            color: var(--site-muted);
+            text-transform: uppercase;
         }
 
         .placement-year-card strong {
-            color:
-                var(--site-purple);
+            color: var(--site-purple);
         }
 
-        /* Hide old placement header */
+        /* Hide legacy dashboard header */
 
         #student-placement-dashboard
         > .dashboard-header {
             display: none;
         }
 
-        /* 
+        /* =============================================
            MAIN
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .dashboard-main {
-            width:
-                min(
-                    calc(100% - 52px),
-                    1320px
-                );
-
+            width: min(calc(100% - 52px), 1320px);
             max-width: none;
-
-            margin:
-                0 auto
-                68px;
-
+            margin: 0 auto 68px;
             padding: 0;
         }
 
-        /* 
+        /* =============================================
            FILTER PANEL
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .filter-panel {
             margin-bottom: 18px;
             padding: 24px;
 
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 18px;
-
-            background:
-                #ffffff;
-
-            box-shadow:
-                var(--site-shadow);
+            background: #ffffff;
+            box-shadow: var(--site-shadow);
         }
 
         #student-placement-dashboard
@@ -403,44 +287,30 @@
 
         #student-placement-dashboard
         .filter-panel-header h2 {
-            margin:
-                0
-                0
-                5px;
-
-            color:
-                var(--site-text);
+            margin: 0 0 5px;
+            color: var(--site-text);
         }
 
         #student-placement-dashboard
         .filter-panel-header p {
             margin: 0;
-
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
         .filter-field label {
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
         .filter-field select,
         #student-placement-dashboard
         .filter-field input {
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 10px;
 
-            background:
-                #fafafb;
-
-            color:
-                var(--site-text);
+            background: #fafafb;
+            color: var(--site-text);
 
             outline: none;
 
@@ -454,41 +324,18 @@
         .filter-field select:hover,
         #student-placement-dashboard
         .filter-field input:hover {
-            border-color:
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.18
-                );
+            border-color: rgba(69, 0, 132, 0.18);
         }
 
         #student-placement-dashboard
         .filter-field select:focus,
         #student-placement-dashboard
         .filter-field input:focus {
-            border-color:
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.40
-                );
-
-            background:
-                #ffffff;
+            border-color: rgba(69, 0, 132, 0.40);
+            background: #ffffff;
 
             box-shadow:
-                0
-                0
-                0
-                3px
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.055
-                );
+                0 0 0 3px rgba(69, 0, 132, 0.055);
         }
 
         #student-placement-dashboard
@@ -498,28 +345,16 @@
 
         #student-placement-dashboard
         .search-icon {
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
         .reset-button {
-            border:
-                1px solid
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.12
-                );
-
+            border: 1px solid rgba(69, 0, 132, 0.12);
             border-radius: 10px;
 
-            background:
-                var(--site-purple-soft);
-
-            color:
-                var(--site-purple);
+            background: var(--site-purple-soft);
+            color: var(--site-purple);
 
             transition:
                 color 0.2s ease,
@@ -529,19 +364,14 @@
 
         #student-placement-dashboard
         .reset-button:hover {
-            background:
-                var(--site-purple);
-
-            color:
-                #ffffff;
-
-            transform:
-                translateY(-1px);
+            background: var(--site-purple);
+            color: #ffffff;
+            transform: translateY(-1px);
         }
 
-        /* 
-           KPI 
-         */
+        /* =============================================
+           KPI
+        ============================================= */
 
         #student-placement-dashboard
         .kpi-grid {
@@ -555,10 +385,7 @@
             overflow: hidden;
             padding: 20px;
 
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 15px;
 
             background:
@@ -569,15 +396,7 @@
                 );
 
             box-shadow:
-                0
-                7px
-                22px
-                rgba(
-                    37,
-                    26,
-                    49,
-                    0.04
-                );
+                0 7px 22px rgba(37, 26, 49, 0.04);
         }
 
         #student-placement-dashboard
@@ -590,17 +409,10 @@
 
             width: 115px;
             height: 115px;
-
             border-radius: 50%;
 
             border:
-                18px solid
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.018
-                );
+                18px solid rgba(69, 0, 132, 0.018);
 
             pointer-events: none;
         }
@@ -609,9 +421,7 @@
         .kpi-label {
             position: relative;
             z-index: 2;
-
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
@@ -619,9 +429,7 @@
             position: relative;
             z-index: 2;
             margin-top: 7px;
-
-            color:
-                var(--site-purple);
+            color: var(--site-purple);
         }
 
         #student-placement-dashboard
@@ -629,14 +437,12 @@
             position: relative;
             z-index: 2;
             margin-top: 7px;
-
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
-        /* 
+        /* =============================================
            MAP AND DETAILS
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .dashboard-content {
@@ -647,313 +453,286 @@
         .map-panel,
         #student-placement-dashboard
         .detail-panel {
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 18px;
-
-            background:
-                #ffffff;
-
-            box-shadow:
-                var(--site-shadow);
+            background: #ffffff;
+            box-shadow: var(--site-shadow);
         }
 
-        /* 
+        /* =============================================
            MAP PANEL HEADER
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .panel-heading {
-            padding:
-                21px
-                22px;
-
-            border-bottom:
-                1px solid
-                var(--site-border);
-
-            background:
-                #ffffff;
+            padding: 21px 22px;
+            border-bottom: 1px solid var(--site-border);
+            background: #ffffff;
         }
 
         #student-placement-dashboard
         .panel-heading h2 {
-            margin:
-                0
-                0
-                4px;
-
-            color:
-                var(--site-text);
+            margin: 0 0 4px;
+            color: var(--site-text);
         }
 
         #student-placement-dashboard
         .panel-heading p {
             margin: 0;
-
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
         .map-status {
-            padding:
-                7px
-                10px;
-
-            border:
-                1px solid
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.07
-                );
-
+            padding: 7px 10px;
+            border: 1px solid rgba(69, 0, 132, 0.07);
             border-radius: 999px;
 
-            background:
-                var(--site-purple-soft);
-
-            color:
-                var(--site-purple);
+            background: var(--site-purple-soft);
+            color: var(--site-purple);
         }
 
         #student-placement-dashboard
         .status-dot {
-            background:
-                var(--site-purple);
+            background: var(--site-purple);
 
             box-shadow:
-                0
-                0
-                0
-                4px
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.08
-                );
+                0 0 0 4px rgba(69, 0, 132, 0.08);
         }
 
-        /* 
+        /* =============================================
            MAP
-         */
+        ============================================= */
 
         #student-placement-dashboard
         #map {
             overflow: hidden;
-
-            border-radius:
-                0
-                0
-                17px
-                17px;
-
-            background:
-                #f4f4f5;
+            border-radius: 0 0 17px 17px;
+            background: #f4f4f5;
         }
 
         #student-placement-dashboard
         .leaflet-bar {
             overflow: hidden;
-
-            border:
-                1px solid
-                rgba(
-                    42,
-                    35,
-                    50,
-                    0.08
-                );
-
+            border: 1px solid rgba(42, 35, 50, 0.08);
             border-radius: 10px;
 
             box-shadow:
-                0
-                5px
-                15px
-                rgba(
-                    30,
-                    24,
-                    38,
-                    0.08
-                );
+                0 5px 15px rgba(30, 24, 38, 0.08);
         }
 
         #student-placement-dashboard
         .leaflet-bar a {
-            color:
-                var(--site-purple);
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.94
-                );
+            color: var(--site-purple);
+            background: rgba(255, 255, 255, 0.94);
         }
 
         #student-placement-dashboard
         .leaflet-bar a:hover {
-            background:
-                var(--site-purple-soft);
+            background: var(--site-purple-soft);
         }
 
-        /* 
-           DETAILS PANEL HEADER
-         */
+        /* =============================================
+           NEW: MAP LOADING NOTICE
+        ============================================= */
+
+        #student-placement-dashboard
+        .placement-map-loading {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+
+            max-width: calc(100% - 36px);
+            box-sizing: border-box;
+            padding: 10px 14px;
+
+            border: 1px solid #e6e7eb;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.97);
+
+            box-shadow:
+                0 4px 12px rgba(37, 26, 49, 0.12);
+
+            color: #450084;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.4;
+            text-align: center;
+
+            pointer-events: none;
+        }
+
+        #student-placement-dashboard
+        .placement-map-loading[hidden] {
+            display: none;
+        }
+
+        /* =============================================
+           DETAIL PANEL HEADER
+           Existing two-row layout retained.
+        ============================================= */
 
         #student-placement-dashboard
         .detail-panel-header {
-            padding:
-                21px
-                22px;
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr) auto;
+
+            grid-template-rows:
+                auto auto;
+
+            align-items: center;
+            column-gap: 14px;
+            row-gap: 7px;
+
+            padding: 21px 0 15px;
 
             border-bottom:
-                1px solid
-                var(--site-border);
+                1px solid var(--site-border);
 
-            background:
-                #ffffff;
+            background: #ffffff;
+        }
+
+        #student-placement-dashboard
+        .detail-header-text,
+        #student-placement-dashboard
+        .detail-header-actions {
+            display: contents;
+        }
+
+        #student-placement-dashboard
+        .detail-eyebrow {
+            grid-column: 1;
+            grid-row: 1;
+            margin-bottom: 0;
+        }
+
+        #student-placement-dashboard
+        .detail-mode-switch {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: end;
+        }
+
+        #student-placement-dashboard
+        .detail-panel-header h2 {
+            grid-column: 1 / -1;
+            grid-row: 2;
+
+            box-sizing: border-box;
+            padding-right: 70px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #student-placement-dashboard
+        .detail-reset-button {
+            grid-column: 2;
+            grid-row: 2;
+            justify-self: end;
+        }
+
+        #student-placement-dashboard
+        .detail-panel-header:has(
+            #resetDetails[hidden]
+        ) h2 {
+            max-width: 110px;
+            padding-right: 0;
+            white-space: normal;
+            overflow: visible;
+        }
+
+        #student-placement-dashboard
+        .detail-mode-button {
+            white-space: nowrap;
         }
 
         #student-placement-dashboard
         .detail-eyebrow {
             margin-bottom: 6px;
-
-            color:
-                var(--site-purple);
-
-            text-transform:
-                uppercase;
+            color: var(--site-purple);
+            text-transform: uppercase;
         }
 
         #student-placement-dashboard
         .detail-panel-header h2 {
             margin: 0;
-
-            color:
-                var(--site-text);
+            color: var(--site-text);
         }
 
-        /* 
+        /* =============================================
            DETAIL MODE SWITCH
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .detail-mode-switch {
             padding: 3px;
-
-            border:
-                1px solid
-                var(--site-border);
-
+            border: 1px solid var(--site-border);
             border-radius: 9px;
-
-            background:
-                #f5f5f7;
+            background: #f5f5f7;
         }
 
         #student-placement-dashboard
         .detail-mode-button {
             border: none;
             border-radius: 7px;
-
-            background:
-                transparent;
-
-            color:
-                var(--site-muted);
+            background: transparent;
+            color: var(--site-muted);
         }
 
         #student-placement-dashboard
         .detail-mode-button.is-active {
-            background:
-                #ffffff;
-
-            color:
-                var(--site-purple);
+            background: #ffffff;
+            color: var(--site-purple);
 
             box-shadow:
-                0
-                2px
-                7px
-                rgba(
-                    37,
-                    27,
-                    48,
-                    0.08
-                );
+                0 2px 7px rgba(37, 27, 48, 0.08);
         }
 
         #student-placement-dashboard
         .detail-reset-button {
-            border:
-                1px solid
-                rgba(
-                    69,
-                    0,
-                    132,
-                    0.10
-                );
-
+            border: 1px solid rgba(69, 0, 132, 0.10);
             border-radius: 8px;
-
-            background:
-                var(--site-purple-soft);
-
-            color:
-                var(--site-purple);
+            background: var(--site-purple-soft);
+            color: var(--site-purple);
         }
 
-        /* 
+        /* =============================================
            DETAIL EMPTY STATE
-         */
+        ============================================= */
 
         #student-placement-dashboard
         .detail-empty-state {
-            color:
-                var(--site-text-soft);
+            color: var(--site-text-soft);
         }
 
         #student-placement-dashboard
         .detail-empty-icon {
-            color:
-                var(--site-purple);
+            color: var(--site-purple);
         }
 
         #student-placement-dashboard
         .detail-empty-state h3 {
-            color:
-                var(--site-text);
+            color: var(--site-text);
         }
 
         #student-placement-dashboard
         .detail-empty-state p {
-            color:
-                var(--site-muted);
+            color: var(--site-muted);
         }
 
-        /* 
+        /* =============================================
            FOOTER
-         */
+        ============================================= */
 
         .placement-footer {
-            width:
-                min(
-                    calc(100% - 52px),
-                    1320px
-                );
-
-            margin:
-                0 auto
-                28px;
-
+            width: min(calc(100% - 52px), 1320px);
+            margin: 0 auto 28px;
             padding-top: 24px;
 
             display: flex;
@@ -961,20 +740,15 @@
             justify-content: space-between;
             gap: 20px;
 
-            border-top:
-                1px solid
-                var(--site-border);
-
-            color:
-                var(--site-muted);
+            border-top: 1px solid var(--site-border);
+            color: var(--site-muted);
         }
 
-        /* 
+        /* =============================================
            RESPONSIVE
-         */
+        ============================================= */
 
         @media (max-width: 900px) {
-
             .placement-page-heading {
                 flex-direction: column;
                 align-items: flex-start;
@@ -983,16 +757,11 @@
             .placement-year-card {
                 width: 100%;
             }
-
         }
 
         @media (max-width: 720px) {
-
             .placement-navigation-inner {
-                width:
-                    calc(
-                        100% - 28px
-                    );
+                width: calc(100% - 28px);
             }
 
             .placement-brand-copy {
@@ -1000,23 +769,13 @@
             }
 
             .placement-page-heading {
-                width:
-                    calc(
-                        100% - 28px
-                    );
-
-                padding:
-                    40px
-                    0
-                    32px;
+                width: calc(100% - 28px);
+                padding: 40px 0 32px;
             }
 
             #student-placement-dashboard
             .dashboard-main {
-                width:
-                    calc(
-                        100% - 28px
-                    );
+                width: calc(100% - 28px);
             }
 
             #student-placement-dashboard
@@ -1025,579 +784,499 @@
             }
 
             .placement-footer {
-                width:
-                    calc(
-                        100% - 28px
-                    );
-
+                width: calc(100% - 28px);
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 5px;
             }
-
         }
 
     </style>
-
 
     <link
         rel="stylesheet"
         href="/CSS/typography.css"
     >
 
-
     <link
         rel="stylesheet"
         href="/CSS/academic-year.css"
     >
-
 </head>
 
 <body>
 
-<!-- 
-     SHARED NAVIGATION
- -->
+    <!-- ==========================================
+         SHARED NAVIGATION
+    ========================================== -->
 
-<header class="placement-top-navigation">
-
-    <div class="placement-navigation-inner">
-
-        <a
-            class="placement-brand"
-            href="/"
-            aria-label="College of Education Data Dashboard home"
-        >
-
-            <div class="placement-brand-mark">
-
-                <img
-                    class="jmu-brand-logo"
-                    src="/Images/jmu-block-white.png"
-                    alt="James Madison University"
-                >
-
-            </div>
-
-            <div class="placement-brand-copy">
-
-                <strong>
-                    College of Education
-                </strong>
-
-                <span>
-                    Data Dashboard
-                </span>
-
-            </div>
-
-        </a>
-
-        <nav class="placement-page-navigation">
-
-            <a href="/epp/epp.html">
-                EPP Candidate Profile
-            </a>
+    <header class="placement-top-navigation">
+        <div class="placement-navigation-inner">
 
             <a
-                class="active"
-                href="/placements.html"
+                class="placement-brand"
+                href="/"
+                aria-label="College of Education Data Dashboard home"
             >
-                Student Teaching Placements
+                <div class="placement-brand-mark">
+                    <img
+                        class="jmu-brand-logo"
+                        src="/Images/jmu-block-white.png"
+                        alt="James Madison University"
+                    >
+                </div>
+
+                <div class="placement-brand-copy">
+                    <strong>
+                        College of Education
+                    </strong>
+
+                    <span>
+                        Data Dashboard
+                    </span>
+                </div>
             </a>
 
-        </nav>
+            <nav class="placement-page-navigation">
 
-    </div>
+                <a href="/overall.html">
+                    Overall Program Reach
+                </a>
 
-</header>
+                <a href="/epp/epp.html">
+                    EPP Candidate Profile
+                </a>
 
-<div id="student-placement-dashboard">
-
-    <!-- 
-         PAGE HEADER
-     -->
-
-    <section class="placement-page-heading">
-
-        <div class="placement-heading-copy">
-
-            <p class="placement-page-kicker">
-                FIELD EXPERIENCE
-            </p>
-
-            <h1>
-                Student Teaching Placements
-            </h1>
-
-            <p class="placement-page-description">
-                Explore the geographic distribution of student
-                teaching placements across programs, grade levels, placement
-                types, school divisions, schools, and administrative areas.
-            </p>
+                <a
+                    class="active"
+                    href="/placements.html"
+                >
+                    Student Teaching Placements
+                </a>
+            </nav>
 
         </div>
-
-        <div class="placement-year-card">
-
-            <label
-                class="placement-year-label"
-                for="placementYearSelect"
-            >
-                Academic Year
-            </label>
-
-            <select
-                id="placementYearSelect"
-                class="placement-year-select"
-                data-academic-year-select
-            ></select>
-
-        </div>
-
-    </section>
-
-    
-
-    <header class="dashboard-header">
-
-        <div class="header-content">
-
-            <h1>
-                Student Teaching Placement Dashboard
-            </h1>
-
-            <p>
-                Explore student placements by location,
-                program, grade level, placement type,
-                school division, and school.
-            </p>
-
-        </div>
-
     </header>
 
-    <!-- 
-         MAIN
-     -->
+    <div id="student-placement-dashboard">
 
-    <main class="dashboard-main">
+        <!-- ==========================================
+             PAGE HEADER
+        ========================================== -->
 
-        <!-- 
-             FILTER PANEL
-         -->
+        <section class="placement-page-heading">
 
-        <section class="filter-panel">
-
-            <div class="filter-panel-header">
-
-                <h2>
-                    Explore Placements
-                </h2>
-
-                <p>
-                    Refine the map and summary using the filters below.
+            <div class="placement-heading-copy">
+                <p class="placement-page-kicker">
+                    FIELD EXPERIENCE
                 </p>
 
+                <h1>
+                    Student Teaching Placements
+                </h1>
+
+                <p class="placement-page-description">
+                    Explore the geographic distribution of student
+                    teaching placements across programs, grade levels,
+                    placement types, school divisions, schools,
+                    and administrative areas.
+                </p>
             </div>
 
-            <div class="filter-grid">
+            <div class="placement-year-card">
+                <label
+                    class="placement-year-label"
+                    for="placementYearSelect"
+                >
+                    Academic Year
+                </label>
 
-                <div class="filter-field">
-
-                    <label for="programFilter">
-                        Program
-                    </label>
-
-                    <select id="programFilter">
-
-                        <option value="">
-                            All Programs
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="filter-field">
-
-                    <label for="gradeFilter">
-                        Grade Level
-                    </label>
-
-                    <select id="gradeFilter">
-
-                        <option value="">
-                            All Grade Levels
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="filter-field">
-
-                    <label for="placementTypeFilter">
-                        Placement Type
-                    </label>
-
-                    <select id="placementTypeFilter">
-
-                        <option value="">
-                            All Placement Types
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="filter-field">
-
-                    <label for="divisionFilter">
-                        School Division
-                    </label>
-
-                    <select id="divisionFilter">
-
-                        <option value="">
-                            All School Divisions
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="filter-field">
-
-                    <label for="schoolFilter">
-                        School Name
-                    </label>
-
-                    <select id="schoolFilter">
-
-                        <option value="">
-                            All Schools
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="filter-field search-field">
-
-                    <label for="dashboardSearch">
-                        Search
-                    </label>
-
-                    <div class="search-input-wrapper">
-
-                        <span
-                            class="search-icon"
-                            aria-hidden="true"
-                        >
-                            ⌕
-                        </span>
-
-                        <input
-                            type="search"
-                            id="dashboardSearch"
-                            placeholder="Program, grade, placement type, ZIP code, school city, division, school name..."
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-                </div>
-
-                <div class="filter-field reset-field">
-
-                    <label class="invisible-label">
-                        Reset
-                    </label>
-
-                    <button
-                        type="button"
-                        id="resetFilters"
-                        class="reset-button"
-                    >
-                        Reset Filters
-                    </button>
-
-                </div>
-
+                <select
+                    id="placementYearSelect"
+                    class="placement-year-select"
+                    data-academic-year-select
+                ></select>
             </div>
 
         </section>
 
-        <!-- 
-             KPI CARDS
-        -->
+        <!-- Legacy header retained -->
 
-        <section class="kpi-grid">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>
+                    Student Teaching Placement Dashboard
+                </h1>
 
-            <article class="kpi-card">
+                <p>
+                    Explore student placements by location,
+                    program, grade level, placement type,
+                    school division, and school.
+                </p>
+            </div>
+        </header>
 
-                <div class="kpi-label">
-                    Unique Students
+        <!-- ==========================================
+             MAIN
+        ========================================== -->
+
+        <main class="dashboard-main">
+
+            <!-- ======================================
+                 FILTER PANEL
+            ====================================== -->
+
+            <section class="filter-panel">
+
+                <div class="filter-panel-header">
+                    <h2>
+                        Explore Placements
+                    </h2>
+
+                    <p>
+                        Refine the map and summary using the filters below.
+                    </p>
                 </div>
 
-                <div
-                    class="kpi-value"
-                    id="kpiStudents"
-                >
-                    —
-                </div>
+                <div class="filter-grid">
 
-                <div class="kpi-description">
-                    Students in current view
-                </div>
+                    <div class="filter-field">
+                        <label for="programFilter">
+                            Program
+                        </label>
 
-            </article>
-
-            <article class="kpi-card">
-
-                <div class="kpi-label">
-                    Locations Shown
-                </div>
-
-                <div
-                    class="kpi-value"
-                    id="kpiLocations"
-                >
-                    —
-                </div>
-
-                <div class="kpi-description">
-                    ZIP locations on the map
-                </div>
-
-            </article>
-
-            <article class="kpi-card">
-
-                <div class="kpi-label">
-                    School Divisions
-                </div>
-
-                <div
-                    class="kpi-value"
-                    id="kpiDivisions"
-                >
-                    —
-                </div>
-
-                <div class="kpi-description">
-                    Represented divisions
-                </div>
-
-            </article>
-
-            <article class="kpi-card">
-
-                <div class="kpi-label">
-                    Programs
-                </div>
-
-                <div
-                    class="kpi-value"
-                    id="kpiPrograms"
-                >
-                    —
-                </div>
-
-                <div class="kpi-description">
-                    Represented programs
-                </div>
-
-            </article>
-
-        </section>
-
-        <!-- 
-             MAP AND DETAILS
-         -->
-
-        <section class="dashboard-content">
-
-            <!-- Map -->
-
-            <section class="map-panel">
-
-                <div class="panel-heading">
-
-                    <div>
-
-                        <h2>
-                            Placement Map
-                        </h2>
-
-                        <p id="mapSummary">
-                            Student placements grouped by ZIP code
-                        </p>
-
+                        <select id="programFilter">
+                            <option value="">
+                                All Programs
+                            </option>
+                        </select>
                     </div>
 
-                    <div class="map-status">
+                    <div class="filter-field">
+                        <label for="gradeFilter">
+                            Grade Level
+                        </label>
 
-                        <span class="status-dot"></span>
-
-                        Interactive Map
-
+                        <select id="gradeFilter">
+                            <option value="">
+                                All Grade Levels
+                            </option>
+                        </select>
                     </div>
 
-                </div>
+                    <div class="filter-field">
+                        <label for="placementTypeFilter">
+                            Placement Type
+                        </label>
 
-                <div id="map"></div>
-
-            </section>
-
-            <!-- 
-                 LOCATION DETAILS
-             -->
-
-            <aside
-                class="detail-panel"
-                id="detailPanel"
-            >
-
-                <div class="detail-panel-header">
-
-                    <div class="detail-header-text">
-
-                        <div class="detail-eyebrow">
-                            Location Details
-                        </div>
-
-                        <h2 id="detailTitle">
-                            Select a Location
-                        </h2>
-
+                        <select id="placementTypeFilter">
+                            <option value="">
+                                All Placement Types
+                            </option>
+                        </select>
                     </div>
 
-                    <div class="detail-header-actions">
+                    <div class="filter-field">
+                        <label for="divisionFilter">
+                            School Division
+                        </label>
 
-                        <div
-                            class="detail-mode-switch"
-                            role="group"
-                            aria-label="Location detail grouping"
-                        >
+                        <select id="divisionFilter">
+                            <option value="">
+                                All School Divisions
+                            </option>
+                        </select>
+                    </div>
 
-                            <button
-                                type="button"
-                                id="detailModeZIP"
-                                class="detail-mode-button is-active"
-                                disabled
+                    <div class="filter-field">
+                        <label for="schoolFilter">
+                            School Name
+                        </label>
+
+                        <select id="schoolFilter">
+                            <option value="">
+                                All Schools
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field search-field">
+                        <label for="dashboardSearch">
+                            Search
+                        </label>
+
+                        <div class="search-input-wrapper">
+                            <span
+                                class="search-icon"
+                                aria-hidden="true"
                             >
-                                By ZIP Code
-                            </button>
+                                ⌕
+                            </span>
 
-                            <button
-                                type="button"
-                                id="detailModeCounty"
-                                class="detail-mode-button"
-                                disabled
+                            <input
+                                type="search"
+                                id="dashboardSearch"
+                                placeholder="Program, grade, placement type, ZIP code, school city, division, school name..."
+                                autocomplete="off"
                             >
-                                By County
-                            </button>
-
                         </div>
+                    </div>
+
+                    <div class="filter-field reset-field">
+                        <label class="invisible-label">
+                            Reset
+                        </label>
 
                         <button
                             type="button"
-                            id="resetDetails"
-                            class="detail-reset-button"
-                            hidden
+                            id="resetFilters"
+                            class="reset-button"
                         >
-                            Reset
+                            Reset Filters
                         </button>
-
                     </div>
 
                 </div>
+            </section>
 
-                <div
-                    class="detail-empty-state"
-                    id="detailBody"
-                    aria-live="polite"
+            <!-- ======================================
+                 KPI CARDS
+            ====================================== -->
+
+            <section class="kpi-grid">
+
+                <article class="kpi-card">
+                    <div class="kpi-label">
+                        Unique Students
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="kpiStudents"
+                    >
+                        —
+                    </div>
+
+                    <div class="kpi-description">
+                        Students in current view
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">
+                        Locations Shown
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="kpiLocations"
+                    >
+                        —
+                    </div>
+
+                    <div class="kpi-description">
+                        ZIP locations on the map
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">
+                        School Divisions
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="kpiDivisions"
+                    >
+                        —
+                    </div>
+
+                    <div class="kpi-description">
+                        Represented divisions
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">
+                        Programs
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="kpiPrograms"
+                    >
+                        —
+                    </div>
+
+                    <div class="kpi-description">
+                        Represented programs
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- ======================================
+                 MAP AND LOCATION DETAILS
+            ====================================== -->
+
+            <section class="dashboard-content">
+
+                <section class="map-panel">
+                    <div class="panel-heading">
+
+                        <div>
+                            <h2>
+                                Placement Map
+                            </h2>
+
+                            <p id="mapSummary">
+                                Student placements grouped by ZIP code
+                            </p>
+                        </div>
+
+                        <div class="map-status">
+                            <span class="status-dot"></span>
+                            Interactive Map
+                        </div>
+
+                    </div>
+
+                    <div id="map">
+                        <div
+                            id="placementMapLoading"
+                            class="placement-map-loading"
+                            role="status"
+                            aria-live="polite"
+                        >
+                            Loading Virginia map and program data...
+                        </div>
+                    </div>
+                </section>
+
+                <aside
+                    class="detail-panel"
+                    id="detailPanel"
                 >
+                    <div class="detail-panel-header">
 
-                    <div class="detail-empty-icon">
+                        <div class="detail-header-text">
+                            <div class="detail-eyebrow">
+                                Location Details
+                            </div>
 
-                        <span>
-                            ◎
-                        </span>
+                            <h2 id="detailTitle">
+                                Select a Location
+                            </h2>
+                        </div>
 
+                        <div class="detail-header-actions">
+
+                            <div
+                                class="detail-mode-switch"
+                                role="group"
+                                aria-label="Location detail grouping"
+                            >
+                                <button
+                                    type="button"
+                                    id="detailModeZIP"
+                                    class="detail-mode-button is-active"
+                                    disabled
+                                >
+                                    By ZIP Code
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="detailModeCounty"
+                                    class="detail-mode-button"
+                                    disabled
+                                >
+                                    By County/City
+                                </button>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="resetDetails"
+                                class="detail-reset-button"
+                                hidden
+                            >
+                                Reset
+                            </button>
+
+                        </div>
                     </div>
 
-                    <h3>
-                        Explore a placement location
-                    </h3>
+                    <div
+                        class="detail-empty-state"
+                        id="detailBody"
+                        aria-live="polite"
+                    >
+                        <div class="detail-empty-icon">
+                            <span>◎</span>
+                        </div>
 
-                    <p>
-                        Select a bubble to view ZIP-level details,
-                        or click inside a highlighted county to
-                        explore county-level placement information.
-                    </p>
+                        <h3>
+                            Explore a placement location
+                        </h3>
 
-                </div>
+                        <p>
+                            Select a bubble to view ZIP-level details,
+                            or click inside a highlighted county to
+                            explore county-level placement information.
+                        </p>
+                    </div>
+                </aside>
 
-            </aside>
+            </section>
+        </main>
+    </div>
 
-        </section>
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
 
-    </main>
+    <footer class="placement-footer">
+        <span>
+            James Madison University
+        </span>
 
-</div>
+        <span>
+            College of Education
+        </span>
+    </footer>
 
-<!-- 
-     FOOTER
- -->
+    <!-- ==========================================
+         LIBRARIES
+    ========================================== -->
 
-<footer class="placement-footer">
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
 
-    <span>
-        James Madison University
-    </span>
+    <script
+        src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"
+    ></script>
 
-    <span>
-        College of Education
-    </span>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"
+    ></script>
 
-</footer>
+    <script
+        src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+    ></script>
 
-<!-- 
-     LIBRARIES
- -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"
+    ></script>
 
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-></script>
+    <script
+        src="/JS/academic-year.js"
+    ></script>
 
-<script
-    src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"
-></script>
-
-<script
-    src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"
-></script>
-
-<script
-    src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
-></script>
-
-<script
-    src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"
-></script>
-
-
-<script
-    src="/JS/academic-year.js"
-></script>
-
-<script
-    src="/JS/map.js"
-></script>
+    <script
+        src="/JS/map.js"
+    ></script>
 
 </body>
-
 </html>

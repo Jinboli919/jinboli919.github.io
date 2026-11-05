@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Overall Program Reach | College of Education Data Dashboard
+    </title>
+
+    <!-- Leaflet styles -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- Shared JMU styles -->
+    <link
+        rel="stylesheet"
+        href="/CSS/typography.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/CSS/academic-year.css"
+    >
+
+    <!-- Overall page styles -->
+    <link
+        rel="stylesheet"
+        href="/CSS/overall.css"
+    >
+
+</head>
+
+<body class="overall-page">
+
+    <!-- ======================================
+         TOP NAVIGATION
+    ======================================= -->
+
+    <header class="placement-top-navigation">
+
+        <div class="placement-navigation-inner">
+
+            <a
+                class="placement-brand"
+                href="/"
+                aria-label="College of Education Data Dashboard home"
+            >
+
+                <div class="placement-brand-mark">
+
+                    <img
+                        class="jmu-brand-logo"
+                        src="/Images/jmu-block-white.png"
+                        alt="James Madison University"
+                    >
+
+                </div>
+
+                <div class="placement-brand-copy">
+
+                    <strong>
+                        College of Education
+                    </strong>
+
+                    <span>
+                        Data Dashboard
+                    </span>
+
+                </div>
+
+            </a>
+
+            <nav
+                class="placement-page-navigation"
+                aria-label="Dashboard navigation"
+            >
+
+                <a
+                    class="active"
+                    href="/overall.html"
+                    aria-current="page"
+                >
+                    Overall Program Reach
+                </a>
+
+                <a href="/epp/epp.html">
+                    EPP Candidate Profile
+                </a>
+
+                <a href="/placements.html">
+                    Student Teaching Placements
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         PAGE HEADER
+    ======================================= -->
+
+    <section class="placement-page-heading">
+
+        <div class="placement-heading-copy">
+
+            <p class="placement-page-kicker">
+                PROGRAM GEOGRAPHIC REACH
+            </p>
+
+            <h1>
+                Overall Program Reach
+            </h1>
+
+            <p class="placement-page-description">
+                Explore program participation across Virginia. Compare the geographic reach of
+                VAPSP, VAAPI, VAICC, CTA, and Student Teaching
+                Placements.
+            </p>
+
+        </div>
+
+        <div class="placement-year-card">
+
+            <label
+                class="placement-year-label"
+                for="overallYearSelect"
+            >
+                Academic Year
+            </label>
+
+            <select
+                id="overallYearSelect"
+                class="placement-year-select"
+                data-academic-year-select
+            ></select>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         MAIN CONTENT
+    ======================================= -->
+
+    <main class="overall-main">
+
+        <!-- FILTER PANEL -->
+
+        <section
+            class="overall-filter-panel"
+            aria-labelledby="overallFilterHeading"
+        >
+
+            <div class="overall-filter-heading">
+
+                <h2 id="overallFilterHeading">
+                    Explore Program Reach
+                </h2>
+
+                <p>
+                    Select one or more programs to compare
+                    their county-level geographic reach.
+                </p>
+
+            </div>
+
+            <div
+                class="overall-filter-toolbar"
+                id="overallProgramFilters"
+            >
+
+                <label class="overall-program-choice">
+
+                    <input
+                        type="checkbox"
+                        data-overall-program="VAPSP"
+                        checked
+                    >
+
+                    <span
+                        class="overall-color-dot"
+                        style="--dot:#2563EB"
+                    ></span>
+
+                    VAPSP
+
+                </label>
+
+                <label class="overall-program-choice">
+
+                    <input
+                        type="checkbox"
+                        data-overall-program="VAAPI"
+                        checked
+                    >
+
+                    <span
+                        class="overall-color-dot"
+                        style="--dot:#16A34A"
+                    ></span>
+
+                    VAAPI
+
+                </label>
+
+                <label class="overall-program-choice">
+
+                    <input
+                        type="checkbox"
+                        data-overall-program="VAICC"
+                        checked
+                    >
+
+                    <span
+                        class="overall-color-dot"
+                        style="--dot:#9333EA"
+                    ></span>
+
+                    VAICC
+
+                </label>
+
+                <label class="overall-program-choice">
+
+                    <input
+                        type="checkbox"
+                        data-overall-program="CTA"
+                        checked
+                    >
+
+                    <span
+                        class="overall-color-dot"
+                        style="--dot:#F59E0B"
+                    ></span>
+
+                    CTA
+
+                </label>
+
+                <label class="overall-program-choice">
+
+                    <input
+                        type="checkbox"
+                        data-overall-program="Placements"
+                        checked
+                    >
+
+                    <span
+                        class="overall-color-dot"
+                        style="--dot:#DC2626"
+                    ></span>
+
+                    Placements
+
+                </label>
+
+                <div class="overall-filter-actions">
+
+                    <button
+                        type="button"
+                        id="overallSelectAll"
+                    >
+                        Select All
+                    </button>
+
+                    <button
+                        type="button"
+                        id="overallClearAll"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+            </div>
+
+            <p
+                class="overall-filter-summary"
+                id="overallFilterSummary"
+            >
+                5 of 5 programs selected
+            </p>
+
+            
+
+        </section>
+
+
+        <!-- ==================================
+             MAP AND COUNTY DETAILS
+        =================================== -->
+
+        <section
+            class="overall-dashboard-content"
+            aria-label="Program map and county details"
+        >
+
+            <!-- MAP -->
+
+            <section class="overall-map-panel">
+
+                <div class="overall-panel-heading">
+
+                    <div>
+
+                        <h2>
+                            Program Reach Map
+                        </h2>
+
+                        <p id="overallMapSummary">
+                            Loading Virginia county data...
+                        </p>
+
+                    </div>
+
+                    <span class="overall-map-status">
+
+                        <span class="overall-status-dot"></span>
+
+                        County View
+
+                    </span>
+
+                </div>
+
+                <div class="overall-map-wrap">
+
+                    <div
+                        id="overallMap"
+                        aria-label="Interactive Virginia county map"
+                    ></div>
+
+                    <div
+                        class="overall-map-notice"
+                        id="overallMapNotice"
+                        role="status"
+                    >
+                        Loading map...
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- COUNTY DETAILS -->
+
+            <aside
+                class="overall-detail-panel"
+                id="countyDetails"
+            >
+
+                <div class="overall-detail-header">
+
+                    <div class="overall-detail-eyebrow">
+                        LOCATION DETAILS
+                    </div>
+
+                    <h2 id="overallDetailTitle">
+                        Select a County
+                    </h2>
+
+                </div>
+
+                <div
+                    id="overallDetailBody"
+                    aria-live="polite"
+                >
+
+                    <div class="overall-detail-empty">
+
+                        <div class="overall-detail-empty-icon">
+                            ◎
+                        </div>
+
+                        <h3>
+                            Explore program participation
+                        </h3>
+
+                        <p>
+                            Select a county or program bubble
+                            on the map to view its participation
+                            counts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+
+    <footer class="placement-footer">
+
+        <span>
+            James Madison University
+        </span>
+
+        <span>
+            College of Education
+        </span>
+
+    </footer>
+
+
+    <!-- ======================================
+         JAVASCRIPT LIBRARIES
+    ======================================= -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"
+    ></script>
+
+
+    <!-- Academic Year -->
+    <script
+        src="/JS/academic-year.js"
+    ></script>
+
+
+    <!-- Overall Map -->
+    <!-- Version parameter avoids stale JS cache -->
+    <script
+        src="/JS/overall-map.js?v=20261103-2"
+    ></script>
+
+</body>
+</html>

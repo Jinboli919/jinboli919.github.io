@@ -1,0 +1,1327 @@
+
+/* ===========================================================
+   OVERALL PROGRAM REACH
+   JMU / Placements visual system
+   =========================================================== */
+
+:root {
+  --overall-purple: #450084;
+  --overall-gold: #dfd2aa;
+  --overall-parchment: #f4efe1;
+
+  --overall-border:
+    rgba(69, 0, 132, 0.16);
+
+  --overall-shadow:
+    0 10px 28px rgba(69, 0, 132, 0.08);
+
+  --overall-gray: #595959;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.overall-page {
+  margin: 0;
+  color: #333;
+
+  background: var(--overall-parchment);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+.overall-page a {
+  text-decoration: none;
+}
+
+/* ===========================================================
+   TOP NAVIGATION
+   =========================================================== */
+
+.overall-page .placement-top-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 5000;
+
+  background: var(--overall-purple);
+
+  border-bottom:
+    1px solid var(--overall-gold);
+
+  box-shadow:
+    0 4px 16px rgba(69, 0, 132, .16);
+}
+
+.overall-page .placement-navigation-inner {
+  width: min(calc(100% - 52px), 1360px);
+
+  height: 76px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 28px;
+}
+
+.overall-page .placement-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+  color: #fff;
+
+  flex-shrink: 0;
+}
+
+.overall-page .placement-brand-mark {
+  position: relative;
+  overflow: hidden;
+
+  width: 88px;
+  height: 30px;
+
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.overall-page
+.placement-brand-mark
+.jmu-brand-logo {
+  position: absolute;
+
+  top: -44px;
+  left: -89px;
+
+  display: block;
+
+  width: 362px;
+  max-width: none;
+  height: auto;
+
+  padding: 0;
+  margin: 0;
+}
+
+.overall-page .placement-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.overall-page .placement-brand-copy strong {
+  color: #fff;
+
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.overall-page .placement-brand-copy span {
+  color: #fff;
+
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.overall-page .placement-page-navigation {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.overall-page .placement-page-navigation a {
+  padding: 10px 13px;
+
+  color: #fff;
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  transition:
+    background .18s ease,
+    color .18s ease;
+}
+
+.overall-page
+.placement-page-navigation a:hover {
+  background: var(--overall-parchment);
+  color: var(--overall-purple);
+}
+
+.overall-page
+.placement-page-navigation a.active {
+  background: var(--overall-gold);
+  color: var(--overall-purple);
+}
+
+/* ===========================================================
+   PAGE HEADING
+   =========================================================== */
+
+.overall-page .placement-page-heading {
+  width: min(calc(100% - 52px), 1320px);
+
+  margin: 0 auto;
+  padding: 62px 0 42px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 40px;
+}
+
+.overall-page .placement-heading-copy {
+  max-width: 760px;
+}
+
+.overall-page .placement-page-kicker {
+  margin: 0 0 9px;
+
+  color: var(--overall-purple);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.overall-page .placement-page-heading h1 {
+  margin: 0;
+
+  color: var(--overall-purple);
+
+  font:
+    700 28px/1.15
+    "Arvo", Georgia, serif;
+
+  letter-spacing: -.02em;
+}
+
+.overall-page .placement-page-description {
+  max-width: 720px;
+
+  margin: 18px 0 0;
+
+  color: var(--overall-gray);
+
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* ===========================================================
+   ACADEMIC YEAR
+   =========================================================== */
+
+.overall-page .placement-year-card {
+  min-width: 180px;
+  padding: 17px 19px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 15px;
+
+  background: #fff;
+  box-shadow: var(--overall-shadow);
+}
+
+.overall-page .placement-year-label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--overall-purple);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+
+  text-transform: uppercase;
+}
+
+.overall-page .placement-year-select {
+  width: 100%;
+
+  padding: 2px 24px 2px 0;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--overall-purple);
+
+  font:
+    700 16px
+    "Arvo", Georgia, serif;
+}
+
+/* ===========================================================
+   MAIN FILTERS
+   =========================================================== */
+
+.overall-main {
+  width: min(calc(100% - 52px), 1320px);
+
+  margin: 0 auto 68px;
+}
+
+.overall-filter-panel {
+  padding: 24px;
+  margin-bottom: 18px;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 18px;
+
+  background: #fff;
+  box-shadow: var(--overall-shadow);
+}
+
+.overall-filter-heading {
+  margin-bottom: 19px;
+}
+
+.overall-filter-heading h2 {
+  margin: 0;
+
+  color: var(--overall-purple);
+
+  font:
+    700 20px/1.3
+    "Arvo", Georgia, serif;
+}
+
+.overall-filter-heading p {
+  margin: 4px 0 0;
+
+  color: var(--overall-gray);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.overall-filter-toolbar {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.overall-program-choice {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+  padding: 9px 12px;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 9px;
+
+  background: #fff;
+  color: #333;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.overall-program-choice:hover {
+  background: #faf7ff;
+}
+
+.overall-program-choice input {
+  width: 14px;
+  height: 14px;
+
+  margin: 0;
+
+  accent-color: var(--overall-purple);
+}
+
+.overall-color-dot {
+  width: 10px;
+  height: 10px;
+
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background: var(--dot);
+}
+
+.overall-filter-actions {
+  display: flex;
+  gap: 8px;
+
+  margin-left: auto;
+}
+
+.overall-filter-actions button {
+  padding: 9px 12px;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 8px;
+
+  background: #fff;
+  color: var(--overall-purple);
+
+  font:
+    700 12px
+    Arial, Helvetica, sans-serif;
+
+  cursor: pointer;
+}
+
+.overall-filter-actions button:hover {
+  background: var(--overall-parchment);
+}
+
+.overall-filter-summary {
+  margin: 14px 0 0;
+
+  color: var(--overall-gray);
+  font-size: 12px;
+}
+
+.overall-data-note {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+
+  border-left:
+    3px solid var(--overall-gold);
+
+  background: #faf7ee;
+  color: #6d5f3d;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ===========================================================
+   MAP AND DETAILS
+   =========================================================== */
+
+.overall-dashboard-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 2.4fr)
+    minmax(350px, .85fr);
+
+  gap: 18px;
+  align-items: stretch;
+}
+
+.overall-map-panel,
+.overall-detail-panel {
+  min-width: 0;
+  overflow: hidden;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 18px;
+
+  background: #fff;
+  box-shadow: var(--overall-shadow);
+}
+
+.overall-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+  padding: 15px 18px;
+
+  border-bottom:
+    1px solid var(--overall-border);
+}
+
+.overall-panel-heading h2,
+.overall-detail-header h2 {
+  margin: 0;
+
+  color: var(--overall-purple);
+
+  font:
+    700 16px/1.3
+    "Arvo", Georgia, serif;
+}
+
+.overall-panel-heading p {
+  margin: 4px 0 0;
+
+  color: var(--overall-gray);
+
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.overall-map-status {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+  padding: 8px 11px;
+
+  border-radius: 999px;
+  white-space: nowrap;
+
+  background: var(--overall-parchment);
+  color: var(--overall-purple);
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.overall-status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: var(--overall-gold);
+}
+
+/* ===========================================================
+   LEAFLET MAP
+   =========================================================== */
+
+.overall-map-wrap {
+  position: relative;
+}
+
+#overallMap {
+  width: 100%;
+
+  height: 680px;
+  min-height: 600px;
+
+  background: #e5e7eb;
+}
+
+.overall-map-notice {
+  position: absolute;
+  z-index: 1000;
+
+  top: 16px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  max-width:
+    calc(100% - 32px);
+
+  padding: 10px 14px;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 9px;
+
+  background:
+    rgba(255, 255, 255, .96);
+
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, .12);
+
+  color: var(--overall-purple);
+
+  font-size: 12px;
+  line-height: 1.45;
+
+  text-align: center;
+  pointer-events: none;
+}
+
+.overall-map-notice.is-error {
+  color: #9b3326;
+}
+
+.overall-map-notice[hidden] {
+  display: none;
+}
+
+.overall-page .leaflet-control-zoom a {
+  color: var(--overall-purple);
+}
+
+/* ===========================================================
+   NEW: COUNTY / CITY HOVER NAME TOOLTIP
+   =========================================================== */
+
+.overall-page .overall-county-tooltip {
+  padding: 7px 11px;
+
+  border: 1px solid #d7dbe2;
+  border-radius: 7px;
+
+  background:
+    rgba(255, 255, 255, .97);
+
+  box-shadow:
+    0 2px 9px rgba(25, 35, 45, .14);
+
+  color: #364152;
+
+  font:
+    600 12px/1.35
+    Arial, Helvetica, sans-serif;
+
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ===========================================================
+   NEW: PLACEMENTS-STYLE PROGRAM BUBBLE TOOLTIP
+   =========================================================== */
+
+.overall-page .overall-program-tooltip {
+  min-width: 225px;
+  max-width: 295px;
+
+  padding: 0;
+
+  border: 1px solid #dce0e7;
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, .98);
+
+  box-shadow:
+    0 5px 18px rgba(25, 35, 45, .16);
+
+  color: #263242;
+
+  font:
+    12px/1.45
+    Arial, Helvetica, sans-serif;
+
+  white-space: normal;
+}
+
+.overall-tooltip-content {
+  padding: 11px 14px;
+}
+
+.overall-tooltip-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.overall-tooltip-label {
+  color: #91a1b7;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  line-height: 1.35;
+  letter-spacing: .035em;
+
+  text-transform: uppercase;
+}
+
+.overall-tooltip-value {
+  color: #344053;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.overall-tooltip-program {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.overall-tooltip-count {
+  color: #242424;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+.overall-tooltip-divider {
+  height: 1px;
+
+  margin: 9px 0;
+
+  background: #e7ebf0;
+}
+
+.overall-tooltip-summary-programs {
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.overall-tooltip-summary-programs span {
+  font-weight: 700;
+}
+
+.overall-tooltip-hint {
+  margin-top: 11px;
+  padding-top: 9px;
+
+  border-top: 1px solid #e7ebf0;
+
+  color: #8793a3;
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* ===========================================================
+   DETAILS HEADER
+   =========================================================== */
+
+.overall-detail-header {
+  padding: 19px;
+
+  border-bottom:
+    1px solid var(--overall-border);
+}
+
+.overall-detail-eyebrow {
+  margin-bottom: 5px;
+
+  color: var(--overall-purple);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+/* ===========================================================
+   EMPTY DETAILS
+   =========================================================== */
+
+.overall-detail-empty {
+  min-height: 500px;
+  padding: 32px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.overall-detail-empty-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 17px;
+
+  border: 1px solid #e4d8ed;
+  border-radius: 50%;
+
+  background: var(--overall-parchment);
+  color: var(--overall-purple);
+
+  font-size: 27px;
+}
+
+.overall-detail-empty h3 {
+  margin: 0 0 8px;
+
+  color: var(--overall-purple);
+
+  font:
+    700 16px/1.3
+    "Arvo", Georgia, serif;
+}
+
+.overall-detail-empty p {
+  max-width: 270px;
+  margin: 0;
+
+  color: var(--overall-gray);
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.overall-detail-content {
+  padding: 18px 20px 24px;
+}
+
+.overall-detail-included {
+  margin: 0 0 15px;
+  padding: 9px 10px;
+
+  border-left:
+    3px solid var(--overall-gold);
+
+  background: #faf7ee;
+  color: #66583c;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ===========================================================
+   DETAIL FILTER
+   =========================================================== */
+
+.overall-detail-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.overall-detail-filter-header span {
+  color: var(--overall-purple);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.overall-detail-filter-header button {
+  padding: 6px 8px;
+
+  border:
+    1px solid var(--overall-border);
+
+  border-radius: 7px;
+
+  background: #fff;
+  color: var(--overall-purple);
+
+  font:
+    700 10px
+    Arial, Helvetica, sans-serif;
+
+  cursor: pointer;
+}
+
+.overall-detail-filter-header button:hover {
+  background: var(--overall-parchment);
+}
+
+.overall-detail-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.overall-detail-filter-choice {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+  padding: 5px 7px;
+
+  border: 1px solid #e8e0ef;
+  border-radius: 6px;
+
+  background: #fff;
+  color: #4c4654;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.overall-detail-filter-choice input {
+  width: 12px;
+  height: 12px;
+
+  margin: 0;
+
+  accent-color: var(--overall-purple);
+}
+
+.overall-detail-filter-dot {
+  width: 8px;
+  height: 8px;
+
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.overall-detail-filter-help {
+  margin: 9px 0 17px;
+
+  color: #7d7884;
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* ===========================================================
+   PROGRAM DISTRIBUTION
+   =========================================================== */
+
+.overall-detail-chart-heading {
+  margin-bottom: 15px;
+  padding-top: 16px;
+
+  border-top:
+    1px solid var(--overall-border);
+}
+
+.overall-detail-chart-heading h3 {
+  margin: 0 0 5px;
+
+  color: var(--overall-purple);
+
+  font:
+    700 16px/1.3
+    "Arvo", Georgia, serif;
+}
+
+.overall-detail-chart-heading p {
+  margin: 0;
+
+  color: var(--overall-gray);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.overall-detail-chart {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+/* ===========================================================
+   PROGRAM ROW
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    86px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 4px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  background: #fff;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-row.is-focused {
+  background: #f5effa;
+
+  border-color: #d7c4e9;
+
+  box-shadow:
+    inset 3px 0 0 var(--program-color);
+}
+
+/* ===========================================================
+   CLICKABLE PROGRAM AREA
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+
+  padding: 7px 6px;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  font: inherit;
+  color: inherit;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background .15s ease;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-main:hover {
+  background:
+    rgba(69, 0, 132, .065);
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-main:focus-visible {
+  outline:
+    2px solid var(--overall-purple);
+
+  outline-offset: 1px;
+}
+
+/* ===========================================================
+   PROGRAM LABELS AND COUNTS
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-width: 0;
+
+  gap: 7px;
+  margin-bottom: 7px;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-name {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+  min-width: 0;
+
+  color: #36333a;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-dot {
+  display: block;
+
+  width: 9px;
+  height: 9px;
+
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background: var(--program-color);
+}
+
+/* ===========================================================
+   NEW: ALL PROGRAM COUNTS USE THE SAME BLACK COLOR
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-count {
+  color: #242424;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  font-variant-numeric:
+    tabular-nums;
+
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   HORIZONTAL BAR
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-track {
+  display: block;
+
+  width: 100%;
+  height: 13px;
+
+  overflow: hidden;
+  border-radius: 4px;
+
+  background: #f0ecf4;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-fill {
+  display: block;
+
+  height: 100%;
+
+  border-radius: 4px;
+
+  background: var(--program-color);
+  opacity: .78;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-row.is-focused
+.overall-detail-bar-fill {
+  opacity: 1;
+}
+
+/* ===========================================================
+   NO DATA
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-bar-row.is-empty
+.overall-detail-bar-heading {
+  margin-bottom: 0;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-no-participants {
+  color: #8a8590;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   PROGRAM DETAIL LINKS
+   =========================================================== */
+
+.overall-page
+.overall-detail-chart
+.overall-detail-drill-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 86px;
+  min-height: 31px;
+
+  padding: 6px 5px;
+
+  border:
+    1px solid rgba(69, 0, 132, .24);
+
+  border-radius: 7px;
+
+  background: #f7f1fa;
+  color: var(--overall-purple);
+
+  font:
+    700 10px/1.2
+    Arial, Helvetica, sans-serif;
+
+  white-space: nowrap;
+  text-align: center;
+}
+
+.overall-page
+.overall-detail-chart
+a.overall-detail-drill-link:hover {
+  background: var(--overall-purple);
+  color: #fff;
+}
+
+.overall-page
+.overall-detail-chart
+a.overall-detail-drill-link:focus-visible {
+  outline:
+    2px solid var(--overall-purple);
+
+  outline-offset: 2px;
+}
+
+.overall-page
+.overall-detail-chart
+.overall-detail-drill-link.is-upcoming {
+  color: #8b8790;
+
+  border-color: #e9e6ec;
+  background: #f6f5f7;
+
+  cursor: default;
+}
+
+/* ===========================================================
+   NOTES
+   =========================================================== */
+
+.overall-detail-scale-note,
+.overall-detail-no-selection {
+  margin: 12px 0;
+
+  color: #7d7884;
+
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.overall-detail-note {
+  margin: 14px 0 0;
+
+  color: var(--overall-gray);
+
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* ===========================================================
+   FOOTER
+   =========================================================== */
+
+.overall-page .placement-footer {
+  width: min(
+    calc(100% - 52px),
+    1320px
+  );
+
+  margin: 0 auto 28px;
+  padding-top: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-top:
+    1px solid var(--overall-gold);
+
+  background: transparent;
+
+  color: var(--overall-gray);
+  font-size: 12px;
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+
+@media (max-width: 1080px) {
+  .overall-dashboard-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 930px) {
+  .overall-page .placement-navigation-inner {
+    height: auto;
+    min-height: 76px;
+
+    padding: 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .overall-page .placement-page-navigation {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .overall-filter-actions {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .overall-page .placement-navigation-inner,
+  .overall-page .placement-page-heading,
+  .overall-main,
+  .overall-page .placement-footer {
+    width: calc(100% - 28px);
+  }
+
+  .overall-page .placement-brand-copy {
+    display: none;
+  }
+
+  .overall-page .placement-page-navigation a {
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+
+  .overall-page .placement-page-heading {
+    padding: 40px 0 32px;
+
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .overall-page .placement-year-card {
+    width: 100%;
+  }
+
+  #overallMap {
+    height: 480px;
+    min-height: 400px;
+  }
+
+  .overall-filter-panel {
+    padding: 18px;
+  }
+
+  .overall-detail-content {
+    padding: 16px 14px 22px;
+  }
+
+  .overall-page .placement-footer {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 5px;
+  }
+}
