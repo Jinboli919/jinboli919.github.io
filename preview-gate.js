@@ -6,25 +6,26 @@
     // Configuration
     // ==========================================
 
-    const AUTH_KEY =
-        "coe-dashboard-preview-access";
-
-    const AUTH_VALUE = "granted";
-
     const GITHUB_HOST =
         "jinboli919.github.io";
 
-    const CHANNEL_NAME =
+    const AUTH_KEY =
+        "coe-dashboard-preview-access";
+
+    const AUTH_VALUE =
+        "granted";
+
+    const COOKIE_NAME =
         "coe-dashboard-preview-session";
 
 
     // ==========================================
-    // Only protect GitHub Pages.
-    // Local development does not require login.
+    // Only protect the GitHub Pages website.
+    // Local development does not need a password.
     // ==========================================
 
     if (
-        window.location.hostname !==
+        window.location.hostname.toLowerCase() !==
         GITHUB_HOST
     ) {
         return;
@@ -32,190 +33,144 @@
 
 
     // ==========================================
-    // Check authentication status
+    // Check sessionStorage
+    //
+    // This is the original login mechanism.
+    // Keep it compatible with preview-login.html.
     // ==========================================
 
-    function hasAccess() {
+    function hasTabAccess() {
+
         try {
+
             return (
-                sessionStorage.getItem(
+                window.sessionStorage.getItem(
                     AUTH_KEY
                 ) === AUTH_VALUE
             );
+
         } catch (error) {
+
             return false;
+
         }
+
     }
 
 
     // ==========================================
-    // Store access in the current tab
+    // Check shared session cookie
+    //
+    // Cookies are shared between tabs belonging
+    // to the same website and browser session.
     // ==========================================
 
-    function grantAccess() {
+    function hasCookieAccess() {
+
+        const expectedCookie =
+            COOKIE_NAME + "=" + AUTH_VALUE;
+
+        return document.cookie
+            .split(";")
+            .some(cookie => {
+                return (
+                    cookie.trim() === expectedCookie
+                );
+            });
+
+    }
+
+
+    // ==========================================
+    // Create a browser session cookie
+    //
+    // No Max-Age or Expires attribute:
+    // this is a browser session cookie.
+    // ==========================================
+
+    function saveCookieAccess() {
+
+        document.cookie =
+            COOKIE_NAME +
+            "=" +
+            AUTH_VALUE +
+            "; Path=/" +
+            "; SameSite=Lax" +
+            "; Secure";
+
+    }
+
+
+    // ==========================================
+    // Keep the current tab authenticated
+    // ==========================================
+
+    function saveTabAccess() {
+
         try {
-            sessionStorage.setItem(
+
+            window.sessionStorage.setItem(
                 AUTH_KEY,
                 AUTH_VALUE
             );
 
-            return true;
         } catch (error) {
-            return false;
-        }
-    }
 
+            // Session cookie can still provide access.
 
-    // ==========================================
-    // Redirect to existing password page
-    // ==========================================
-
-    function redirectToLogin() {
-
-        if (hasAccess()) {
-            document.documentElement.style.visibility =
-                "";
-            return;
         }
 
-        const currentPage =
-            window.location.pathname +
-            window.location.search +
-            window.location.hash;
-
-        const loginURL =
-            "/preview-login.html?next=" +
-            encodeURIComponent(
-                currentPage
-            );
-
-        window.location.replace(
-            loginURL
-        );
     }
 
 
     // ==========================================
-    // Share authentication between open tabs
+    // Main authentication logic
     // ==========================================
 
-    let channel = null;
+    // Case 1:
+    // The current tab has already logged in.
+    //
+    // Create a shared session cookie so that
+    // other tabs can recognize this login.
 
-    if (
-        typeof BroadcastChannel !==
-        "undefined"
-    ) {
-        try {
-            channel = new BroadcastChannel(
-                CHANNEL_NAME
-            );
-        } catch (error) {
-            channel = null;
-        }
-    }
+    if (hasTabAccess()) {
 
+        saveCookieAccess();
 
-    if (channel) {
-
-        channel.onmessage = (event) => {
-
-            const message = event.data;
-
-            if (
-                !message ||
-                typeof message !== "object"
-            ) {
-                return;
-            }
-
-            // Another tab requests login status.
-            // Reply only if this tab is authenticated.
-
-            if (
-                message.type ===
-                "request-access"
-            ) {
-
-                if (hasAccess()) {
-                    channel.postMessage({
-                        type: "access-granted"
-                    });
-                }
-
-                return;
-            }
-
-            // Receive authentication from
-            // an already logged-in tab.
-
-            if (
-                message.type ===
-                "access-granted"
-            ) {
-
-                if (grantAccess()) {
-                    document.documentElement.style.visibility =
-                        "";
-                }
-
-            }
-        };
-    }
-
-
-    // ==========================================
-    // Main access control
-    // ==========================================
-
-    // Already logged in:
-    // display the page immediately.
-
-    if (hasAccess()) {
         return;
+
+    }
+
+
+    // Case 2:
+    // Another tab has already authenticated.
+    //
+    // Read the shared cookie and allow access
+    // without asking for the password again.
+
+    if (hasCookieAccess()) {
+
+        saveTabAccess();
+
+        return;
+
     }
 
 
-    // Hide the protected page until the
-    // authentication check finishes.
+    // Case 3:
+    // No valid login state exists.
+    //
+    // Redirect to the original password page.
 
-    document.documentElement.style.visibility =
-        "hidden";
+    const currentPage =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
 
+    const loginURL =
+        "/preview-login.html?next=" +
+        encodeURIComponent(currentPage);
 
-    // Ask other open Dashboard tabs
-    // whether the user is already logged in.
-
-    if (channel) {
-
-        channel.postMessage({
-            type: "request-access"
-        });
-
-        // Allow an existing authenticated tab
-        // to respond before redirecting.
-
-        window.setTimeout(() => {
-
-            if (hasAccess()) {
-
-                document.documentElement.style.visibility =
-                    "";
-
-            } else {
-
-                redirectToLogin();
-
-            }
-
-        }, 1000);
-
-    } else {
-
-        // Browser does not support
-        // BroadcastChannel.
-
-        redirectToLogin();
-
-    }
+    window.location.replace(loginURL);
 
 })();
