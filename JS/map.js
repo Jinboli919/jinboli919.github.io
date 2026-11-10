@@ -310,173 +310,78 @@
 
     // ==================================================
     // MAIN FILTER OPTIONS
+    // PLACEMENTS MULTI-FILTER INTEGRATION V1
     // ==================================================
 
-    function populateSelect(selectID, values) {
-        const select = document.getElementById(
-            selectID
-        );
+    const placementCountyIDCache = new Map();
 
-        if (!select) {
-            return;
+    function resolvePlacementCountyID(zip) {
+        if (placementCountyIDCache.has(zip)) {
+            return placementCountyIDCache.get(zip);
         }
 
-        while (select.options.length > 1) {
-            select.remove(1);
+        const entry = getCountyEntryForZIP(zip);
+
+        let id = "";
+
+        if (entry) {
+            const props =
+                entry.feature.properties || {};
+
+            id = String(
+                props.GEOID ||
+                (
+                    String(props.STATE || "") +
+                    String(props.COUNTY || "")
+                )
+            ).trim();
         }
 
-        values.forEach(function (value) {
-            const option = document.createElement(
-                "option"
-            );
+        placementCountyIDCache.set(zip, id);
 
-            option.value = value;
-            option.textContent = value;
-
-            select.appendChild(option);
-        });
+        return id;
     }
 
     function populateDashboardFilters(data) {
-        populateSelect(
-            "programFilter",
-            getUniqueColumnValues(data, "Program")
-        );
-
-        populateSelect(
-            "gradeFilter",
-            getUniqueColumnValues(data, "Grade Level")
-        );
-
-        populateSelect(
-            "placementTypeFilter",
-            getUniqueColumnValues(data, "Placement Type")
-        );
-
-        populateSelect(
-            "divisionFilter",
-            getUniqueColumnValues(data, "School Division")
-        );
-
-        populateSelect(
-            "schoolFilter",
-            getUniqueColumnValues(data, "School Name")
-        );
-    }
-
-    function updateFilterVisualState(selectElement) {
-        if (!selectElement) {
-            return;
-        }
-
-        const isDefault =
-            selectElement.value === "";
-
-        selectElement.classList.toggle(
-            "filter-default",
-            isDefault
-        );
-
-        selectElement.classList.toggle(
-            "filter-active",
-            !isDefault
-        );
-    }
-
-    function updateAllFilterVisualStates() {
-        [
-            "programFilter",
-            "gradeFilter",
-            "placementTypeFilter",
-            "divisionFilter",
-            "schoolFilter"
-        ].forEach(function (filterID) {
-            updateFilterVisualState(
-                document.getElementById(filterID)
+        if (!window.PlacementMultiFilters) {
+            throw new Error(
+                "Placements multi-filter module is missing."
             );
-        });
-    }
-
-    function rowMatchesSearch(row, searchText) {
-        const normalizedSearch =
-            normalizeSearchText(searchText);
-
-        if (!normalizedSearch) {
-            return true;
         }
 
-        const searchTokens = normalizedSearch
-            .split(/\s+/)
-            .filter(Boolean);
+        window.PlacementMultiFilters.initialize({
+            data: data,
+            counties: countyEntries,
 
-        const searchableText = [
-            cleanValue(row["Program"]),
-            cleanValue(row["Grade Level"]),
-            cleanValue(row["Placement Type"]),
-            normalizeZIP(row["School ZIP Code"]),
-            cleanValue(row["School City"]),
-            cleanValue(row["School Division"]),
-            cleanValue(row["School Name"])
-        ].join(" ").toLowerCase();
+            onChange: function () {
+                resetDetailPanel();
+                updateDashboard(true);
+            },
 
-        return searchTokens.every(function (token) {
-            return searchableText.includes(token);
+            onReset: function () {
+                resetDetailPanel();
+                updateDashboard(false);
+
+                map.setView(
+                    CONFIG.initialMapCenter,
+                    CONFIG.initialMapZoom,
+                    {
+                        animate: true
+                    }
+                );
+            }
         });
     }
 
     function filterPlacementData() {
-        const program =
-            document.getElementById("programFilter").value;
-
-        const grade =
-            document.getElementById("gradeFilter").value;
-
-        const placementType =
-            document.getElementById("placementTypeFilter").value;
-
-        const division =
-            document.getElementById("divisionFilter").value;
-
-        const school =
-            document.getElementById("schoolFilter").value;
-
-        const search =
-            document.getElementById("dashboardSearch").value;
-
-        return allPlacementData.filter(function (row) {
-            const programMatch =
-                !program ||
-                cleanValue(row["Program"]) === program;
-
-            const gradeMatch =
-                !grade ||
-                cleanValue(row["Grade Level"]) === grade;
-
-            const placementTypeMatch =
-                !placementType ||
-                cleanValue(row["Placement Type"]) ===
-                    placementType;
-
-            const divisionMatch =
-                !division ||
-                cleanValue(row["School Division"]) === division;
-
-            const schoolMatch =
-                !school ||
-                cleanValue(row["School Name"]) === school;
-
-            const searchMatch =
-                rowMatchesSearch(row, search);
-
-            return (
-                programMatch &&
-                gradeMatch &&
-                placementTypeMatch &&
-                divisionMatch &&
-                schoolMatch &&
-                searchMatch
-            );
-        });
+        return allPlacementData.filter(
+            function (row) {
+                return window.PlacementMultiFilters.matches(
+                    row,
+                    resolvePlacementCountyID
+                );
+            }
+        );
     }
 
     function updateDashboardKPIs(data, locationCount) {
@@ -505,6 +410,7 @@
             ).length;
     }
 
+    // ==================================================
     // ==================================================
     // BUBBLE COLORS
     // ==================================================
@@ -3389,35 +3295,20 @@
     // ==================================================
 
     function attachGlobalEvents() {
-        const programFilter =
-            document.getElementById("programFilter");
-
-        const gradeFilter =
-            document.getElementById("gradeFilter");
-
-        const placementTypeFilter =
-            document.getElementById("placementTypeFilter");
-
-        const divisionFilter =
-            document.getElementById("divisionFilter");
-
-        const schoolFilter =
-            document.getElementById("schoolFilter");
-
-        const searchInput =
-            document.getElementById("dashboardSearch");
-
-        const resetFilters =
-            document.getElementById("resetFilters");
-
         const resetDetails =
-            document.getElementById("resetDetails");
+            document.getElementById(
+                "resetDetails"
+            );
 
         const ZIPModeButton =
-            document.getElementById("detailModeZIP");
+            document.getElementById(
+                "detailModeZIP"
+            );
 
         const countyModeButton =
-            document.getElementById("detailModeCounty");
+            document.getElementById(
+                "detailModeCounty"
+            );
 
         countyModeButton.textContent =
             "By County/City";
@@ -3428,70 +3319,6 @@
         countyModeButton.setAttribute(
             "aria-label",
             "View details by county or independent city"
-        );
-
-        const dropdownFilters = [
-            programFilter,
-            gradeFilter,
-            placementTypeFilter,
-            divisionFilter,
-            schoolFilter
-        ];
-
-        updateAllFilterVisualStates();
-
-        dropdownFilters.forEach(function (selectElement) {
-            selectElement.addEventListener(
-                "change",
-                function () {
-                    updateFilterVisualState(
-                        selectElement
-                    );
-
-                    updateDashboard(true);
-                }
-            );
-        });
-
-        let searchTimer = null;
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-                clearTimeout(searchTimer);
-
-                searchTimer = setTimeout(
-                    function () {
-                        updateDashboard(true);
-                    },
-                    250
-                );
-            }
-        );
-
-        resetFilters.addEventListener(
-            "click",
-            function () {
-                programFilter.value = "";
-                gradeFilter.value = "";
-                placementTypeFilter.value = "";
-                divisionFilter.value = "";
-                schoolFilter.value = "";
-                searchInput.value = "";
-
-                updateAllFilterVisualStates();
-
-                resetDetailPanel();
-                updateDashboard(false);
-
-                map.setView(
-                    CONFIG.initialMapCenter,
-                    CONFIG.initialMapZoom,
-                    {
-                        animate: true
-                    }
-                );
-            }
         );
 
         resetDetails.addEventListener(
@@ -3516,6 +3343,7 @@
         );
     }
 
+    // ==================================================
     // ==================================================
     // LOAD PLACEMENTS EXCEL
     // ==================================================

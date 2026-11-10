@@ -69,6 +69,9 @@
     mapPrograms: new Set(PROGRAMS.map(p => p.id)),
     detailPrograms: new Set(PROGRAMS.map(p => p.id)),
 
+    countyFilter: new Set(),
+    countySearch: "",
+
     selected: null,
     hovered: null,
     focus: null,
@@ -93,10 +96,30 @@
   // ============================================================
 
   function getYear() {
+    const academicYear = window.AcademicYear;
+
+    const selectedYears =
+      academicYear?.getSelectedYears?.();
+
+    if (
+      Array.isArray(selectedYears) &&
+      selectedYears.length === 1
+    ) {
+      return selectedYears[0];
+    }
+
+    const availableYears =
+      academicYear?.years;
+
     return (
-      window.AcademicYear?.getSelectedYear?.() ||
       new URLSearchParams(location.search).get("year") ||
-      "2024-2025"
+      academicYear?.defaultYear ||
+      (
+        Array.isArray(availableYears)
+          ? availableYears[availableYears.length - 1]
+          : ""
+      ) ||
+      ""
     );
   }
 
@@ -191,6 +214,61 @@
     return response.text();
   }
 
+  async function loadSelectedOverallText() {
+    const loader = window.MultiYearData;
+
+    if (
+      loader &&
+      typeof loader.loadOverallText === "function"
+    ) {
+      return loader.loadOverallText();
+    }
+
+    // Fallback is permitted only for one academic year.
+    // Multiple years require the historical data loader.
+
+    const academicYear = window.AcademicYear;
+
+    const selectedYears =
+      academicYear?.getSelectedYears?.() || [];
+
+    const allHistorical =
+      Boolean(academicYear?.isAllHistorical?.()) ||
+      Boolean(academicYear?.isAllHistoric?.());
+
+    if (
+      allHistorical ||
+      (
+        Array.isArray(selectedYears) &&
+        selectedYears.length > 1
+      )
+    ) {
+      throw new Error(
+        "MultiYearData is unavailable. " +
+        "Load academic-year.js and multi-year-data.js " +
+        "before overall-map.js."
+      );
+    }
+
+    const year =
+      (
+        Array.isArray(selectedYears) &&
+        selectedYears.length
+      )
+        ? selectedYears[0]
+        : getYear();
+
+    if (!year) {
+      throw new Error(
+        "No academic year is available."
+      );
+    }
+
+    return getText(
+      `/Data/overall/${encodeURIComponent(year)}.csv`
+    );
+  }
+
   function notice(message, error = false) {
     const node = el("overallMapNotice");
 
@@ -220,6 +298,26 @@
             ? " City"
             : " County"
         );
+  }
+
+  function countyMatches(area) {
+    if (
+      state.countyFilter.size &&
+      !state.countyFilter.has(area.id)
+    ) {
+      return false;
+    }
+
+    if (
+      state.countySearch &&
+      !area.name
+        .toLocaleLowerCase()
+        .includes(state.countySearch)
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   // ============================================================
@@ -399,7 +497,10 @@
         event.latlng.lng
       );
 
-      if (area) {
+      if (
+        area &&
+        countyMatches(area)
+      ) {
         selectArea(area, null, true);
       }
     });
@@ -467,6 +568,31 @@
       };
     }
 
+    if (
+      state.countyFilter.size ||
+      state.countySearch
+    ) {
+      if (countyMatches(area)) {
+        return {
+          color: "#450084",
+          weight: 1.7,
+          opacity: 1,
+          fill: true,
+          fillColor: "#a78bfa",
+          fillOpacity: 0.12
+        };
+      }
+
+      return {
+        color: "#94a3b8",
+        weight: 0.25,
+        opacity: 0.25,
+        fill: true,
+        fillColor: "#94a3b8",
+        fillOpacity: 0.002
+      };
+    }
+
     return {
       color: "#64748b",
       weight: 0.35,
@@ -487,6 +613,13 @@
   }
 
   function hoverArea(area, latlng = null) {
+    if (
+      area &&
+      !countyMatches(area)
+    ) {
+      area = null;
+    }
+
     const previous = state.hovered;
 
     if (previous !== area) {
@@ -647,12 +780,10 @@
     state.counts.clear();
 
     for (const row of parseCSV(overallText)) {
-      if (
-        row.academicyear &&
-        row.academicyear !== state.year
-      ) {
-        continue;
-      }
+      // Overall data is already filtered by MultiYearData.
+      // Do not filter again using one selected academic year.
+      // This allows counts from multiple years to be summed
+      // within each program and county/independent city.
 
       const program = PROGRAMS.find(
         p =>
@@ -825,11 +956,12 @@
       const values =
         state.counts.get(area.id) || {};
 
-      return PROGRAMS.some(
-        p =>
-          state.mapPrograms.has(p.id) &&
-          values[p.id] > 0
-      );
+      return countyMatches(area) &&
+        PROGRAMS.some(
+          p =>
+            state.mapPrograms.has(p.id) &&
+            values[p.id] > 0
+        );
     });
   }
 
@@ -873,6 +1005,66 @@
       maxZoom: CONFIG.zoom,
       animate: true
     });
+  }
+
+  // ============================================================
+  // CLEAR MAP SELECTION
+  //
+  // Called when:
+  // - Program Filter -> Select All
+  // - Program Filter -> Clear
+  // - County / City Filter -> Reset
+  // - A county filter excludes the previously selected area
+  //
+  // This resets the selected area and its visual state.
+  // It does NOT change academic years, program filters,
+  // county filters, or the underlying data.
+  // ============================================================
+
+  function clearMapSelection() {
+    const previousSelected = state.selected;
+
+    // Clear the currently selected county / city
+    // and any focused program.
+    state.selected = null;
+    state.focus = null;
+
+    // Reset detail-only filters to the current
+    // main Program Filter selection.
+    state.detailPrograms =
+      new Set(state.mapPrograms);
+
+    // Clear hover state and any pending mouse update.
+    state.bubbleHover = false;
+    state.mouse = null;
+
+    if (state.mouseFrame) {
+      cancelAnimationFrame(state.mouseFrame);
+      state.mouseFrame = 0;
+    }
+
+    if (state.map) {
+      hoverArea(null);
+      hideAreaTooltip();
+    } else {
+      state.hovered = null;
+    }
+
+    // Remove the old selected boundary styling.
+    // styleOf() now sees state.selected === null.
+    if (previousSelected?.layer) {
+      previousSelected.layer.setStyle(
+        styleOf(previousSelected)
+      );
+    }
+
+    // Remove the selected/focused appearance
+    // from all existing program bubbles.
+    refreshMarkerStyles();
+
+    // Restore the Location Details panel to:
+    // "Select a County".
+    renderDetails();
   }
 
   function selectArea(
@@ -1425,7 +1617,9 @@
     const occupied = [];
     const markers = [];
 
-    const areas = state.areas.map(
+    const areas = state.areas
+      .filter(countyMatches)
+      .map(
       area => {
         const values =
           state.counts.get(area.id) || {};
@@ -2109,13 +2303,41 @@
   // ============================================================
 
   function detailURL(program) {
-    const params =
-      new URLSearchParams({
-        year: state.year,
+    const params = new URLSearchParams();
 
-        county_fips:
-          state.selected?.id || ""
-      });
+    const selection =
+      window.MultiYearData?.getSelection?.();
+
+    if (selection?.allHistorical) {
+      params.set("years", "all");
+    } else if (
+      Array.isArray(selection?.years) &&
+      selection.years.length > 1
+    ) {
+      params.set(
+        "years",
+        selection.years.join(",")
+      );
+    } else if (
+      Array.isArray(selection?.years) &&
+      selection.years.length === 1
+    ) {
+      params.set(
+        "year",
+        selection.years[0]
+      );
+    } else {
+      const year = getYear();
+
+      if (year) {
+        params.set("year", year);
+      }
+    }
+
+    params.set(
+      "county_fips",
+      state.selected?.id || ""
+    );
 
     return `${program.page}?${params.toString()}`;
   }
@@ -2494,6 +2716,8 @@
 
     renderDetails();
 
+    window.OverallReachUI?.renderMetrics?.();
+
     if (cameraMode === "reset") {
       resetMapView();
     } else {
@@ -2527,6 +2751,12 @@
 
       state.detailPrograms =
         new Set(next);
+
+      // Select All and Clear use cameraMode="reset".
+      // Reset the selected county/city at the same time.
+      if (cameraMode === "reset") {
+        clearMapSelection();
+      }
 
       refreshFilters(cameraMode);
     }
@@ -2585,6 +2815,170 @@
   }
 
   // ============================================================
+  // OVERALL COUNTY FILTER + KPI PUBLIC API
+  // ============================================================
+
+  window.OverallReach = {
+
+    // Use the exact same navigation logic as
+    // the existing Location Details panel.
+    getProgramDetailURL(programId) {
+      const program = PROGRAMS.find(
+        p => p.id === programId
+      );
+
+      return program ? detailURL(program) : "";
+    },
+
+
+    isReady() {
+      return state.loaded;
+    },
+
+    getAreas() {
+      return state.areas
+        .map(area => ({
+          id: area.id,
+          name: area.name,
+          isCity: area.isCity
+        }))
+        .sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+    },
+
+    getMatchingAreaCount() {
+      return reachedAreas().length;
+    },
+
+    getProgramMetrics() {
+      const eligibleAreas =
+        state.areas.filter(countyMatches);
+
+      return PROGRAMS
+        .filter(program =>
+          state.mapPrograms.has(program.id)
+        )
+        .map(program => {
+          let participants = 0;
+          let areas = 0;
+
+          for (const area of eligibleAreas) {
+            const values =
+              state.counts.get(area.id) || {};
+
+            const count =
+              Number(values[program.id]) || 0;
+
+            if (count > 0) {
+              participants += count;
+              areas++;
+            }
+          }
+
+          return {
+            id: program.id,
+            color: program.color,
+            participants,
+            areas
+          };
+        });
+    },
+
+    setCountyFilter({
+      ids = [],
+      search = ""
+    } = {}) {
+      const validIds = new Set(
+        state.areas.map(area => area.id)
+      );
+
+      state.countyFilter = new Set(
+        (Array.isArray(ids) ? ids : [])
+          .map(String)
+          .filter(id => validIds.has(id))
+      );
+
+      state.countySearch = String(
+        search ?? ""
+      )
+        .trim()
+        .toLocaleLowerCase();
+
+      // An empty county filter with no search means
+      // "All Locations", including the Reset action.
+      const countyReset =
+        state.countyFilter.size === 0 &&
+        state.countySearch === "";
+
+      const selectedAreaExcluded =
+        state.selected &&
+        !countyMatches(state.selected);
+
+      if (
+        countyReset ||
+        selectedAreaExcluded
+      ) {
+        clearMapSelection();
+      } else if (state.map) {
+        hoverArea(null);
+      }
+
+      for (const area of state.areas) {
+        area.layer.setStyle(
+          styleOf(area)
+        );
+      }
+
+      state.layoutKey = "";
+
+      if (state.loaded) {
+        renderDetails();
+        scheduleLayout();
+
+        const active =
+          state.countyFilter.size > 0 ||
+          Boolean(state.countySearch);
+
+        const matching =
+          state.areas.filter(
+            countyMatches
+          );
+
+        if (
+          active &&
+          matching.length === 1
+        ) {
+          zoomToArea(
+            matching[0],
+            "detail"
+          );
+
+        } else if (
+          active &&
+          matching.length > 1
+        ) {
+          const bounds = L.latLngBounds(
+            matching.map(area => area.anchor)
+          );
+
+          state.map.fitBounds(
+            bounds,
+            {
+              padding: [55, 55],
+              maxZoom: CONFIG.countyZoom,
+              animate: true
+            }
+          );
+
+        } else if (!active) {
+          resetMapView();
+        }
+      }
+    }
+  };
+
+  // ============================================================
   // STARTUP
   // ============================================================
 
@@ -2611,9 +3005,7 @@
 
         getText(CONFIG.zipURL),
 
-        getText(
-          `/Data/overall/${encodeURIComponent(state.year)}.csv`
-        )
+        loadSelectedOverallText()
       ]);
 
       if (!response.ok) {
@@ -2640,6 +3032,10 @@
       renderDetails();
 
       notice("");
+
+      window.dispatchEvent(
+        new Event("overall-reach-ready")
+      );
 
       requestAnimationFrame(() => {
         state.map.invalidateSize();

@@ -15,22 +15,34 @@
 
     const DEFAULT_YEAR = "2024-2025";
 
+    // Internal value stays "all" to preserve
+    // compatibility with existing links.
+    const ALL_HISTORICAL = "all";
+
+    // Display label used throughout the website.
+    const ALL_HISTORICAL_LABEL =
+        "All Historical Data";
+
+    // Actual folder name in Data/.
+    const HISTORICAL_FOLDER =
+        "all-historical";
+
     const STORAGE_KEY =
+        "coe-dashboard-academic-years";
+
+    const LEGACY_STORAGE_KEY =
         "coe-dashboard-academic-year";
 
-    const nativeFetch =
-        window.fetch.bind(window);
+    const nativeFetch = window.fetch.bind(window);
+
+    const pickers = [];
+
+    let openPicker = null;
 
 
     // ==========================================
     // LEAFLET MAP DOUBLE-CLICK PROTECTION
-    //
-    // Placements: #map
-    // Overall:    #overallMap
-    //
-    // The first click keeps its original behavior.
-    // The second click and the native dblclick
-    // event are blocked to avoid repeated zooming.
+    // Preserve existing behavior.
     // ==========================================
 
     const dashboardMapIds = new Set([
@@ -44,15 +56,10 @@
         return (
             target instanceof Element &&
             Boolean(
-                target.closest(
-                    "#map, #overallMap"
-                )
+                target.closest("#map, #overallMap")
             )
         );
     }
-
-    // Ignore only the second click in a double-click.
-    // The first click still selects the bubble/county.
 
     document.addEventListener(
         "click",
@@ -68,8 +75,6 @@
         true
     );
 
-    // Block native double-click events on both maps.
-
     document.addEventListener(
         "dblclick",
         function (event) {
@@ -81,18 +86,13 @@
         true
     );
 
-    // Also disable the built-in Leaflet handler
-    // when either dashboard map is initialized.
-    // This does not affect other maps or EPP charts.
-
     if (
         window.L &&
         L.Map &&
         typeof L.Map.addInitHook === "function"
     ) {
         L.Map.addInitHook(function () {
-            const container =
-                this.getContainer();
+            const container = this.getContainer();
 
             if (
                 container &&
@@ -113,115 +113,341 @@
         return AVAILABLE_YEARS.includes(year);
     }
 
+    function normalizeSelection(input) {
+        let values = [];
+
+        if (Array.isArray(input)) {
+            values = input;
+        } else if (typeof input === "string") {
+            values = input.split(",");
+        }
+
+        values = values.map(value =>
+            String(value).trim()
+        );
+
+        if (values.includes(ALL_HISTORICAL)) {
+            return [ALL_HISTORICAL];
+        }
+
+        const selected = new Set(
+            values.filter(isValidYear)
+        );
+
+        return AVAILABLE_YEARS.filter(year =>
+            selected.has(year)
+        );
+    }
+
+    function selectionsEqual(first, second) {
+        return (
+            JSON.stringify(first) ===
+            JSON.stringify(second)
+        );
+    }
+
 
     // ==========================================
     // LOCAL STORAGE
     // ==========================================
 
-    function readStoredYear() {
+    function readStoredSelection() {
         try {
-            return localStorage.getItem(
+            const saved = localStorage.getItem(
                 STORAGE_KEY
             );
+
+            if (saved) {
+                const parsed = JSON.parse(saved);
+
+                const normalized =
+                    normalizeSelection(parsed);
+
+                if (normalized.length > 0) {
+                    return normalized;
+                }
+            }
+
+            const legacyYear =
+                localStorage.getItem(
+                    LEGACY_STORAGE_KEY
+                );
+
+            if (isValidYear(legacyYear)) {
+                return [legacyYear];
+            }
+
         } catch (error) {
-            return null;
+            // Continue with default year.
         }
+
+        return [];
     }
 
-
-    function storeYear(year) {
+    function storeSelection(selection) {
         try {
             localStorage.setItem(
                 STORAGE_KEY,
-                year
+                JSON.stringify(selection)
             );
+
+            // Preserve compatibility with
+            // existing single-year code.
+            if (
+                selection.length === 1 &&
+                isValidYear(selection[0])
+            ) {
+                localStorage.setItem(
+                    LEGACY_STORAGE_KEY,
+                    selection[0]
+                );
+            }
+
         } catch (error) {
-            // The dashboard can still operate
-            // without localStorage.
+            // Dashboard can work without storage.
         }
     }
 
 
     // ==========================================
-    // GET CURRENT ACADEMIC YEAR
+    // READ SELECTED YEARS
+    //
+    // Priority:
+    // 1. ?years=...
+    // 2. ?year=...
+    // 3. localStorage
+    // 4. default year
     // ==========================================
 
-    function getSelectedYear() {
+    function getSelection() {
         const url = new URL(
             window.location.href
         );
 
-        const yearFromURL =
+        if (url.searchParams.has("years")) {
+            const value =
+                url.searchParams.get("years") || "";
+
+            const selection =
+                normalizeSelection(value);
+
+            if (selection.length > 0) {
+                storeSelection(selection);
+                return selection;
+            }
+        }
+
+        const legacyURLYear =
             url.searchParams.get("year");
 
-        if (isValidYear(yearFromURL)) {
-            storeYear(yearFromURL);
-            return yearFromURL;
+        if (isValidYear(legacyURLYear)) {
+            const selection = [legacyURLYear];
+
+            storeSelection(selection);
+
+            return selection;
         }
 
-        const storedYear = readStoredYear();
+        const stored = readStoredSelection();
 
-        if (isValidYear(storedYear)) {
-            return storedYear;
+        if (stored.length > 0) {
+            return stored;
         }
 
-        return DEFAULT_YEAR;
+        return [DEFAULT_YEAR];
     }
 
 
     // ==========================================
-    // FORMAT YEAR
+    // PUBLIC YEAR SELECTION HELPERS
+    // ==========================================
+
+    function getSelectedYears() {
+        const selection = getSelection();
+
+        if (
+            selection.includes(
+                ALL_HISTORICAL
+            )
+        ) {
+            return [];
+        }
+
+        return selection.slice();
+    }
+
+    function isAllHistoric() {
+        return getSelection().includes(
+            ALL_HISTORICAL
+        );
+    }
+
+    // Additional readable alias.
+    function isAllHistorical() {
+        return isAllHistoric();
+    }
+
+    // Backward-compatible single-year API.
+    //
+    // Existing pages can continue using it.
+    // Multi-year loaders should use
+    // getSelectedYears() and isAllHistorical().
+
+    function getSelectedYear() {
+        const years = getSelectedYears();
+
+        return years.length > 0
+            ? years[0]
+            : DEFAULT_YEAR;
+    }
+
+
+    // ==========================================
+    // YEAR LABELS
     // ==========================================
 
     function formatYear(year) {
+        if (year === ALL_HISTORICAL) {
+            return ALL_HISTORICAL_LABEL;
+        }
+
         return year
-            ? year.replace("-", "–")
+            ? String(year).replace("-", "–")
             : "";
     }
 
-
-    // ==========================================
-    // DATA PATH
-    // ==========================================
-
-    function getDataPath(
-        fileName,
-        year = getSelectedYear()
+    function getSelectionLabel(
+        selection = getSelection(),
+        fullFormat = false
     ) {
-        return `/Data/${year}/${fileName}`;
+        if (
+            selection.includes(
+                ALL_HISTORICAL
+            )
+        ) {
+            return ALL_HISTORICAL_LABEL;
+        }
+
+        if (selection.length === 1) {
+            const label = formatYear(
+                selection[0]
+            );
+
+            return fullFormat
+                ? `${label} Academic Year`
+                : label;
+        }
+
+        if (selection.length === 2) {
+            return selection
+                .map(formatYear)
+                .join(", ");
+        }
+
+        return `${selection.length} Academic Years`;
     }
 
 
     // ==========================================
-    // SET SELECTED YEAR
+    // DATA PATHS
     //
-    // HOME PAGE:
-    // Update in place without reloading.
+    // Single year:
+    // /Data/2024-2025/placements.xlsx
     //
-    // OTHER PAGES:
-    // Preserve original navigation behavior.
+    // All Historical Data:
+    // /Data/all-historical/placements.xlsx
     // ==========================================
 
-    function setSelectedYear(year) {
-        if (!isValidYear(year)) {
-            return;
+    function getDataPath(fileName, year) {
+        let selectedYear = year;
+
+        if (selectedYear === undefined) {
+            selectedYear = isAllHistorical()
+                ? ALL_HISTORICAL
+                : getSelectedYear();
         }
 
-        storeYear(year);
+        const folder =
+            selectedYear === ALL_HISTORICAL
+                ? HISTORICAL_FOLDER
+                : selectedYear;
+
+        return `/Data/${folder}/${fileName}`;
+    }
+
+    function getDataPaths(fileName) {
+        if (isAllHistorical()) {
+            return [
+                getDataPath(
+                    fileName,
+                    ALL_HISTORICAL
+                )
+            ];
+        }
+
+        return getSelectedYears().map(year =>
+            getDataPath(fileName, year)
+        );
+    }
+
+    // Overall has a different annual
+    // folder structure from EPP/Placements.
+    //
+    // Annual:
+    // /Data/overall/2024-2025.csv
+    //
+    // Historical:
+    // /Data/all-historical/overall.csv
+
+    function getOverallDataPaths() {
+        if (isAllHistorical()) {
+            return [
+                `/Data/${HISTORICAL_FOLDER}/overall.csv`
+            ];
+        }
+
+        return getSelectedYears().map(year =>
+            `/Data/overall/${year}.csv`
+        );
+    }
+
+
+    // ==========================================
+    // UPDATE SELECTED YEARS
+    // ==========================================
+
+    function setSelectedYears(input) {
+        const selection =
+            normalizeSelection(input);
+
+        if (selection.length === 0) {
+            return false;
+        }
+
+        const current = getSelection();
+
+        if (selectionsEqual(current, selection)) {
+            syncPickers();
+            return true;
+        }
+
+        storeSelection(selection);
 
         const url = new URL(
             window.location.href
         );
 
+        url.searchParams.delete("year");
+
         url.searchParams.set(
-            "year",
-            year
+            "years",
+            selection.includes(ALL_HISTORICAL)
+                ? ALL_HISTORICAL
+                : selection.join(",")
         );
 
-        // NEW:
-        // Do not reload the homepage.
-        // Preserve all dashboard cards.
-
+        // Homepage keeps its existing
+        // in-place update behavior.
         if (
             document.querySelector(".home-page")
         ) {
@@ -231,34 +457,122 @@
                 url.toString()
             );
 
-            // Notify homepage preview scripts
-            // that the selected year has changed.
+            syncPickers();
 
             document.dispatchEvent(
                 new CustomEvent(
                     "academic-year-changed",
                     {
                         detail: {
-                            year: year
+                            year: getSelectedYear(),
+                            years: getSelectedYears(),
+                            allHistoric:
+                                isAllHistorical(),
+                            allHistorical:
+                                isAllHistorical()
                         }
                     }
                 )
             );
 
-            return;
+            return true;
         }
 
-        // Existing behavior:
-        // EPP and Placements pages reload
-        // when academic year changes.
+        // Other pages reload when the
+        // academic year selection changes.
+        window.location.href = url.toString();
 
-        window.location.href =
-            url.toString();
+        return true;
+    }
+
+    function setSelectedYear(year) {
+        if (!isValidYear(year)) {
+            return false;
+        }
+
+        return setSelectedYears([year]);
     }
 
 
     // ==========================================
-    // POPULATE YEAR SELECT
+    // SYNC LEGACY SELECT ELEMENTS
+    // ==========================================
+
+    function syncNativeSelect(select) {
+        const selection = getSelection();
+
+        select.value =
+            selection.includes(ALL_HISTORICAL)
+                ? ALL_HISTORICAL
+                : selection[0];
+    }
+
+    function syncPickers() {
+        pickers.forEach(picker => {
+            syncNativeSelect(picker.select);
+
+            picker.label.textContent =
+                getSelectionLabel(
+                    getSelection(),
+                    picker.fullFormat
+                );
+        });
+    }
+
+
+    // ==========================================
+    // CHECKBOX DROPDOWN
+    // ==========================================
+
+    function createButton(text, className) {
+        const button =
+            document.createElement("button");
+
+        button.type = "button";
+        button.className = className;
+        button.textContent = text;
+
+        return button;
+    }
+
+    function createCheckboxRow(
+        text,
+        value,
+        onChange
+    ) {
+        const row =
+            document.createElement("label");
+
+        row.className = "ay-picker__option";
+
+        const checkbox =
+            document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.value = value;
+
+        const label =
+            document.createElement("span");
+
+        label.textContent = text;
+
+        row.appendChild(checkbox);
+        row.appendChild(label);
+
+        checkbox.addEventListener(
+            "change",
+            () => onChange(checkbox.checked)
+        );
+
+        return {
+            row,
+            checkbox
+        };
+    }
+
+
+    // ==========================================
+    // INITIALIZE EACH ACADEMIC YEAR SELECTOR
     // ==========================================
 
     function populateSelect(select) {
@@ -266,13 +580,22 @@
             return;
         }
 
-        const selectedYear =
-            getSelectedYear();
-
-        const fullLabel =
+        const fullFormat =
             select.dataset.yearFormat === "full";
 
+        // Keep the original select for
+        // compatibility with existing code.
         select.innerHTML = "";
+
+        const allOption =
+            document.createElement("option");
+
+        allOption.value = ALL_HISTORICAL;
+
+        allOption.textContent =
+            ALL_HISTORICAL_LABEL;
+
+        select.appendChild(allOption);
 
         AVAILABLE_YEARS.forEach(year => {
             const option =
@@ -281,35 +604,539 @@
             option.value = year;
 
             option.textContent =
-                fullLabel
+                fullFormat
                     ? `${formatYear(year)} Academic Year`
                     : formatYear(year);
-
-            option.selected =
-                year === selectedYear;
 
             select.appendChild(option);
         });
 
-        select.addEventListener(
-            "change",
-            event => {
-                setSelectedYear(
-                    event.target.value
-                );
+        syncNativeSelect(select);
+
+        select.style.display = "none";
+        select.tabIndex = -1;
+
+        select.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className = "ay-picker";
+
+        const trigger = createButton(
+            "",
+            "ay-picker__trigger"
+        );
+
+        const triggerLabel =
+            document.createElement("span");
+
+        triggerLabel.className =
+            "ay-picker__trigger-label";
+
+        const caret =
+            document.createElement("span");
+
+        caret.className =
+            "ay-picker__caret";
+
+        caret.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        trigger.appendChild(triggerLabel);
+        trigger.appendChild(caret);
+
+        trigger.setAttribute(
+            "aria-haspopup",
+            "true"
+        );
+
+        trigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        trigger.setAttribute(
+            "aria-label",
+            "Select academic years"
+        );
+
+        const baseId =
+            select.id ||
+            `academicYear${pickers.length + 1}`;
+
+        trigger.id = `${baseId}Button`;
+
+        wrapper.appendChild(trigger);
+
+        select.insertAdjacentElement(
+            "afterend",
+            wrapper
+        );
+
+        const associatedLabel =
+            document.querySelector(
+                `label[for="${baseId}"]`
+            );
+
+        if (associatedLabel) {
+            associatedLabel.htmlFor =
+                trigger.id;
+        }
+
+        // Keep the dropdown outside header
+        // containers to prevent clipping.
+        const panel =
+            document.createElement("div");
+
+        panel.className =
+            "ay-picker__menu";
+
+        panel.id = `${baseId}Menu`;
+        panel.hidden = true;
+
+        trigger.setAttribute(
+            "aria-controls",
+            panel.id
+        );
+
+        const heading =
+            document.createElement("div");
+
+        heading.className =
+            "ay-picker__heading";
+
+        heading.textContent =
+            "Select Academic Years";
+
+        panel.appendChild(heading);
+
+        let pendingSelection = getSelection();
+
+        // --------------------------------------
+        // ALL HISTORICAL DATA OPTION
+        // --------------------------------------
+
+        const allRow = createCheckboxRow(
+            ALL_HISTORICAL_LABEL,
+            ALL_HISTORICAL,
+            checked => {
+                pendingSelection = checked
+                    ? [ALL_HISTORICAL]
+                    : [];
+
+                refreshPending();
             }
         );
+
+        allRow.row.classList.add(
+            "ay-picker__option--all"
+        );
+
+        panel.appendChild(allRow.row);
+
+        const divider =
+            document.createElement("div");
+
+        divider.className =
+            "ay-picker__divider";
+
+        panel.appendChild(divider);
+
+        // --------------------------------------
+        // INDIVIDUAL ACADEMIC YEARS
+        // --------------------------------------
+
+        const yearCheckboxes = new Map();
+
+        AVAILABLE_YEARS.forEach(year => {
+            const row = createCheckboxRow(
+                formatYear(year),
+                year,
+                checked => {
+                    const selected = new Set(
+                        pendingSelection.filter(
+                            item =>
+                                item !== ALL_HISTORICAL
+                        )
+                    );
+
+                    if (checked) {
+                        selected.add(year);
+                    } else {
+                        selected.delete(year);
+                    }
+
+                    pendingSelection =
+                        AVAILABLE_YEARS.filter(
+                            item => selected.has(item)
+                        );
+
+                    refreshPending();
+                }
+            );
+
+            yearCheckboxes.set(
+                year,
+                row.checkbox
+            );
+
+            panel.appendChild(row.row);
+        });
+
+        // --------------------------------------
+        // COMPATIBILITY ACTIONS
+        //
+        // Existing CSS hides this section.
+        // The original functionality remains.
+        // --------------------------------------
+
+        const tools =
+            document.createElement("div");
+
+        tools.className =
+            "ay-picker__tools";
+
+        const selectAllButton =
+            createButton(
+                "Select all years",
+                "ay-picker__text-button"
+            );
+
+        const resetButton =
+            createButton(
+                "Reset",
+                "ay-picker__text-button"
+            );
+
+        tools.appendChild(selectAllButton);
+        tools.appendChild(resetButton);
+
+        panel.appendChild(tools);
+
+        // --------------------------------------
+        // CANCEL / APPLY
+        // --------------------------------------
+
+        const footer =
+            document.createElement("div");
+
+        footer.className =
+            "ay-picker__footer";
+
+        const cancelButton =
+            createButton(
+                "Cancel",
+                "ay-picker__cancel"
+            );
+
+        const applyButton =
+            createButton(
+                "Apply",
+                "ay-picker__apply"
+            );
+
+        footer.appendChild(cancelButton);
+        footer.appendChild(applyButton);
+
+        panel.appendChild(footer);
+
+        document.body.appendChild(panel);
+
+
+        // ======================================
+        // REFRESH CHECKBOX STATE
+        // ======================================
+
+        function refreshPending() {
+            const isAll =
+                pendingSelection.includes(
+                    ALL_HISTORICAL
+                );
+
+            allRow.checkbox.checked = isAll;
+
+            yearCheckboxes.forEach(
+                (checkbox, year) => {
+                    checkbox.checked =
+                        !isAll &&
+                        pendingSelection.includes(
+                            year
+                        );
+                }
+            );
+
+            applyButton.disabled =
+                pendingSelection.length === 0;
+        }
+
+
+        // ======================================
+        // DROPDOWN POSITION
+        // ======================================
+
+        function positionPanel() {
+            if (panel.hidden) {
+                return;
+            }
+
+            const rect =
+                trigger.getBoundingClientRect();
+
+            const width = Math.min(
+                320,
+                window.innerWidth - 24
+            );
+
+            panel.style.width = `${width}px`;
+
+            panel.style.maxHeight =
+                `${Math.max(
+                    160,
+                    window.innerHeight - 24
+                )}px`;
+
+            const left = Math.max(
+                12,
+                Math.min(
+                    rect.left,
+                    window.innerWidth -
+                        width -
+                        12
+                )
+            );
+
+            const panelHeight =
+                panel.offsetHeight;
+
+            const spaceBelow =
+                window.innerHeight -
+                rect.bottom;
+
+            let top;
+
+            if (
+                spaceBelow < panelHeight + 12 &&
+                rect.top > spaceBelow
+            ) {
+                top =
+                    rect.top -
+                    panelHeight -
+                    8;
+            } else {
+                top = rect.bottom + 8;
+            }
+
+            top = Math.max(
+                12,
+                Math.min(
+                    top,
+                    window.innerHeight -
+                        panelHeight -
+                        12
+                )
+            );
+
+            panel.style.left = `${left}px`;
+            panel.style.top = `${top}px`;
+        }
+
+
+        // ======================================
+        // OPEN / CLOSE DROPDOWN
+        // ======================================
+
+        function closePanel() {
+            panel.hidden = true;
+
+            trigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            if (openPicker === picker) {
+                openPicker = null;
+            }
+        }
+
+        function openPanel() {
+            if (
+                openPicker &&
+                openPicker !== picker
+            ) {
+                openPicker.close();
+            }
+
+            pendingSelection =
+                getSelection().slice();
+
+            refreshPending();
+
+            panel.hidden = false;
+
+            trigger.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+            openPicker = picker;
+
+            positionPanel();
+        }
+
+        const picker = {
+            select,
+            wrapper,
+            panel,
+            label: triggerLabel,
+            fullFormat,
+            close: closePanel,
+            position: positionPanel
+        };
+
+
+        // ======================================
+        // BUTTON EVENTS
+        // ======================================
+
+        trigger.addEventListener(
+            "click",
+            () => {
+                if (panel.hidden) {
+                    openPanel();
+                } else {
+                    closePanel();
+                }
+            }
+        );
+
+        selectAllButton.addEventListener(
+            "click",
+            () => {
+                pendingSelection =
+                    AVAILABLE_YEARS.slice();
+
+                refreshPending();
+            }
+        );
+
+        resetButton.addEventListener(
+            "click",
+            () => {
+                pendingSelection = [
+                    DEFAULT_YEAR
+                ];
+
+                refreshPending();
+            }
+        );
+
+        cancelButton.addEventListener(
+            "click",
+            closePanel
+        );
+
+        applyButton.addEventListener(
+            "click",
+            () => {
+                if (
+                    pendingSelection.length === 0
+                ) {
+                    return;
+                }
+
+                const selection =
+                    pendingSelection.slice();
+
+                closePanel();
+
+                setSelectedYears(selection);
+            }
+        );
+
+        pickers.push(picker);
+
+        syncPickers();
     }
 
 
     // ==========================================
-    // COMPATIBILITY WITH EXISTING DATA PATHS
+    // GLOBAL DROPDOWN EVENTS
+    // ==========================================
+
+    document.addEventListener(
+        "pointerdown",
+        event => {
+            if (!openPicker) {
+                return;
+            }
+
+            const insideTrigger =
+                openPicker.wrapper.contains(
+                    event.target
+                );
+
+            const insideMenu =
+                openPicker.panel.contains(
+                    event.target
+                );
+
+            if (
+                !insideTrigger &&
+                !insideMenu
+            ) {
+                openPicker.close();
+            }
+        }
+    );
+
+    document.addEventListener(
+        "keydown",
+        event => {
+            if (
+                event.key === "Escape" &&
+                openPicker
+            ) {
+                openPicker.close();
+            }
+        }
+    );
+
+    window.addEventListener(
+        "resize",
+        () => {
+            if (openPicker) {
+                openPicker.position();
+            }
+        }
+    );
+
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (openPicker) {
+                openPicker.position();
+            }
+        },
+        true
+    );
+
+
+    // ==========================================
+    // EXISTING DATA REQUEST COMPATIBILITY
+    //
+    // Keep legacy single-file requests
+    // working while page-specific loaders
+    // are upgraded for multiple years.
     // ==========================================
 
     function rewriteDataRequest(input) {
-        if (
-            typeof input !== "string"
-        ) {
+        if (typeof input !== "string") {
             return input;
         }
 
@@ -318,8 +1145,7 @@
             window.location.href
         );
 
-        const pathname =
-            requestURL.pathname;
+        const pathname = requestURL.pathname;
 
         if (
             pathname ===
@@ -351,15 +1177,7 @@
         return input;
     }
 
-
-    // ==========================================
-    // EXISTING FETCH COMPATIBILITY
-    // ==========================================
-
-    window.fetch = function (
-        input,
-        init
-    ) {
+    window.fetch = function (input, init) {
         return nativeFetch(
             rewriteDataRequest(input),
             init
@@ -376,13 +1194,36 @@
 
         defaultYear: DEFAULT_YEAR,
 
-        getSelectedYear,
+        // Keep original API name for
+        // backward compatibility.
+        allHistoricValue: ALL_HISTORICAL,
 
+        // New readable aliases.
+        allHistoricalValue: ALL_HISTORICAL,
+
+        allHistoricalLabel:
+            ALL_HISTORICAL_LABEL,
+
+        historicalFolder:
+            HISTORICAL_FOLDER,
+
+        getSelectedYear,
         setSelectedYear,
+
+        getSelectedYears,
+        setSelectedYears,
+
+        isAllHistoric,
+        isAllHistorical,
+
+        getSelectionLabel,
 
         formatYear,
 
-        getDataPath
+        getDataPath,
+        getDataPaths,
+
+        getOverallDataPaths
     };
 
 
@@ -390,17 +1231,23 @@
     // INITIALIZATION
     // ==========================================
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        () => {
-            document
-                .querySelectorAll(
-                    "[data-academic-year-select]"
-                )
-                .forEach(
-                    populateSelect
-                );
-        }
-    );
+    function initialize() {
+        document
+            .querySelectorAll(
+                "[data-academic-year-select]"
+            )
+            .forEach(populateSelect);
+    }
+
+    if (
+        document.readyState === "loading"
+    ) {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initialize
+        );
+    } else {
+        initialize();
+    }
 
 })();

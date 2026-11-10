@@ -1,11 +1,23 @@
+
+/* ==========================================
+   ACADEMIC YEAR SELECTOR
+   Shared by:
+   - Homepage
+   - Overall
+   - Placements
+   - EPP
+   ========================================== */
+
+
+/* ==========================================
+   ORIGINAL NATIVE SELECT STYLES
+   Kept for compatibility.
+   ========================================== */
+
 .home-page .home-year-select {
     min-width: 184px;
 
-    padding:
-        1px
-        24px
-        1px
-        0;
+    padding: 1px 24px 1px 0;
 
     border: 0;
     outline: none;
@@ -13,54 +25,27 @@
     appearance: none;
     -webkit-appearance: none;
 
-    color:
-        var(--jmu-white);
+    color: var(--jmu-white);
 
-    background-color:
-        transparent;
+    background-color: transparent;
 
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-    background-repeat:
-        no-repeat;
-
-    background-position:
-        right 2px center;
-
-    background-size:
-        12px 8px;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: 500;
 
     cursor: pointer;
 }
 
-
 .home-page .home-year-select option {
-    color:
-        var(--jmu-charcoal);
-
-    background:
-        var(--jmu-white);
+    color: var(--jmu-charcoal);
+    background: var(--jmu-white);
 }
-
 
 .epp-page .year-select,
 .placement-year-select {
     width: 100%;
 
-    padding:
-        2px
-        24px
-        2px
-        0;
+    padding: 2px 24px 2px 0;
 
     border: 0;
     outline: none;
@@ -68,46 +53,551 @@
     appearance: none;
     -webkit-appearance: none;
 
-    color:
-        var(--jmu-purple);
+    color: var(--jmu-purple);
+    background-color: transparent;
 
-    background-color:
-        transparent;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23450084' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-    background-repeat:
-        no-repeat;
-
-    background-position:
-        right 2px center;
-
-    background-size:
-        12px 8px;
-
-    font-family:
-        "Arvo",
-        Georgia,
-        serif;
-
+    font-family: "Arvo", Georgia, serif;
     font-size: 16px;
     font-weight: 700;
 
     cursor: pointer;
 }
 
-
 .epp-page .year-select option,
 .placement-year-select option {
-    color:
-        var(--jmu-charcoal);
+    color: var(--jmu-charcoal);
+    background: var(--jmu-white);
 
-    background:
-        var(--jmu-white);
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+
+/* ==========================================
+   SHARED MULTI-SELECT PICKER
+   ========================================== */
+
+.ay-picker {
+    position: relative;
+
+    display: inline-block;
+
+    width: 100%;
+    min-width: 0;
+
+    vertical-align: middle;
+}
+
+.ay-picker__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    width: 100%;
+    min-width: 0;
+
+    padding: 3px 0;
+
+    border: 0;
+    border-radius: 4px;
+
+    background: transparent;
+    color: #450084;
+
+    text-align: left;
+
+    font-family: "Arvo", Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.ay-picker__trigger-label {
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ay-picker__caret {
+    display: block;
+
+    flex-shrink: 0;
+
+    width: 8px;
+    height: 8px;
+
+    margin-right: 3px;
+
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+
+    transform: rotate(45deg) translateY(-2px);
+
+    transition: transform 0.15s ease;
+}
+
+.ay-picker__trigger[aria-expanded="true"]
+.ay-picker__caret {
+    transform: rotate(225deg) translateY(-2px);
+}
+
+.ay-picker__trigger:focus-visible {
+    outline: 2px solid #a98bc7;
+    outline-offset: 5px;
+}
+
+
+/* ==========================================
+   HOMEPAGE ACADEMIC YEAR CARD
+   NEW DESIGN
+
+   Replace the old purple pill with
+   the same white-card appearance
+   used on other dashboard pages.
+   ========================================== */
+
+.home-page .hero-copy .academic-year {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+    justify-content: center;
+
+    gap: 7px;
+
+    box-sizing: border-box;
+
+    width: 250px;
+    max-width: 100%;
+    min-width: 0;
+
+    height: auto;
+    min-height: 88px;
+
+    margin-top: 24px;
+
+    padding: 16px 19px;
+
+    border: 1px solid #e4d9ef;
+    border-radius: 16px;
+
+    background: #ffffff;
+    background-image: none;
+
+    color: #450084;
+
+    box-shadow:
+        0 8px 25px rgba(25, 12, 48, 0.12);
+
+    overflow: visible;
+}
+
+/* Add the same heading as the other pages. */
+
+.home-page .hero-copy .academic-year::before {
+    content: "ACADEMIC YEAR";
+
+    display: block;
+
+    position: static;
+
+    width: auto;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+    box-shadow: none;
+
+    color: #450084;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1.4;
+    letter-spacing: 0.8px;
+}
+
+/* Remove any old decorative arrow
+   attached to the homepage wrapper. */
+
+.home-page .hero-copy .academic-year::after {
+    content: none;
+    display: none;
+}
+
+/* Remove the small decorative dot
+   from the original purple pill. */
+
+.home-page .hero-copy .academic-year > span {
+    display: none !important;
+}
+
+/* Make the picker fill the white card. */
+
+.home-page .hero-copy
+.academic-year .ay-picker {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* Match the purple bold text
+   used on the other pages. */
+
+.home-page .hero-copy
+.academic-year .ay-picker__trigger {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #450084;
+
+    font-family: "Arvo", Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+
+    line-height: 1.5;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.home-page .hero-copy
+.academic-year .ay-picker__trigger-label {
+    color: #450084;
+
+    font-family: "Arvo", Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Purple arrow, matching other pages. */
+
+.home-page .hero-copy
+.academic-year .ay-picker__caret {
+    color: #450084;
+    border-color: #450084;
+}
+
+
+/* ==========================================
+   EPP AND PLACEMENTS
+   Preserve existing layout.
+   ========================================== */
+
+.epp-page .ay-picker,
+.placement-year-card .ay-picker {
+    min-width: 160px;
+}
+
+.epp-page .ay-picker__trigger,
+.placement-year-card .ay-picker__trigger {
+    color: #450084;
+}
+
+
+/* ==========================================
+   DROPDOWN MENU
+   Shared appearance for all pages.
+   ========================================== */
+
+.ay-picker__menu {
+    position: fixed;
+    z-index: 100000;
+
+    box-sizing: border-box;
+
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    max-height: 420px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    padding: 14px;
+
+    border: 1px solid #e7e1ed;
+    border-radius: 14px;
+
+    background: #ffffff;
+    color: #26212c;
+
+    box-shadow:
+        0 16px 42px rgba(27, 17, 39, 0.18);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.ay-picker__menu[hidden] {
+    display: none !important;
+}
+
+.ay-picker__heading {
+    padding: 3px 4px 11px;
+
+    color: #450084;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.ay-picker__option {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 10px 9px;
+
+    border-radius: 8px;
+
+    color: #29232f;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.ay-picker__option:hover {
+    background: #f5f0fa;
+}
+
+.ay-picker__option input {
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    flex-shrink: 0;
+
+    accent-color: #450084;
+
+    cursor: pointer;
+}
+
+.ay-picker__option--all {
+    font-weight: 700;
+    color: #450084;
+}
+
+.ay-picker__divider {
+    height: 1px;
+
+    margin: 7px 2px;
+
+    background: #eae6ee;
+}
+
+
+/* ==========================================
+   REMOVE SELECT ALL YEARS / RESET ROW
+
+   The row is hidden on all four pages.
+
+   All Historical Data remains available
+   through its own checkbox.
+   ========================================== */
+
+.ay-picker__tools {
+    display: none !important;
+}
+
+
+/* ==========================================
+   CANCEL / APPLY BUTTONS
+   ========================================== */
+
+.ay-picker__footer {
+    position: sticky;
+    bottom: -14px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    margin: 12px -14px -14px;
+
+    padding: 12px 14px;
+
+    border-top: 1px solid #eee9f1;
+
+    background: #ffffff;
+}
+
+.ay-picker__cancel,
+.ay-picker__apply {
+    min-width: 78px;
+
+    padding: 9px 14px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.ay-picker__cancel {
+    border: 1px solid #ddd5e5;
+
+    background: #ffffff;
+    color: #450084;
+}
+
+.ay-picker__cancel:hover {
+    background: #f7f3fa;
+}
+
+.ay-picker__apply {
+    border: 1px solid #450084;
+
+    background: #450084;
+    color: #ffffff;
+}
+
+.ay-picker__apply:hover {
+    background: #350066;
+}
+
+.ay-picker__apply:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ay-picker__menu button:focus-visible,
+.ay-picker__menu input:focus-visible {
+    outline: 2px solid #a98bc7;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    .ay-picker__menu {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .ay-picker__option {
+        padding: 12px 9px;
+    }
+
+    .ay-picker__footer {
+        bottom: -12px;
+
+        margin: 12px -12px -12px;
+
+        padding: 12px;
+    }
+
+    .ay-picker__trigger {
+        font-size: 14px;
+    }
+
+    .home-page .hero-copy .academic-year {
+        width: 240px;
+        max-width: 100%;
+
+        min-height: 84px;
+
+        padding: 14px 17px;
+    }
+
+    .home-page .hero-copy
+    .academic-year .ay-picker__trigger,
+    .home-page .hero-copy
+    .academic-year .ay-picker__trigger-label {
+        font-size: 14px;
+    }
+
+}
+
+
+
+/* ==========================================
+   HOMEPAGE ACADEMIC YEAR
+   Remove yellow backgrounds from
+   text and dropdown arrow
+   ========================================== */
+
+.home-page .hero-copy
+.academic-year .ay-picker__trigger,
+.home-page .hero-copy
+.academic-year .ay-picker__trigger-label,
+.home-page .hero-copy
+.academic-year .ay-picker__caret {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+
+    box-shadow: none !important;
+    text-shadow: none !important;
+
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Keep the arrow purple without background */
+
+.home-page .hero-copy
+.academic-year .ay-picker__caret {
+    border-right: 2px solid #450084 !important;
+    border-bottom: 2px solid #450084 !important;
+
+    outline: none;
+}
+
+/* Remove text-selection highlight */
+
+.home-page .hero-copy
+.academic-year .ay-picker__trigger::selection,
+.home-page .hero-copy
+.academic-year .ay-picker__trigger-label::selection {
+    background: transparent;
+    color: #450084;
 }

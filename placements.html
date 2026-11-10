@@ -3,6 +3,45 @@
 <html lang="en">
 
 <head>
+
+<style id="placements-filter-loading-style">
+  #student-placement-dashboard
+  .filter-grid:not([data-pmf-ready="true"]) {
+    visibility: hidden;
+    min-height: 90px;
+  }
+
+  /* PLACEMENTS LOADING MESSAGE V1 */
+
+  #student-placement-dashboard
+  .filter-grid:not([data-pmf-ready="true"]) {
+    position: relative;
+  }
+
+  #student-placement-dashboard
+  .filter-grid:not([data-pmf-ready="true"])::before {
+    content: "Filters are loading...";
+    visibility: visible;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: #665477;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    box-sizing: border-box;
+  }
+
+</style>
+
     <meta name="robots" content="noindex, nofollow">
     <script src="/preview-gate.js"></script>
     <meta charset="UTF-8">
@@ -1275,6 +1314,10 @@
     <script
         src="/JS/academic-year.js"
     ></script>
+
+    <script src="/JS/multi-year-data.js"></script>
+
+    <script src="/JS/placements-multi-filters.js"></script>
 
     <script
         src="/JS/map.js"
