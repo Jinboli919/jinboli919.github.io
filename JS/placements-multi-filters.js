@@ -3,7 +3,7 @@
 
     // ==================================================
     // PLACEMENTS MULTI-SELECT FILTERS
-    // Six multi-select fields + ZIP search
+    // 
     // ==================================================
 
     const DEFINITIONS = [
