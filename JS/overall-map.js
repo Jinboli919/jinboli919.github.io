@@ -13,7 +13,8 @@
     { id: "VAAPI", color: "#16A34A", page: "/vaapi.html", published: false },
     { id: "VAICC", color: "#9333EA", page: "/vaicc.html", published: false },
     { id: "CTA", color: "#F59E0B", page: "/cta.html", published: false },
-    { id: "Placements", color: "#DC2626", page: "/placements.html", published: true }
+    { id: "Placements", color: "#DC2626", page: "/placements.html", published: true },
+    { id: "Teaching Fellows", color: "#168F83", page: "/overall.html", published: false }
   ];
 
   const CONFIG = {
@@ -785,12 +786,23 @@
       // This allows counts from multiple years to be summed
       // within each program and county/independent city.
 
+      const rawProgram = String(row.program || "")
+        .trim()
+        .toLowerCase();
+
+      const isTFPara =
+        rawProgram === "teaching fellows - paraprofessionals";
+
+      const isTFOnCampus =
+        rawProgram === "teaching fellows - on-campus";
+
+      const normalizedProgram =
+        (isTFPara || isTFOnCampus)
+          ? "teaching fellows"
+          : rawProgram;
+
       const program = PROGRAMS.find(
-        p =>
-          p.id.toLowerCase() ===
-          String(row.program || "")
-            .trim()
-            .toLowerCase()
+        p => p.id.toLowerCase() === normalizedProgram
       );
 
       const zip = zip5(
@@ -837,6 +849,18 @@
       values[program.id] =
         (values[program.id] || 0) + count;
 
+      if (isTFPara) {
+        values["Teaching Fellows - Paraprofessionals"] =
+          (values["Teaching Fellows - Paraprofessionals"] || 0)
+          + count;
+      }
+
+      if (isTFOnCampus) {
+        values["Teaching Fellows - On-Campus"] =
+          (values["Teaching Fellows - On-Campus"] || 0)
+          + count;
+      }
+
       state.counts.set(
         area.id,
         values
@@ -844,6 +868,10 @@
 
       matched++;
     }
+
+    applyTeachingFellowsChoice(
+      el("overallTeachingFellowsSubprogram")?.value || "all"
+    );
 
     state.maxCount = Math.max(
       1,
@@ -1386,6 +1414,46 @@
         [d, d],
         [-d, d]
       ];
+    } else if (n === 6) {
+      const center = items.find(
+        item => item.program.id === "Placements"
+      );
+
+      const outside = items.filter(
+        item => item !== center
+      );
+
+      const maxOutsideRadius = Math.max(
+        ...outside.map(item => item.radius)
+      );
+
+      const ringRadius = Math.max(
+        maxOutsideRadius + (center?.radius || 0) + 3,
+        (2 * maxOutsideRadius + 3) /
+          (2 * Math.sin(Math.PI / outside.length))
+      );
+
+      const positions = new Map();
+
+      if (center) {
+        positions.set("Placements", [0, 0]);
+      }
+
+      outside.forEach((item, index) => {
+        const angle =
+          -Math.PI / 2 +
+          (2 * Math.PI * index) / outside.length;
+
+        positions.set(item.program.id, [
+          ringRadius * Math.cos(angle),
+          ringRadius * Math.sin(angle)
+        ]);
+      });
+
+      offsets = items.map(
+        item => positions.get(item.program.id) || [0, 0]
+      );
+
     } else {
       const center = items.find(
         item =>
@@ -1402,7 +1470,8 @@
         VAAPI: [spacing, 0],
         VAICC: [0, spacing],
         CTA: [-spacing, 0],
-        Placements: [0, 0]
+        Placements: [0, 0],
+        "Teaching Fellows": [-spacing * 1.4, -spacing * 1.4]
       };
 
       offsets = items.map(
@@ -2711,7 +2780,7 @@
 
     if (node) {
       node.textContent =
-        `${state.mapPrograms.size} of ${PROGRAMS.length} programs selected`;
+        `${state.mapPrograms.size} of ${document.querySelectorAll("input[data-overall-program]").length} programs selected`;
     }
 
     renderDetails();
@@ -2818,7 +2887,100 @@
   // OVERALL COUNTY FILTER + KPI PUBLIC API
   // ============================================================
 
+  // ============================================================
+  // TEACHING FELLOWS SUBPROGRAM FILTER
+  // ============================================================
+
+  function applyTeachingFellowsChoice(choice) {
+    // TF_DYNAMIC_COLOR_V1
+    const activeTFColor =
+      choice === "Teaching Fellows - Paraprofessionals"
+        ? "#147F77"
+        : choice === "Teaching Fellows - On-Campus"
+          ? "#319A90"
+          : "#168F83";
+
+    const tfProgram = PROGRAMS.find(
+      program => program.id === "Teaching Fellows"
+    );
+
+    if (tfProgram) {
+      tfProgram.color = activeTFColor;
+    }
+
+    // Color of the main subfilter's selected text.
+    const mainTFSelect = document.getElementById(
+      "overallTeachingFellowsSubprogram"
+    );
+
+    if (mainTFSelect) {
+      mainTFSelect.style.setProperty(
+        "color",
+        activeTFColor,
+        "important"
+      );
+
+      mainTFSelect.style.setProperty(
+        "font-weight",
+        "400",
+        "important"
+      );
+    }
+
+    // Color dot in the main Program Filter.
+    const mainTFDot = document.querySelector(
+      ".overall-teaching-fellows-control .overall-color-dot"
+    );
+
+    if (mainTFDot) {
+      mainTFDot.style.setProperty(
+        "--dot",
+        activeTFColor
+      );
+    }
+
+    const paraName =
+      "Teaching Fellows - Paraprofessionals";
+
+    const campusName =
+      "Teaching Fellows - On-Campus";
+
+    for (const values of state.counts.values()) {
+      const para = Number(values[paraName]) || 0;
+      const campus = Number(values[campusName]) || 0;
+
+      if (
+        para > 0 ||
+        campus > 0 ||
+        Object.prototype.hasOwnProperty.call(
+          values, "Teaching Fellows"
+        )
+      ) {
+        if (choice === paraName) {
+          values["Teaching Fellows"] = para;
+        } else if (choice === campusName) {
+          values["Teaching Fellows"] = campus;
+        } else {
+          values["Teaching Fellows"] = para + campus;
+        }
+      }
+    }
+
+    state.maxCount = Math.max(
+      1,
+      ...[...state.counts.values()].flatMap(
+        values => PROGRAMS.map(
+          program => Number(values[program.id]) || 0
+        )
+      )
+    );
+  }
+
   window.OverallReach = {
+
+    setTeachingFellowsSubprogram(choice) {
+      applyTeachingFellowsChoice(choice);
+    },
 
     // Use the exact same navigation logic as
     // the existing Location Details panel.

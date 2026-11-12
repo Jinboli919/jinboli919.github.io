@@ -459,7 +459,7 @@
       #overallProgramKpis .orc-kpi-grid {
         display: grid;
         grid-template-columns:
-          repeat(5, minmax(0, 1fr));
+          repeat(6, minmax(0, 1fr));
         gap: 10px;
       }
 
@@ -1438,6 +1438,20 @@
     function renderMetrics() {
       grid.replaceChildren();
 
+      // TF_KPI_ACTIVE_COLOR_V1
+      const mainTFSelect = document.getElementById(
+        "overallTeachingFellowsSubprogram"
+      );
+
+      const tfChoice = mainTFSelect?.value || "all";
+
+      const tfColor =
+        tfChoice === "Teaching Fellows - Paraprofessionals"
+          ? "#147F77"
+          : tfChoice === "Teaching Fellows - On-Campus"
+            ? "#319A90"
+            : "#168F83";
+
       if (!api.isReady()) {
         const message = document.createElement("p");
 
@@ -1469,6 +1483,9 @@
 
       metrics.forEach(function (metric) {
 
+        const isTeachingFellows =
+          metric.id === "Teaching Fellows";
+
         // Card container.
 
         const card = document.createElement(
@@ -1479,7 +1496,7 @@
 
         card.style.setProperty(
           "--program-color",
-          metric.color
+          isTeachingFellows ? tfColor : metric.color
         );
 
         // Top row.
@@ -1503,7 +1520,7 @@
         dot.className = "orc-kpi-dot";
 
         dot.style.backgroundColor =
-          metric.color;
+          isTeachingFellows ? tfColor : metric.color;
 
         const programName =
           document.createElement("span");
@@ -1517,9 +1534,94 @@
 
         // View Details / Coming Soon.
 
-        top.appendChild(
-          makeDetailsControl(metric)
-        );
+        if (isTeachingFellows) {
+          const tfKpiSelect =
+            document.createElement("select");
+
+          tfKpiSelect.className =
+            "orc-tf-kpi-select";
+
+          tfKpiSelect.setAttribute(
+            "aria-label",
+            "Teaching Fellows KPI subprogram"
+          );
+
+          tfKpiSelect.title =
+            "Teaching Fellows subprogram";
+
+          tfKpiSelect.style.cssText = [
+            "width:104px",
+            "max-width:60%",
+            "min-width:0",
+            "height:24px",
+            "padding:0 4px",
+            "font-size:9px",
+            "font-weight:700",
+            "border:1px solid #dfd5e9",
+            "border-radius:7px",
+            "background:#fff",
+            "cursor:pointer",
+            "box-sizing:border-box"
+          ].join(";");
+
+          const choices = [
+            ["all", "All"],
+            [
+              "Teaching Fellows - Paraprofessionals",
+              "Paraprofessionals"
+            ],
+            [
+              "Teaching Fellows - On-Campus",
+              "On-Campus"
+            ]
+          ];
+
+          choices.forEach(function ([choice, label]) {
+            const option =
+              document.createElement("option");
+
+            option.value = choice;
+            option.textContent = label;
+
+            tfKpiSelect.appendChild(option);
+          });
+
+          tfKpiSelect.value = tfChoice;
+          tfKpiSelect.style.color = tfColor;
+
+          tfKpiSelect.addEventListener(
+            "change",
+            function () {
+              const mainSelect =
+                document.getElementById(
+                  "overallTeachingFellowsSubprogram"
+                );
+
+              if (!mainSelect) {
+                return;
+              }
+
+              mainSelect.value = tfKpiSelect.value;
+
+              // Reuse the existing main filter event.
+              mainSelect.dispatchEvent(
+                new Event("change", {
+                  bubbles: true
+                })
+              );
+
+              // Ensure the KPI refreshes even if the
+              // existing filter handler does not do so.
+              renderMetrics();
+            }
+          );
+
+          top.appendChild(tfKpiSelect);
+        } else {
+          top.appendChild(
+            makeDetailsControl(metric)
+          );
+        }
 
         // Participant count.
 
@@ -1528,6 +1630,10 @@
         );
 
         value.className = "orc-kpi-value";
+
+        if (isTeachingFellows) {
+          value.style.color = tfColor;
+        }
 
         value.textContent =
           numberFormat.format(
@@ -1571,6 +1677,28 @@
     // ========================================================
     // EVENTS
     // ========================================================
+
+    const tfSubfilter = document.getElementById(
+      "overallTeachingFellowsSubprogram"
+    );
+
+    if (tfSubfilter) {
+      tfSubfilter.addEventListener(
+        "change",
+        function () {
+          if (
+            typeof api.setTeachingFellowsSubprogram ===
+            "function"
+          ) {
+            api.setTeachingFellowsSubprogram(
+              tfSubfilter.value
+            );
+          }
+
+          applyFilters();
+        }
+      );
+    }
 
     toggle.addEventListener(
       "click",

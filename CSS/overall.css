@@ -1325,3 +1325,147 @@ a.overall-detail-drill-link:focus-visible {
     gap: 5px;
   }
 }
+
+
+/* TEACHING FELLOWS COMPACT FILTER - 2026 */
+
+/* Arrange all six program filters together */
+.overall-filter-toolbar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 7px !important;
+}
+
+/* Compact original five program buttons */
+.overall-filter-toolbar > .overall-program-choice {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    gap: 5px !important;
+    padding: 8px 9px !important;
+    white-space: nowrap !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+}
+
+/* Teaching Fellows: one combined outer box */
+.overall-teaching-fellows-control {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    gap: 6px !important;
+
+    padding: 4px 6px !important;
+
+    background: #ffffff !important;
+    border: 1px solid #e3d5f1 !important;
+    border-radius: 10px !important;
+
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+
+/* Remove the separate inner button border */
+.overall-teaching-fellows-control .overall-program-choice {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    gap: 5px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+}
+
+/* Keep the checkbox and color dot compact */
+.overall-teaching-fellows-control input[type="checkbox"] {
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.overall-teaching-fellows-control .overall-color-dot {
+    flex-shrink: 0 !important;
+}
+
+/* Smaller subfilter, inside the same outer box */
+.overall-tf-subfilter {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    width: 57px !important;
+    min-width: 57px !important;
+    max-width: 57px !important;
+    height: 25px !important;
+
+    padding: 0 16px 0 7px !important;
+    margin: 0 !important;
+
+    border: 1px solid #dedee4 !important;
+    border-radius: 14px !important;
+
+    background-color: #ffffff !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 5px center !important;
+    background-size: 11px !important;
+
+    color: #333333 !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+}
+
+/* Move Select All and Clear to the right on the next row */
+.overall-filter-toolbar > .overall-filter-actions {
+    order: 10 !important;
+    display: flex !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    margin: 0 !important;
+}
+
+/* Allow wrapping on smaller screens */
+@media (max-width: 760px) {
+    .overall-filter-toolbar {
+        gap: 8px !important;
+    }
+
+    .overall-filter-toolbar > .overall-program-choice {
+        font-size: 11px !important;
+    }
+}
+
+
+/* TF SOFT SUBFILTER TYPOGRAPHY */
+
+/* Restore the lighter original text appearance */
+.overall-tf-subfilter,
+#overallProgramKpis .orc-tf-kpi-select {
+    font-family: inherit !important;
+    font-weight: 400 !important;
+}
+
+/* Softer text inside dropdown menus, where supported */
+.overall-tf-subfilter option,
+#overallProgramKpis .orc-tf-kpi-select option {
+    font-family: inherit;
+    font-weight: 400;
+    color: #757575;
+    background-color: #ffffff;
+}
+

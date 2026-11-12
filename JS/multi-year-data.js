@@ -727,6 +727,97 @@
                     { type: "array" }
                 );
 
+                // ENDORSEMENT_SKIP_MISSING_YEARS_V1
+                // Use only years actually available in both
+                // endorsement sheets of the historical workbook.
+                // Missing years must not invalidate other years.
+                if (!selection.allHistorical) {
+                    const requiredSheets = [
+                        "Completers by Program",
+                        "Admitted by Program"
+                    ];
+
+                    let availableYears = null;
+
+                    for (const expectedName of requiredSheets) {
+                        const sheetName = workbook.SheetNames.find(
+                            name =>
+                                name.toLowerCase() ===
+                                expectedName.toLowerCase()
+                        );
+
+                        if (!sheetName) {
+                            throw new Error(
+                                "Missing endorsement sheet: " +
+                                expectedName
+                            );
+                        }
+
+                        const rows = XLSX.utils.sheet_to_json(
+                            workbook.Sheets[sheetName],
+                            {
+                                header: 1,
+                                defval: "",
+                                raw: false
+                            }
+                        );
+
+                        const header = rows.find(row =>
+                            /endorsement/i.test(clean(row[0])) &&
+                            row.some(cell => normalizeYear(cell))
+                        );
+
+                        if (!header) {
+                            throw new Error(
+                                "Cannot find year headers in " +
+                                sheetName
+                            );
+                        }
+
+                        const sheetYears = new Set(
+                            header
+                                .map(cell => normalizeYear(cell))
+                                .filter(Boolean)
+                        );
+
+                        availableYears =
+                            availableYears === null
+                                ? sheetYears
+                                : new Set(
+                                    [...availableYears].filter(
+                                        year => sheetYears.has(year)
+                                    )
+                                );
+                    }
+
+                    const requestedYears =
+                        selection.years.slice();
+
+                    selection.years =
+                        selection.years.filter(
+                            year => availableYears.has(year)
+                        );
+
+                    if (selection.years.length === 0) {
+                        throw new Error(
+                            "Endorsement data is unavailable " +
+                            "for the selected academic years."
+                        );
+                    }
+
+                    const skippedYears =
+                        requestedYears.filter(
+                            year => !selection.years.includes(year)
+                        );
+
+                    if (skippedYears.length > 0) {
+                        console.info(
+                            "[Endorsement] Years without data skipped:",
+                            skippedYears.join(", ")
+                        );
+                    }
+                }
+
                 const combined = new Map();
 
                 function addSheet(sheetName, metric) {

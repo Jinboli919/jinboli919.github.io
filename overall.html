@@ -127,8 +127,8 @@
 
             <p class="placement-page-description">
                 Explore program participation across Virginia. Compare the geographic reach of
-                VAPSP, VAAPI, VAICC, CTA, and Student Teaching
-                Placements.
+                VAPSP, VAAPI, VAICC, CTA, Student Teaching
+                Placements, and Teaching Fellows.
             </p>
 
         </div>
@@ -269,6 +269,40 @@
 
                 </label>
 
+                <!-- Teaching Fellows -->
+                <div class="overall-teaching-fellows-control">
+
+                    <label class="overall-program-choice">
+                        <input
+                            type="checkbox"
+                            data-overall-program="Teaching Fellows"
+                            checked
+                        >
+
+                        <span
+                            class="overall-color-dot"
+                            style="--dot:#168F83"
+                        ></span>
+
+                        Teaching Fellows
+                    </label>
+
+                    <select
+                        id="overallTeachingFellowsSubprogram"
+                        class="overall-tf-subfilter"
+                        aria-label="Teaching Fellows subprogram"
+                    >
+                        <option value="all">All</option>
+                        <option value="Teaching Fellows - Paraprofessionals">
+                            Paraprofessionals
+                        </option>
+                        <option value="Teaching Fellows - On-Campus">
+                            On-Campus
+                        </option>
+                    </select>
+
+                </div>
+
                 <div class="overall-filter-actions">
 
                     <button
@@ -293,7 +327,7 @@
                 class="overall-filter-summary"
                 id="overallFilterSummary"
             >
-                5 of 5 programs selected
+                6 of 6 programs selected
             </p>
 
             
@@ -454,5 +488,6 @@
     ></script>
 
     <script src="/JS/overall-controls.js"></script>
+
 </body>
 </html>
