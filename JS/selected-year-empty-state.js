@@ -2,8 +2,8 @@
   "use strict";
 
   // SELECTED_YEAR_EMPTY_STATE_V1
-  // Display a friendly notice only when the selected
-  // academic year's actual data file is missing.
+  // 
+  // 
 
   const MESSAGE =
     "Data for the selected academic year is currently unavailable.";
