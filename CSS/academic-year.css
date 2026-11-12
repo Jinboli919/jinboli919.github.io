@@ -1,18 +1,8 @@
 
 /* ==========================================
    ACADEMIC YEAR SELECTOR
-   Shared by:
-   - Homepage
-   - Overall
-   - Placements
-   - EPP
    ========================================== */
 
-
-/* ==========================================
-   ORIGINAL NATIVE SELECT STYLES
-   Kept for compatibility.
-   ========================================== */
 
 .home-page .home-year-select {
     min-width: 184px;
