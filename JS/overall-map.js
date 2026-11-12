@@ -4,8 +4,8 @@
 
   // ============================================================
   // OVERALL PROGRAM REACH
-  // County/City interaction follows Placements' map-event model.
-  // All geographic areas and program counts remain independent.
+  // 
+  // 
   // ============================================================
 
   const PROGRAMS = [
