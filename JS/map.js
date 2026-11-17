@@ -200,6 +200,20 @@
         return String(value).trim();
     }
 
+    // ==================================================
+    // UPDATED: NORMALIZE ZIP CODE
+    //
+    // Supports:
+    // 23139      -> 23139
+    // 23139-5746 -> 23139
+    // 23227-3618 -> 23227
+    // 23139.0    -> 23139
+    // 1234       -> 01234
+    //
+    // This fixes ZIP+4 values not matching the
+    // five-digit ZIP coordinates in the CSV.
+    // ==================================================
+
     function normalizeZIP(value) {
         const cleaned = cleanValue(value);
 
@@ -207,7 +221,22 @@
             return "";
         }
 
-        return cleaned.padStart(5, "0");
+        // Handle ZIP+4 format.
+        const zipPlus4 = cleaned.match(/^(\d{5})-\d{4}$/);
+
+        if (zipPlus4) {
+            return zipPlus4[1];
+        }
+
+        // Handle standard ZIP codes and Excel numeric formats.
+        const standardZIP = cleaned.match(/^(\d{1,5})(?:\.0+)?$/);
+
+        if (standardZIP) {
+            return standardZIP[1].padStart(5, "0");
+        }
+
+        // Reject invalid ZIP values.
+        return "";
     }
 
     function normalizeSearchText(value) {
@@ -410,7 +439,6 @@
             ).length;
     }
 
-    // ==================================================
     // ==================================================
     // BUBBLE COLORS
     // ==================================================
@@ -3343,7 +3371,6 @@
         );
     }
 
-    // ==================================================
     // ==================================================
     // LOAD PLACEMENTS EXCEL
     // ==================================================
