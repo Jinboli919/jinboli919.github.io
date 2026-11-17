@@ -508,6 +508,17 @@
         line-height: 1.3;
       }
 
+      #overallProgramKpis .orc-kpi-name--tf {
+        white-space: nowrap;
+      }
+
+      #overallProgramKpis .orc-kpi-name--tf > span:last-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
       #overallProgramKpis .orc-kpi-dot {
         display: inline-block;
 
@@ -820,7 +831,7 @@
               aria-hidden="true"
             >
               <path d="m6 9 6 6 6-6"></path>
-            </svg>
+          </svg>
           </button>
 
           <div
@@ -1511,7 +1522,9 @@
           "div"
         );
 
-        name.className = "orc-kpi-name";
+        name.className = isTeachingFellows
+          ? "orc-kpi-name orc-kpi-name--tf"
+          : "orc-kpi-name";
 
         const dot = document.createElement(
           "span"
@@ -1550,11 +1563,11 @@
             "Teaching Fellows subprogram";
 
           tfKpiSelect.style.cssText = [
-            "width:104px",
-            "max-width:60%",
-            "min-width:0",
-            "height:24px",
-            "padding:0 4px",
+            "width:64px",
+            "max-width:64px",
+            "min-width:64px",
+            "height:23px",
+            "padding:0 2px",
             "font-size:9px",
             "font-weight:700",
             "border:1px solid #dfd5e9",
@@ -1630,10 +1643,6 @@
         );
 
         value.className = "orc-kpi-value";
-
-        if (isTeachingFellows) {
-          value.style.color = tfColor;
-        }
 
         value.textContent =
           numberFormat.format(
